@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+<BaseLayout title={SITE.title} description={SITE.description}>
+  <p>
+    I'm Jakub Adamek. I write about mathematics, probability, casino games, puzzles, and other things that interest me.
+  </p>
+
+  <hr />
+
+  <h2>Sections</h2>
+  <ul>
+    <li><a href="/maths-notes/">Maths Notes</a> — notes on various mathematical topics</li>
+    <li><a href="/casino-games/">Casino Games</a> — the mathematics behind casino games</li>
+    <li><a href="/blackjack/">Blackjack</a> — card counting, strategy, and theory</li>
+    <li><a href="/puzzles/">Puzzles</a> — Project Euler, competition problems, and more</li>
+    <li><a href="/misc/">Misc</a> — anything else that catches my interest</li>
+  </ul>
+</BaseLayout>

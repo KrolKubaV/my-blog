@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostItem from '../../components/PostItem.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blackjack'))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title="Blackjack">
+  <h1>Blackjack</h1>
+
+  {posts.length > 0 ? (
+    <ul>
+      {posts.map(post => (
+        <PostItem
+          title={post.data.title}
+          pubDate={post.data.pubDate}
+          slug={`/blackjack/${post.id}`}
+          description={post.data.description}
+        />
+      ))}
+    </ul>
+  ) : (
+    <p style="color: var(--color-muted);">No posts yet.</p>
+  )}
+</BaseLayout>

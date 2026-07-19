@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostItem from '../../components/PostItem.astro';
+import { getCollection } from 'astro:content';
+import { SECTIONS } from '../../config';
+
+export async function getStaticPaths() {
+  const section = SECTIONS['puzzles'];
+  return section.subsections.map(sub => ({
+    params: { subsection: sub.slug },
+    props: { subsection: sub },
+  }));
+}
+
+const { subsection } = Astro.props;
+const posts = (await getCollection('puzzles'))
+  .filter(p => !p.data.draft && p.data.subsection === subsection.slug)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title={subsection.label}>
+  <p><a href="/puzzles/">← Puzzles</a></p>
+  <h1>{subsection.label}</h1>
+
+  {posts.length > 0 ? (
+    <ul>
+      {posts.map(post => (
+        <PostItem
+          title={post.data.title}
+          pubDate={post.data.pubDate}
+          slug={`/puzzles/read/${post.id}`}
+          description={post.data.description}
+        />
+      ))}
+    </ul>
+  ) : (
+    <p style="color: var(--color-muted);">No posts yet.</p>
+  )}
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostItem from '../../components/PostItem.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await Promise.all([
+    getCollection('mathsNotes'),
+    getCollection('casinoGames'),
+    getCollection('blackjack'),
+    getCollection('puzzles'),
+    getCollection('misc'),
+  ]);
+
+  const posts = allPosts.flat().filter(p => !p.data.draft);
+  const tagSet = new Set<string>();
+
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      tagSet.add(tag);
+    }
+  }
+
+  return [...tagSet].map(tag => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter(p => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+<BaseLayout title={`Tag: ${tag}`}>
+  <p><a href="/tags/">← Tags</a></p>
+  <h1>Tag: {tag}</h1>
+
+  {posts.length > 0 ? (
+    <ul>
+      {posts.map(post => {
+        const collection = post.collection;
+        let prefix = '';
+        if (collection === 'mathsNotes') prefix = '/maths-notes/read/';
+        else if (collection === 'casinoGames') prefix = '/casino-games/';
+        else if (collection === 'blackjack') prefix = '/blackjack/';
+        else if (collection === 'puzzles') prefix = '/puzzles/read/';
+        else if (collection === 'misc') prefix = '/misc/';
+
+        return (
+          <PostItem
+            title={post.data.title}
+            pubDate={post.data.pubDate}
+            slug={`${prefix}${post.id}`}
+            description={post.data.description}
+          />
+        );
+      })}
+    </ul>
+  ) : (
+    <p style="color: var(--color-muted);">No posts with this tag.</p>
+  )}
+</BaseLayout>

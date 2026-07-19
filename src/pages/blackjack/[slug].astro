@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blackjack');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dateStr = post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <p><a href="/blackjack/">← Blackjack</a></p>
+  <h1>{post.data.title}</h1>
+  <p style="color: var(--color-muted); font-size: 0.9rem;">{dateStr}</p>
+  {post.data.tags.length > 0 && (
+    <p style="font-size: 0.85rem; color: var(--color-muted);">
+      {post.data.tags.map(tag => <a href={`/tags/${tag}/`}>{tag}</a>).reduce((a, b) => [a, ', ', b])}
+    </p>
+  )}
+  <article>
+    <Content />
+  </article>
+</BaseLayout>

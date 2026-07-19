@@ -1,0 +1,59 @@
+---
+title: "The Kelly Criterion"
+description: "Optimal bet sizing for gambles"
+pubDate: 2026-07-16
+tags: ["probability", "finance", "optimization"]
+---
+
+The **Kelly Criterion** determines the optimal fraction of wealth to bet on a favorable gamble to maximize long-term growth rate.
+
+## Setup
+
+Suppose you have a bet with:
+- Probability of winning $p$
+- Odds of $b:1$ (you win $b$ for every $1$ wagered)
+
+The optimal fraction of wealth to bet is:
+
+$$f^* = \frac{bp - q}{b}$$
+
+where $q = 1 - p$.
+
+## Derivation
+
+If you bet fraction $f$ of your wealth, your wealth after one bet is:
+
+$$W = \begin{cases} W_0(1 + bf) & \text{with probability } p \\ W_0(1 - f) & \text{with probability } q \end{cases}$$
+
+The expected logarithmic growth rate is:
+
+$$G(f) = p \ln(1 + bf) + q \ln(1 - f)$$
+
+Taking the derivative and setting it to zero:
+
+$$G'(f) = \frac{pb}{1 + bf} - \frac{q}{1 - f} = 0$$
+
+Solving:
+
+$$f^* = \frac{bp - q}{b}$$
+
+## Example
+
+A coin flip game where you win \$2 for heads and lose \$1 for tails, with $p = 0.6$:
+
+$$f^* = \frac{2 \cdot 0.6 - 0.4}{2} = \frac{1.2 - 0.4}{2} = 0.4$$
+
+You should bet 40% of your wealth each time.
+
+```python
+import math
+
+def kelly_fraction(p, b):
+    """Optimal fraction to bet given win probability p and odds b."""
+    q = 1 - p
+    return (b * p - q) / b
+
+# Example: 60% win probability, 2:1 odds
+f = kelly_fraction(0.6, 2)
+print(f"Optimal bet fraction: {f:.1%}")  # 40.0%
+```
