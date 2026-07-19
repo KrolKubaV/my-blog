@@ -3,9 +3,8 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
-import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
+import rehypeMathjaxRestore from './src/plugins/rehype-mathjax-restore.js';
 import expressiveCode from 'astro-expressive-code';
 
 export default defineConfig({
@@ -16,12 +15,13 @@ export default defineConfig({
     sitemap(),
   ],
   markdown: {
-    processor: unified({
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
-    }),
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeMathjaxRestore],
   },
   vite: {
     plugins: [tailwindcss()],
+  },
+  devToolbar: {
+    enabled: false,
   },
 });

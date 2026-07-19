@@ -9,7 +9,6 @@ export const NAV = [
   { label: 'Home', href: '/' },
   { label: 'Maths Notes', href: '/maths-notes/' },
   { label: 'Casino Games', href: '/casino-games/' },
-  { label: 'Blackjack', href: '/blackjack/' },
   { label: 'Puzzles', href: '/puzzles/' },
   { label: 'Misc', href: '/misc/' },
 ];
@@ -26,12 +25,9 @@ export const SECTIONS = {
   'casino-games': {
     label: 'Casino Games',
     href: '/casino-games/',
-    subsections: [],
-  },
-  'blackjack': {
-    label: 'Blackjack',
-    href: '/blackjack/',
-    subsections: [],
+    subsections: [
+      { label: 'Blackjack', slug: 'blackjack' },
+    ],
   },
   'puzzles': {
     label: 'Puzzles',

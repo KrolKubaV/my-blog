@@ -1,27 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostItem from '../../components/PostItem.astro';
-import { getCollection } from 'astro:content';
+import { SECTIONS } from '../../config';
 
-const posts = (await getCollection('casinoGames'))
-  .filter(p => !p.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const section = SECTIONS['casino-games'];
 ---
 <BaseLayout title="Casino Games">
   <h1>Casino Games</h1>
 
-  {posts.length > 0 ? (
+  {section.subsections.length > 0 ? (
     <ul>
-      {posts.map(post => (
-        <PostItem
-          title={post.data.title}
-          pubDate={post.data.pubDate}
-          slug={`/casino-games/${post.id}`}
-          description={post.data.description}
-        />
+      {section.subsections.map(sub => (
+        <li><a href={`/casino-games/${sub.slug}/`}>{sub.label}</a></li>
       ))}
     </ul>
   ) : (
-    <p style="color: var(--color-muted);">No posts yet.</p>
+    <p style="color: var(--color-muted);">No subsections yet.</p>
   )}
 </BaseLayout>

@@ -23,11 +23,6 @@ const subsection = section.subsections.find(s => s.slug === post.data.subsection
     {subsection && <> · <a href={`/maths-notes/${subsection.slug}/`}>{subsection.label}</a></>}
   </p>
   <h1>{post.data.title}</h1>
-  {post.data.tags.length > 0 && (
-    <p style="font-size: 0.85rem; color: var(--color-muted);">
-      {post.data.tags.map(tag => <a href={`/tags/${tag}/`}>{tag}</a>).reduce((a, b) => [a, ', ', b])}
-    </p>
-  )}
   <article>
     <Content />
   </article>

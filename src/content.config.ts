@@ -9,7 +9,7 @@ const mathsNotes = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     subsection: z.string().optional(),
-    tags: z.array(z.string()).default([]),
+
     draft: z.boolean().default(false),
   }),
 });
@@ -22,20 +22,7 @@ const casinoGames = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     subsection: z.string().optional(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
-});
 
-const blackjack = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blackjack' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    subsection: z.string().optional(),
-    tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),
 });
@@ -48,7 +35,7 @@ const puzzles = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     subsection: z.string().optional(),
-    tags: z.array(z.string()).default([]),
+
     draft: z.boolean().default(false),
   }),
 });
@@ -60,9 +47,9 @@ const misc = defineCollection({
     description: z.string().optional(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).default([]),
+
     draft: z.boolean().default(false),
   }),
 });
 
-export const collections = { mathsNotes, casinoGames, blackjack, puzzles, misc };
+export const collections = { mathsNotes, casinoGames, puzzles, misc };
