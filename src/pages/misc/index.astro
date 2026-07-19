@@ -16,7 +16,7 @@ const posts = (await getCollection('misc'))
         <PostItem
           title={post.data.title}
           pubDate={post.data.pubDate}
-          slug={`/misc/${post.id}`}
+          slug={`/my-blog/misc/${post.id}`}
           description={post.data.description}
         />
       ))}

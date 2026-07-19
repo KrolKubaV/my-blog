@@ -5,18 +5,20 @@ export const SITE = {
   url: 'https://krolkubav.github.io/my-blog',
 };
 
+const BASE = '/my-blog';
+
 export const NAV = [
-  { label: 'Home', href: '/' },
-  { label: 'Maths Notes', href: '/maths-notes/' },
-  { label: 'Casino Games', href: '/casino-games/' },
-  { label: 'Puzzles', href: '/puzzles/' },
-  { label: 'Misc', href: '/misc/' },
+  { label: 'Home', href: `${BASE}/` },
+  { label: 'Maths Notes', href: `${BASE}/maths-notes/` },
+  { label: 'Casino Games', href: `${BASE}/casino-games/` },
+  { label: 'Puzzles', href: `${BASE}/puzzles/` },
+  { label: 'Misc', href: `${BASE}/misc/` },
 ];
 
 export const SECTIONS = {
   'maths-notes': {
     label: 'Maths Notes',
-    href: '/maths-notes/',
+    href: `${BASE}/maths-notes/`,
     subsections: [
       { label: 'Financial Mathematics', slug: 'financial-mathematics' },
       { label: 'Combinatorial Game Theory', slug: 'combinatorial-game-theory' },
@@ -24,14 +26,14 @@ export const SECTIONS = {
   },
   'casino-games': {
     label: 'Casino Games',
-    href: '/casino-games/',
+    href: `${BASE}/casino-games/`,
     subsections: [
       { label: 'Blackjack', slug: 'blackjack' },
     ],
   },
   'puzzles': {
     label: 'Puzzles',
-    href: '/puzzles/',
+    href: `${BASE}/puzzles/`,
     subsections: [
       { label: 'Project Euler', slug: 'project-euler' },
       { label: 'Mathematical Competitions', slug: 'mathematical-competitions' },
@@ -41,7 +43,7 @@ export const SECTIONS = {
   },
   'misc': {
     label: 'Misc',
-    href: '/misc/',
+    href: `${BASE}/misc/`,
     subsections: [],
   },
 };

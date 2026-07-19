@@ -3,14 +3,12 @@ import { NAV } from '../config';
 ---
 <header>
   <nav>
-    <a href="/" class="site-name">Jakub Adamek</a>
-    <span class="dot">·</span>
-    {NAV.slice(1).map((item, i) => (
-      <>
+    <a href="/my-blog/" class="site-name">Jakub Adamek</a>
+    <div class="nav-links">
+      {NAV.slice(1).map((item) => (
         <a href={item.href}>{item.label}</a>
-        {i < NAV.length - 2 && <span class="dot">·</span>}
-      </>
-    ))}
+      ))}
+    </div>
   </nav>
 </header>
 
@@ -21,22 +19,18 @@ import { NAV } from '../config';
     border-bottom: 1px solid #e5e7eb;
   }
   nav {
-    font-size: 0.95rem;
     display: flex;
+    justify-content: space-between;
     align-items: baseline;
-    flex-wrap: wrap;
-    gap: 0;
-  }
-  nav a {
-    display: inline;
+    font-size: 0.95rem;
   }
   .site-name {
     font-weight: 700;
     text-decoration: none;
     color: #2563eb;
   }
-  .dot {
-    margin: 0 0.5rem;
-    color: #9ca3af;
+  .nav-links {
+    display: flex;
+    gap: 1.25rem;
   }
 </style>

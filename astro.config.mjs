@@ -9,6 +9,7 @@ import expressiveCode from 'astro-expressive-code';
 
 export default defineConfig({
   site: 'https://krolkubav.github.io',
+  base: '/my-blog',
   integrations: [
     expressiveCode(),
     mdx(),

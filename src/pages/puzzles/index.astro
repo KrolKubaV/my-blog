@@ -21,14 +21,14 @@ const ungrouped = posts.filter(p => !p.data.subsection || !section.subsections.s
 
   {subsections.map(sub => (
     <section>
-      <h2><a href={`/puzzles/${sub.slug}/`}>{sub.label}</a></h2>
+      <h2><a href={`/my-blog/puzzles/${sub.slug}/`}>{sub.label}</a></h2>
       {sub.posts.length > 0 ? (
         <ul>
           {sub.posts.map(post => (
             <PostItem
               title={post.data.title}
               pubDate={post.data.pubDate}
-              slug={`/puzzles/read/${post.id}`}
+              slug={`/my-blog/puzzles/read/${post.id}`}
               description={post.data.description}
             />
           ))}

@@ -10,7 +10,7 @@ const section = SECTIONS['casino-games'];
   {section.subsections.length > 0 ? (
     <ul>
       {section.subsections.map(sub => (
-        <li><a href={`/casino-games/${sub.slug}/`}>{sub.label}</a></li>
+        <li><a href={`/my-blog/casino-games/${sub.slug}/`}>{sub.label}</a></li>
       ))}
     </ul>
   ) : (
