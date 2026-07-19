@@ -10,6 +10,7 @@
   --color-border: #e5e7eb;
   --color-link: #1a1a1a;
   --color-link-hover: #4b5563;
+  --color-blue: #2563eb;
 }
 
 html {
@@ -75,8 +76,31 @@ blockquote {
   font-style: italic;
 }
 
+/* KaTeX styling — clean blue accent */
+.katex {
+  font-size: 1.05em;
+}
+
 .katex-display {
-  margin: 1.5rem 0;
+  margin: 1.8rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--color-blue);
+  background: #f8fafc;
+  border-radius: 0 6px 6px 0;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+.katex-display > .katex {
+  color: #1e293b;
+}
+
+.katex .mord,
+.katex .mbin,
+.katex .mrel,
+.katex .mopen,
+.katex .mclose,
+.katex .mpunct,
+.katex .minner {
+  color: #1e293b;
 }

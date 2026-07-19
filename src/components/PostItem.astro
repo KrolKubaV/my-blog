@@ -1,16 +1,13 @@
 ---
 interface Props {
   title: string;
-  pubDate: Date;
   slug: string;
   description?: string;
 }
 
-const { title, pubDate, slug, description } = Astro.props;
-const dateStr = pubDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+const { title, slug, description } = Astro.props;
 ---
 <li>
-  <span style="color: var(--color-muted); margin-right: 0.5rem;">{dateStr}</span>
   <a href={slug}>{title}</a>
   {description && <span style="color: var(--color-muted);"> — {description}</span>}
 </li>
