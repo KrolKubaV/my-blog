@@ -5,8 +5,11 @@ import { NAV } from '../config';
   <nav>
     <a href="/my-blog/" class="site-name">Jakub Adamek</a>
     <div class="nav-links">
-      {NAV.slice(1).map((item) => (
-        <a href={item.href}>{item.label}</a>
+      {NAV.slice(1).map((item, i) => (
+        <>
+          <a href={item.href}>{item.label}</a>
+          {i < NAV.length - 2 && <span class="dot">·</span>}
+        </>
       ))}
     </div>
   </nav>
@@ -27,10 +30,22 @@ import { NAV } from '../config';
   .site-name {
     font-weight: 700;
     text-decoration: none;
-    color: #2563eb;
+    color: #1e3a5f;
+    font-size: 1.15rem;
   }
   .nav-links {
     display: flex;
-    gap: 1.25rem;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+  .nav-links a {
+    transition: color 0.15s;
+  }
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  .dot {
+    color: #9ca3af;
+    user-select: none;
   }
 </style>

@@ -1,0 +1,22 @@
+---
+title: "Probability in Martingales"
+description: "Optional stopping and convergence"
+pubDate: 2026-07-12
+subsection: "game-theoretic-probability"
+---
+
+A martingale is a sequence of random variables where the conditional expectation of the next value equals the current value.
+
+## Definition
+
+A sequence $(X_n)$ is a martingale with respect to filtration $(\mathcal{F}_n)$ if:
+
+$$E[X_{n+1} \mid \mathcal{F}_n] = X_n$$
+
+## Optional Stopping Theorem
+
+Under suitable conditions, if $(X_n)$ is a martingale and $\tau$ is a stopping time:
+
+$$E[X_\tau] = E[X_0]$$
+
+This has profound implications for gambling strategies — no betting system can turn a fair game into a winning one.

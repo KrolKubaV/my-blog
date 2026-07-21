@@ -2,14 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SECTIONS } from '../../config';
 
-const section = SECTIONS['puzzles'];
+const section = SECTIONS['notes'];
 ---
-<BaseLayout title="Puzzles">
-  <h1>Puzzles</h1>
+<BaseLayout title="Notes">
+  <h1>Notes</h1>
 
   <div class="section-list">
     {section.subsections.map(sub => (
-      <a href={`/my-blog/puzzles/${sub.slug}/`} class="section-card">
+      <a href={`/my-blog/notes/${sub.slug}/`} class="section-card">
         <h2>{sub.label}</h2>
         <p>{sub.description}</p>
       </a>

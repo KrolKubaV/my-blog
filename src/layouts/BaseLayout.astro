@@ -23,9 +23,10 @@ const { title, description } = Astro.props;
           inlineMath: [['$', '$'], ['\\(', '\\)']],
           displayMath: [['$$', '$$'], ['\\[', '\\]']],
           processEscapes: true,
+          processEnvironments: true,
         },
         options: {
-          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
         },
       };
     </script>

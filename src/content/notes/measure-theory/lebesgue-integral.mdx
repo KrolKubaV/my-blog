@@ -1,0 +1,22 @@
+---
+title: "The Lebesgue Integral"
+description: "Building measure theory from the ground up"
+pubDate: 2026-07-13
+subsection: "measure-theory"
+---
+
+The Lebesgue integral extends the Riemann integral by measuring the "size" of sets rather than partitioning the domain.
+
+## Motivation
+
+Consider the indicator function of the rationals in $[0,1]$:
+
+$$\mathbf{1}_{\mathbb{Q} \cap [0,1]}(x) = \begin{cases} 1 & \text{if } x \in \mathbb{Q} \cap [0,1] \\ 0 & \text{otherwise} \end{cases}$$
+
+This function is not Riemann integrable, but it is Lebesgue integrable with integral 0, since the rationals have Lebesgue measure zero.
+
+## Definition
+
+For a non-negative measurable function $f$, the Lebesgue integral is:
+
+$$\int f \, d\mu = \sup \left\{ \int s \, d\mu : 0 \leq s \leq f, \, s \text{ simple} \right\}$$

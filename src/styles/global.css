@@ -1,150 +1,226 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Latin Modern';
+  font-family: 'Latin Modern Roman';
   font-style: normal;
   font-weight: normal;
   font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-regular.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-regular.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-regular.otf') format('opentype');
 }
 @font-face {
-  font-family: 'Latin Modern';
+  font-family: 'Latin Modern Roman';
   font-style: italic;
   font-weight: normal;
   font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-italic.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-italic.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-italic.otf') format('opentype');
 }
 @font-face {
-  font-family: 'Latin Modern';
+  font-family: 'Latin Modern Roman';
   font-style: normal;
   font-weight: bold;
   font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold.otf') format('opentype');
 }
 @font-face {
-  font-family: 'Latin Modern';
+  font-family: 'Latin Modern Roman';
   font-style: italic;
   font-weight: bold;
   font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold-italic.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold-italic.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold-italic.otf') format('opentype');
 }
 
 @theme {
-  --font-serif: 'Latin Modern', Georgia, 'Times New Roman', serif;
+  --font-serif: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  --font-sans: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
   --color-blue: #2563eb;
 }
 
 html {
-  font-family: 'Latin Modern', Georgia, 'Times New Roman', serif !important;
-  font-size: 1rem;
+  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  font-size: 1.1rem;
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Latin Modern', Georgia, 'Times New Roman', serif !important;
-  line-height: 1.8 !important;
-  max-width: 80ch !important;
-  min-height: 100vh !important;
-  overflow-x: hidden !important;
-  margin: 0 auto !important;
-  padding: 2rem 1.5rem !important;
-  color: #1a1a1a !important;
-  background: #ffffff !important;
-  text-rendering: optimizeLegibility !important;
-  hyphens: auto !important;
+  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  line-height: 1.7;
+  max-width: 780px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  color: #1a1a1a;
+  background: #ffffff;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-body p {
+/* Typography */
+p {
+  margin-top: 0.75rem;
+}
+
+a {
+  color: #1a1a1a;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+h1 {
+  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  font-size: 2.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #111827;
+}
+
+h2 {
+  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+
+h3 {
+  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+h4 {
+  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+/* Lists */
+article ul, article ol {
+  padding-left: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+article li {
+  margin-top: 0.25rem;
+}
+
+article li::marker {
+  color: #9ca3af;
+}
+
+/* Code */
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 82%;
+  background: #f3f4f6;
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+}
+
+pre {
+  margin-top: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 85%;
+  line-height: 1.6;
+}
+
+/* Blockquote */
+blockquote {
+  border-left: 3px solid #d1d5db;
+  margin-left: 0;
   margin-top: 1rem;
+  padding-left: 1rem;
+  color: #6b7280;
+  font-style: italic;
 }
 
-body a {
-  color: #1a1a1a !important;
-  text-decoration: none !important;
-}
-
-body a:hover {
-  text-decoration: underline !important;
-}
-
-body h1 {
-  font-size: 2.5rem !important;
-  line-height: 3.25rem !important;
-  margin-bottom: 1.625rem !important;
-  text-align: center !important;
-  color: #2563eb !important;
-  font-weight: 700 !important;
-}
-
-body h2 {
-  font-size: 1.7rem !important;
-  line-height: 2rem !important;
-  margin-top: 3rem !important;
-  margin-bottom: 0.8rem !important;
-  color: #1a1a1a !important;
-  font-weight: 700 !important;
-}
-
-body h3 {
-  font-size: 1.4rem !important;
-  line-height: 1.625rem !important;
-  margin-top: 2.5rem !important;
-  margin-bottom: 0.8rem !important;
-  color: #1a1a1a !important;
-  font-weight: 700 !important;
-}
-
-body h4 {
-  font-size: 1.2rem !important;
-  line-height: 1.625rem !important;
-  margin-top: 2rem !important;
-  margin-bottom: 0.8rem !important;
-  color: #1a1a1a !important;
-  font-weight: 700 !important;
-}
-
-body hr {
-  border: none !important;
-  border-top: 1px solid #e5e7eb !important;
-  margin: 2rem 0 !important;
-}
-
-body code {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
-  font-size: 85% !important;
-  hyphens: none !important;
-}
-
-body pre {
-  padding: 1rem 1.4rem !important;
-  max-width: 100% !important;
-  overflow: auto !important;
-  border-radius: 4px !important;
-  background: #f3f4f6 !important;
-}
-
-body pre code {
-  font-size: 95% !important;
-  background: none !important;
-  padding: 0 !important;
-}
-
-body blockquote {
-  border-left: 3px solid #2563eb !important;
-  margin-left: 0 !important;
-  padding-left: 1rem !important;
-  color: #6b7280 !important;
-  font-style: italic !important;
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 2rem 0;
 }
 
 /* Math display */
 .math-display {
-  margin: 2em 0 !important;
+  margin: 1.5em 0;
   overflow-x: auto;
   overflow-y: hidden;
+  text-align: center;
 }
 
-body article > * + * {
+/* Article spacing */
+article > * + * {
   margin-top: 1em;
+}
+
+/* Auto-numbered boxes */
+article {
+  counter-reset: theorem definition remark section;
+}
+
+article h2 {
+  counter-increment: section;
+}
+
+article h2::before {
+  content: counter(section) ". ";
+  color: #111827;
+  font-weight: 700;
+}
+
+.box.theorem {
+  counter-increment: theorem;
+}
+
+.box.theorem .box-title::before {
+  content: "Theorem " counter(theorem) " \2014  ";
+  font-style: italic;
+}
+
+.box.definition {
+  counter-increment: definition;
+}
+
+.box.definition .box-title::before {
+  content: "Definition " counter(definition) " \2014  ";
+  font-style: italic;
+}
+
+.box.remark {
+  counter-increment: remark;
+}
+
+.box.remark .box-title::before {
+  content: "Remark " counter(remark) " \2014  ";
+  font-style: italic;
 }

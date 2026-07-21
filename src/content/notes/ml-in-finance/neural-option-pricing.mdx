@@ -1,0 +1,24 @@
+---
+title: "Neural Networks for Option Pricing"
+description: "Using deep learning to approximate Black-Scholes"
+pubDate: 2026-07-11
+subsection: "ml-in-finance"
+---
+
+Neural networks can learn to price options by training on simulated or historical data.
+
+## The Approach
+
+Given market features $\mathbf{x} = (S, K, T, r, \sigma)$ (spot, strike, time to maturity, risk-free rate, volatility), a neural network $f_\theta$ learns to approximate the option price:
+
+$$C \approx f_\theta(\mathbf{x})$$
+
+## Loss Function
+
+The network is trained to minimize the pricing error:
+
+$$\mathcal{L}(\theta) = \frac{1}{N} \sum_{i=1}^{N} \left( f_\theta(\mathbf{x}_i) - C_{\text{true}}(\mathbf{x}_i) \right)^2$$
+
+## Results
+
+For European options, deep networks can achieve pricing errors below 0.1% of the option price, competitive with Black-Scholes when the model assumptions hold.

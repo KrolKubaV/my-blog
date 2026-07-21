@@ -1,0 +1,37 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title }: { title?: string } = Astro.props;
+---
+<div class="box definition">
+  <div class="box-title">{title ?? 'Definition'}</div>
+  <div class="box-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .box {
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid;
+  }
+  .definition {
+    background: #eff6ff;
+    border-color: #3b82f6;
+  }
+  .box-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+  .definition .box-title {
+    color: #1e40af;
+  }
+  .box :global(*) {
+    margin-top: 0;
+  }
+</style>

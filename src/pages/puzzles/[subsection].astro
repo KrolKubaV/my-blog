@@ -26,13 +26,12 @@ const posts = (await getCollection('puzzles'))
       {posts.map(post => (
         <PostItem
           title={post.data.title}
-          pubDate={post.data.pubDate}
           slug={`/my-blog/puzzles/read/${post.id}`}
           description={post.data.description}
         />
       ))}
     </ul>
   ) : (
-    <p style="color: var(--color-muted);">No posts yet.</p>
+    <p>No posts yet.</p>
   )}
 </BaseLayout>

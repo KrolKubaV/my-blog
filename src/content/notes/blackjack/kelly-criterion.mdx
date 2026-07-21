@@ -1,0 +1,40 @@
+---
+title: "The Kelly Criterion"
+description: "Optimal bet sizing for favorable gambles"
+pubDate: 2026-07-16
+subsection: "blackjack"
+---
+
+import Theorem from '../../../components/Theorem.astro';
+import Definition from '../../../components/Definition.astro';
+import Remark from '../../../components/Remark.astro';
+
+The **Kelly Criterion** determines the optimal fraction of wealth to bet on a favorable gamble to maximize long-term growth rate.
+
+<Definition title="Setup">
+Consider a gamble with probability $p$ of winning and probability $q = 1 - p$ of losing. If you win, you receive $b$ dollars for every dollar bet.
+</Definition>
+
+<Theorem title="Kelly Fraction">
+The optimal fraction of wealth to bet is:
+
+$$f^* = \frac{bp - q}{b}$$
+</Theorem>
+
+## Derivation
+
+The expected logarithmic growth rate is:
+
+$$G(f) = p \ln(1 + bf) + q \ln(1 - f)$$
+
+Taking the derivative and setting it to zero:
+
+$$G'(f) = \frac{pb}{1 + bf} - \frac{q}{1 - f} = 0$$
+
+Solving for $f$:
+
+$$f^* = \frac{bp - q}{b}$$
+
+<Remark>
+For blackjack with $p = 0.6$, $b = 1$, the optimal bet is 20% of your bankroll: $f^* = 0.2$.
+</Remark>

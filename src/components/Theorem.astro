@@ -1,0 +1,37 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title }: { title?: string } = Astro.props;
+---
+<div class="box theorem">
+  <div class="box-title">{title ?? 'Theorem'}</div>
+  <div class="box-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .box {
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid;
+  }
+  .theorem {
+    background: #f0fdf4;
+    border-color: #22c55e;
+  }
+  .box-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+  .theorem .box-title {
+    color: #166534;
+  }
+  .box :global(*) {
+    margin-top: 0;
+  }
+</style>

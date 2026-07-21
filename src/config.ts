@@ -5,45 +5,38 @@ export const SITE = {
   url: 'https://krolkubav.github.io/my-blog',
 };
 
-const BASE = '/my-blog';
-
 export const NAV = [
-  { label: 'Home', href: `${BASE}/` },
-  { label: 'Maths Notes', href: `${BASE}/maths-notes/` },
-  { label: 'Casino Games', href: `${BASE}/casino-games/` },
-  { label: 'Puzzles', href: `${BASE}/puzzles/` },
-  { label: 'Misc', href: `${BASE}/misc/` },
+  { label: 'Home', href: '/my-blog/' },
+  { label: 'Notes', href: '/my-blog/notes/' },
+  { label: 'Puzzles', href: '/my-blog/puzzles/' },
+  { label: 'Misc', href: '/my-blog/misc/' },
 ];
 
 export const SECTIONS = {
-  'maths-notes': {
-    label: 'Maths Notes',
-    href: `${BASE}/maths-notes/`,
+  'notes': {
+    label: 'Notes',
+    href: '/my-blog/notes/',
     subsections: [
-      { label: 'Financial Mathematics', slug: 'financial-mathematics' },
-      { label: 'Combinatorial Game Theory', slug: 'combinatorial-game-theory' },
-    ],
-  },
-  'casino-games': {
-    label: 'Casino Games',
-    href: `${BASE}/casino-games/`,
-    subsections: [
-      { label: 'Blackjack', slug: 'blackjack' },
+      { label: 'Blackjack', slug: 'blackjack', description: 'Card counting, optimal strategy, and the mathematics of beating the house.' },
+      { label: 'Mathematics of Casino Games', slug: 'casino-games', description: 'Expected values, house edges, and probability behind gambling.' },
+      { label: 'Measure Theory', slug: 'measure-theory', description: 'The formal foundations of integration and probability.' },
+      { label: 'Game Theoretic Probability', slug: 'game-theoretic-probability', description: 'Probability through the lens of prediction and betting.' },
+      { label: 'ML in Finance', slug: 'ml-in-finance', description: 'Neural networks, deep learning, and quantitative models.' },
     ],
   },
   'puzzles': {
     label: 'Puzzles',
-    href: `${BASE}/puzzles/`,
+    href: '/my-blog/puzzles/',
     subsections: [
-      { label: 'Project Euler', slug: 'project-euler' },
-      { label: 'Mathematical Competitions', slug: 'mathematical-competitions' },
-      { label: 'Jane Street Puzzles', slug: 'jane-street' },
-      { label: 'Miscellaneous', slug: 'miscellaneous' },
+      { label: 'Project Euler', slug: 'project-euler', description: 'Computational problems requiring mathematical insight.' },
+      { label: 'Mathematical Competitions', slug: 'mathematical-competitions', description: 'Problems from the IMO, Putnam, and other contests.' },
+      { label: 'Jane Street Puzzles', slug: 'jane-street', description: 'Monthly puzzles from Jane Street.' },
+      { label: 'Miscellaneous', slug: 'miscellaneous', description: 'Logic puzzles, riddles, and brain teasers.' },
     ],
   },
   'misc': {
     label: 'Misc',
-    href: `${BASE}/misc/`,
+    href: '/my-blog/misc/',
     subsections: [],
   },
 };

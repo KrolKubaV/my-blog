@@ -1,0 +1,33 @@
+---
+title: "Card Counting Basics"
+description: "The Hi-Lo system explained"
+pubDate: 2026-07-15
+subsection: "blackjack"
+---
+
+import Definition from '../../../components/Definition.astro';
+import Theorem from '../../../components/Theorem.astro';
+
+Card counting is a strategy used in blackjack to determine whether the next hand is likely to give an advantage to the player or the dealer.
+
+<Definition title="Hi-Lo System">
+Each card is assigned a value:
+
+- **Cards 2-6**: $+1$
+- **Cards 7-9**: $0$
+- **Cards 10-Ace**: $-1$
+</Definition>
+
+<Theorem title="True Count">
+The true count is the running count divided by the number of decks remaining:
+
+$$\text{True Count} = \frac{\text{Running Count}}{\text{Decks Remaining}}$$
+</Theorem>
+
+## Betting Strategy
+
+When the true count is high, the player has an edge and should bet more. A simplified betting ramp:
+
+- True count $< 1$: minimum bet
+- True count $= 1$ to $2$: 2x minimum
+- True count $> 3$: 4x minimum or more

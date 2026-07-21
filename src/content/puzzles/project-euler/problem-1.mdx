@@ -1,0 +1,30 @@
+---
+title: "Problem 1: Multiples of 3 and 5"
+description: "Project Euler #1"
+pubDate: 2026-07-17
+subsection: "project-euler"
+---
+
+**Problem:** Find the sum of all the multiples of 3 or 5 below 1000.
+
+## Analysis
+
+We need to find:
+
+$$S = \sum_{\substack{k=1 \\ 3 \mid k \text{ or } 5 \mid k}}^{999} k$$
+
+Using inclusion-exclusion:
+
+$$S = \sum_{\substack{k=1 \\ 3 \mid k}}^{999} k + \sum_{\substack{k=1 \\ 5 \mid k}}^{999} k - \sum_{\substack{k=1 \\ 15 \mid k}}^{999} k$$
+
+## Solution
+
+```python
+def sum_of_multiples(d, n):
+    m = (n - 1) // d
+    return d * m * (m + 1) // 2
+
+n = 1000
+result = sum_of_multiples(3, n) + sum_of_multiples(5, n) - sum_of_multiples(15, n)
+print(result)  # 233168
+```
