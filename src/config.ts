@@ -9,7 +9,7 @@ export const NAV = [
   { label: 'Home', href: '/my-blog/' },
   { label: 'Notes', href: '/my-blog/notes/' },
   { label: 'Puzzles', href: '/my-blog/puzzles/' },
-  { label: 'Misc', href: '/my-blog/misc/' },
+  { label: 'Miscellaneous', href: '/my-blog/misc/' },
 ];
 
 export const SECTIONS = {
@@ -28,9 +28,9 @@ export const SECTIONS = {
     label: 'Puzzles',
     href: '/my-blog/puzzles/',
     subsections: [
-      { label: 'Project Euler', slug: 'project-euler', description: 'Computational problems requiring mathematical insight.' },
       { label: 'Mathematical Competitions', slug: 'mathematical-competitions', description: 'Problems from the IMO, Putnam, and other contests.' },
       { label: 'Jane Street Puzzles', slug: 'jane-street', description: 'Monthly puzzles from Jane Street.' },
+      { label: 'Project Euler', slug: 'project-euler', description: 'Computational problems requiring mathematical insight.' },
       { label: 'Miscellaneous', slug: 'miscellaneous', description: 'Logic puzzles, riddles, and brain teasers.' },
     ],
   },

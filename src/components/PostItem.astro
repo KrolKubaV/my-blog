@@ -2,15 +2,13 @@
 interface Props {
   title: string;
   slug: string;
-  description?: string;
 }
 
-const { title, slug, description } = Astro.props;
+const { title, slug } = Astro.props;
 ---
 <li class="post-item">
   <a href={slug}>
     <span class="post-title">{title}</span>
-    {description && <span class="post-desc">{description}</span>}
   </a>
 </li>
 
@@ -18,30 +16,29 @@ const { title, slug, description } = Astro.props;
   .post-item {
     list-style: none;
     margin-top: 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .post-item:last-child {
+    border-bottom: none;
   }
   .post-item a {
-    display: block;
-    padding: 0.75rem 1rem;
-    margin: 0 -1rem;
-    border-radius: 6px;
-    transition: background 0.15s;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.85rem 0;
     text-decoration: none;
     color: inherit;
+    transition: padding-left 0.2s ease;
   }
   .post-item a:hover {
-    background: #f9fafb;
+    padding-left: 0.4rem;
     text-decoration: none;
   }
   .post-title {
     font-weight: 700;
     font-size: 1.05rem;
     color: #111827;
-  }
-  .post-desc {
-    display: block;
-    margin-top: 0.15rem;
-    font-size: 0.85rem;
-    color: #6b7280;
+    transition: color 0.2s;
   }
   .post-item a:hover .post-title {
     color: #1e3a5f;

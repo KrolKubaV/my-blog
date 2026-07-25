@@ -7,8 +7,8 @@ const posts = (await getCollection('misc'))
   .filter(p => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
-<BaseLayout title="Misc">
-  <h1>Misc</h1>
+<BaseLayout title="Miscellaneous">
+  <h1>Miscellaneous</h1>
 
   {posts.length > 0 ? (
     <ul>
@@ -16,7 +16,6 @@ const posts = (await getCollection('misc'))
         <PostItem
           title={post.data.title}
           slug={`/my-blog/misc/read/${post.id}`}
-          description={post.data.description}
         />
       ))}
     </ul>

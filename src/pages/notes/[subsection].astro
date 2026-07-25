@@ -27,7 +27,6 @@ const posts = (await getCollection('notes'))
         <PostItem
           title={post.data.title}
           slug={`/my-blog/notes/read/${post.id}`}
-          description={post.data.description}
         />
       ))}
     </ul>

@@ -18,7 +18,7 @@ const section = SECTIONS['puzzles'];
 const subsection = section.subsections.find(s => s.slug === post.data.subsection);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <p>
+  <p class="breadcrumb">
     <a href="/my-blog/puzzles/">← Puzzles</a>
     {subsection && <> · <a href={`/my-blog/puzzles/${subsection.slug}/`}>{subsection.label}</a></>}
   </p>
@@ -27,3 +27,9 @@ const subsection = section.subsections.find(s => s.slug === post.data.subsection
     <Content />
   </article>
 </BaseLayout>
+
+<style>
+  .breadcrumb {
+    margin-bottom: 2rem;
+  }
+</style>

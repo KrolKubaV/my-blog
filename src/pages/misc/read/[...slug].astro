@@ -14,9 +14,15 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <p><a href="/my-blog/misc/">← Misc</a></p>
+  <p class="breadcrumb"><a href="/my-blog/misc/">← Miscellaneous</a></p>
   <h1>{post.data.title}</h1>
   <article>
     <Content />
   </article>
 </BaseLayout>
+
+<style>
+  .breadcrumb {
+    margin-bottom: 2rem;
+  }
+</style>
