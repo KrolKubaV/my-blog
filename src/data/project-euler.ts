@@ -1,5 +1,3 @@
-export const PROJECT_EULER_PROBLEMS_TOTAL = 1007;
-
 export const solvedProblems: Record<number, string> = {
   1: "2024-07-05 12:11:53",
   2: "2024-07-05 12:37:49",

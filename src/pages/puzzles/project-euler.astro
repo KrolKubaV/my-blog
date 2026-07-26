@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { solvedProblems, PROJECT_EULER_PROBLEMS_TOTAL } from '../../data/project-euler';
+import { solvedProblems } from '../../data/project-euler';
+
+const res = await fetch('https://projecteuler.net/minimal=problems;csv');
+const csv = await res.text();
+const totalProblems = csv.trim().split('\n').length - 1;
+const PROJECT_EULER_PROBLEMS_TOTAL = totalProblems;
 
 const solvedCount = Object.keys(solvedProblems).length;
 const pct = Math.round((solvedCount / PROJECT_EULER_PROBLEMS_TOTAL) * 100);
