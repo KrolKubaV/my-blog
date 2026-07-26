@@ -267,12 +267,12 @@ details > :not(summary) {
   padding: 1rem 1.25rem;
 }
 
-/* KaTeX: match body text size */
+/* KaTeX: slightly smaller than body text */
 .katex {
-  font-size: 1em;
+  font-size: 0.85em;
 }
 .katex-display > .katex {
-  font-size: 1em;
+  font-size: 0.85em;
 }
 
 
