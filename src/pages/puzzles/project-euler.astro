@@ -5,6 +5,7 @@ import { solvedProblems, PROJECT_EULER_PROBLEMS_TOTAL } from '../../data/project
 const solvedCount = Object.keys(solvedProblems).length;
 const pct = Math.round((solvedCount / PROJECT_EULER_PROBLEMS_TOTAL) * 100);
 
+const allProblems = Array.from({ length: PROJECT_EULER_PROBLEMS_TOTAL }, (_, i) => i + 1);
 const cols = 10;
 ---
 <BaseLayout title="Project Euler">
