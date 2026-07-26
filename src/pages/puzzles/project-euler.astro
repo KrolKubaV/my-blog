@@ -5,9 +5,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <p class="breadcrumb"><a href="/puzzles/">← Puzzles</a></p>
   <h1>Project Euler</h1>
 
-  <p>I enjoy working on <a href="https://projecteuler.net" target="_blank">Project Euler</a> problems — my goal is to eventually solve all of them.</p>
+  <p><a href="https://projecteuler.net" target="_blank">Project Euler</a> is a series of challenging mathematical and computational problems that require both mathematical insight and programming skill. I enjoy digging into them — my dream is to one day have every single problem solved.</p>
 
-  <div class="profile">
+  <div class="profile-wrap">
     <img src="https://projecteuler.net/profile/KrolKubaV.png" alt="KrolKubaV's Project Euler progress" />
   </div>
 
@@ -18,11 +18,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .breadcrumb {
     margin-bottom: 2rem;
   }
-  .profile {
-    text-align: center;
+  .profile-wrap {
     margin: 2.5rem 0;
+    text-align: center;
   }
-  .profile img {
+  .profile-wrap img {
+    display: block;
+    margin: 0 auto;
     image-rendering: pixelated;
   }
   .note {
