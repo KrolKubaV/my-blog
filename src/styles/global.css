@@ -50,7 +50,7 @@ body {
   font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
   line-height: 1.75;
   font-weight: 400;
-  max-width: 780px;
+  max-width: 880px;
   min-height: 100vh;
   overflow-x: hidden;
   margin: 0 auto;
@@ -188,7 +188,7 @@ article > * + * {
 
 /* Auto-numbered boxes */
 article {
-  counter-reset: theorem definition remark section;
+  counter-reset: theorem definition remark problem section;
 }
 
 article h2 {
@@ -226,4 +226,44 @@ article h2::before {
 .box.remark .box-title::before {
   content: "Remark " counter(remark) " \2014  ";
   font-style: italic;
+}
+
+.box.problem {
+  counter-increment: problem;
+}
+
+.box.problem .box-title::before {
+  content: "Problem " counter(problem) " \2014  ";
+  font-style: italic;
+}
+
+/* Collapsible solutions */
+details {
+  margin: 1.5rem 0;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  color: #0d5e63;
+  font-style: italic;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+details summary:hover {
+  background: #f0fdfa;
+}
+
+details[open] summary {
+  border-bottom: 1px solid #d1d5db;
+  margin-bottom: 0;
+}
+
+details > :not(summary) {
+  padding: 1rem 1.25rem;
 }

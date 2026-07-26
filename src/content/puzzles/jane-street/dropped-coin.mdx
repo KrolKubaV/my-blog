@@ -5,14 +5,27 @@ pubDate: 2026-07-20
 subsection: "jane-street"
 ---
 
-**Problem:** A coin of radius $r$ is dropped randomly onto a grid of parallel lines spaced 1 unit apart (where $r < 1/2$). What is the probability that the coin crosses a line?
+import Problem from "../../../components/Problem.astro";
 
-## Solution
+<Problem>
+
+A coin of radius $r$ is dropped randomly onto a grid of parallel lines spaced $1$ unit apart (where $r < 1/2$). What is the probability that the coin crosses a line?
+
+</Problem>
+
+<details>
+<summary>Solution</summary>
 
 This is **Buffon's Needle** problem adapted for a coin. The probability is:
 
-$$P = \frac{2r}{1} = 2r$$
+$$
+P = \frac{2r}{1} = 2r
+$$
 
-For a penny (radius $\approx 0.75$ cm) on a grid with 2.5 cm spacing:
+For a penny (radius $\approx 0.75$ cm) on a grid with $2.5$ cm spacing:
 
-$$P = \frac{2 \times 0.75}{2.5} = 0.6$$
+$$
+P = \frac{2 \times 0.75}{2.5} = 0.6
+$$
+
+</details>

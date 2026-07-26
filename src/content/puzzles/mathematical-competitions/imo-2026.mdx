@@ -1,0 +1,144 @@
+---
+title: "IMO 2026"
+description: "All problems from the 67th International Mathematical Olympiad in Shanghai"
+pubDate: 2026-07-15
+subsection: "mathematical-competitions"
+---
+
+import Problem from "../../../components/Problem.astro";
+import Theorem from "../../../components/Theorem.astro";
+import Definition from "../../../components/Definition.astro";
+import Remark from "../../../components/Remark.astro";
+
+**Day 1**
+
+<Problem>
+
+There are $2026$ integers greater than $1$ written on a blackboard, not necessarily different. In a move, Confucius chooses two integers $m > 1$ and $n > 1$ from different places on the blackboard and replaces these two integers with $\gcd(m, n)$ and $\dfrac{\operatorname{lcm}(m, n)}{\gcd(m, n)}$. He continues to make moves while it is possible to do so.
+
+**(a)** Prove that, regardless of the choices of Confucius, after finitely many moves, exactly one integer $M$ on the blackboard is greater than $1$.
+
+**(b)** Prove that the value of $M$ does not depend on the choices of Confucius.
+
+</Problem>
+
+<details>
+<summary>Solution</summary>
+
+<Theorem>
+Let $S$ be the multiset of all numbers on the board at any point. For a fixed prime $p$ and an integer $x$, let $v_p(x)$ denote the exponent of $p$ in the prime factorisation of $x$ (with $v_p(1)=0$). Consider the multiset
+
+$$
+E_p = \{v_p(x) : x \in S\}.
+$$
+
+When we replace $m,n$ with $g=\gcd(m,n)$ and $h=\dfrac{\operatorname{lcm}(m,n)}{\gcd(m,n)}$, we have for each prime $p$:
+
+$$
+v_p(g) = \min(a,b), \qquad v_p(h) = |a-b|,
+$$
+
+where $a=v_p(m)$ and $b=v_p(n)$.
+</Theorem>
+
+<Definition>
+For a fixed prime $p$, the operation replaces the two exponents $a,b$ with $\min(a,b)$ and $|a-b|$. This is exactly one step of the Euclidean algorithm applied to the pair $(a,b)$.
+</Definition>
+
+<Remark>
+The sum of all $p$-exponents on the board strictly decreases in every move that affects the exponents of $p$, because
+
+$$
+\min(a,b) + |a-b| = \max(a,b) < a+b
+$$
+
+unless one of $a,b$ is zero.
+</Remark>
+
+Since the sum of exponents for each prime is a positive integer that strictly decreases whenever a move involves two numbers both divisible by $p$, the process must terminate. At termination, for each prime $p$, at most one number on the board has $v_p > 0$.
+
+Hence, when no further moves are possible, exactly one integer $M$ on the board exceeds $1$. The value $M$ is the product over all primes $p$ of $p^{\,d_p}$, where $d_p$ is the greatest common divisor of all initial $p$-exponents — i.e. $M = \gcd$ of all original numbers. This is independent of Confucius's choices.
+
+</details>
+
+<Problem>
+
+Let $ABC$ be a triangle and let points $M$ and $N$ be the midpoints of sides $AB$ and $AC$, respectively. Let points $K$ and $L$ be chosen strictly inside triangles $BMC$ and $BNC$, respectively, such that $K$ lies strictly inside triangle $LBA$, and $L$ lies strictly inside triangle $ACK$. Suppose that
+
+$$
+\angle BKC = \angle BLC = 90^\circ.
+$$
+
+Let $O$ be the circumcentre of triangle $AKL$. Prove that $OM = ON$.
+
+</Problem>
+
+<details>
+<summary>Solution</summary>
+</details>
+
+<Problem>
+
+Let $n$ be a positive integer. Liu Bang and Xiang Yu have a stick of length $1$ and want to divide it between themselves. Liu marks at most $n$ points on the stick, and then Xiang marks at most $n$ points on the stick. The marked points are distinct. Then, the stick is cut at all marked points, creating a number of pieces. Afterwards, they take turns claiming any unclaimed piece of the stick, with Liu going first. Each player's goal is to maximise the total length of their own pieces.
+
+For each $n$, determine the largest value $c$ such that Liu may guarantee a total length of at least $c$, regardless of Xiang's play.
+
+</Problem>
+
+<details>
+<summary>Solution</summary>
+</details>
+
+**Day 2**
+
+<Problem>
+
+Shan-Yu and Mulan are playing a game. Let $\theta$ be an angle with $0^\circ < \theta < 180^\circ$ known to both players. Initially, Shan-Yu makes a paper triangle $T$ with measurements of his choice. Then, they repeatedly perform the following steps:
+
+- If $T$ has at least one angle measuring exactly $\theta$, then the game stops and Mulan wins.
+- Otherwise, Mulan chooses a point $P$ on the perimeter of $T$, different from its three vertices. She then makes a straight cut from $P$ to the opposite vertex of $T$, splitting it into two triangles.
+- Shan-Yu discards one of the two triangles. The remaining triangle becomes the new $T$.
+
+For which real values of $\theta$ can Mulan guarantee her victory in finitely many steps, no matter how Shan-Yu plays?
+
+</Problem>
+
+<details>
+<summary>Solution</summary>
+</details>
+
+<Problem>
+
+Let $\mathbb{R}_{>0}$ be the set of positive real numbers. Determine all functions $f\colon \mathbb{R}_{>0} \to \mathbb{R}_{>0}$ such that
+
+$$
+\sqrt{x^2 + f(y)^2} \ge \frac{f(x) + y}{2} \ge \sqrt{x\,f(y)}
+$$
+
+for every $x, y \in \mathbb{R}_{>0}$.
+
+</Problem>
+
+<details>
+<summary>Solution</summary>
+</details>
+
+<Problem>
+
+Let $a_1, a_2, a_3, \ldots$ be an infinite sequence of positive integers greater than $1$. Suppose that for all positive integers $n$, the number $a_{n+1}$ is the smallest positive integer greater than $a_n$ such that
+
+$$
+\gcd(a_{n+1}, a_i) > 1 \quad \text{for every } i = 1, 2, \ldots, n.
+$$
+
+Prove that there exist positive integers $T$ and $L$ such that
+
+$$
+a_{n+T} = a_n + L \quad \text{for every positive integer } n.
+$$
+
+</Problem>
+
+<details>
+<summary>Solution</summary>
+</details>

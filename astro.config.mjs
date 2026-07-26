@@ -4,7 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import remarkMath from 'remark-math';
-import rehypeMathjaxRestore from './src/plugins/rehype-mathjax-restore.js';
+import rehypeKatex from 'rehype-katex';
 import expressiveCode from 'astro-expressive-code';
 
 export default defineConfig({
@@ -17,7 +17,7 @@ export default defineConfig({
   ],
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeMathjaxRestore],
+    rehypePlugins: [rehypeKatex],
   },
   vite: {
     plugins: [tailwindcss()],

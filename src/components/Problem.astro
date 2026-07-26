@@ -1,0 +1,40 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title }: { title?: string } = Astro.props;
+---
+<div class="box problem">
+  <div class="box-title">{title}</div>
+  <div class="box-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .box {
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid;
+  }
+  .problem {
+    background: #f0fdfa;
+    border-color: #0d5e63;
+  }
+  .box-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+  .problem .box-title {
+    color: #0d5e63;
+  }
+  .box-content > :first-child {
+    margin-top: 0;
+  }
+  .box-content > :last-child {
+    margin-bottom: 0;
+  }
+</style>

@@ -5,17 +5,29 @@ pubDate: 2026-07-21
 subsection: "miscellaneous"
 ---
 
-On an island, 100 people have blue eyes and the rest have brown. Everyone can see everyone else's eye color but not their own. No one may communicate about eye color. If a person discovers they have blue eyes, they must leave the island at midnight.
+import Problem from "../../../components/Problem.astro";
+
+<Problem>
+
+On an island, $100$ people have blue eyes and the rest have brown. Everyone can see everyone else's eye colour but not their own. No one may communicate about eye colour. If a person discovers they have blue eyes, they must leave the island at midnight.
 
 A visitor announces: "At least one of you has blue eyes."
 
-## The Surprising Answer
+What happens?
 
-All 100 blue-eyed people leave on the 100th night.
+</Problem>
 
-## Why?
+<details>
+<summary>Solution</summary>
+
+All $100$ blue-eyed people leave on the $100$th night.
 
 With $n$ blue-eyed people:
-- If $n = 1$: that person sees no other blue eyes, knows they must be blue, leaves night 1
-- If $n = 2$: each sees one blue eye. When that person doesn't leave night 1, they deduce they must also have blue eyes. Both leave night 2
-- By induction: all $n$ leave on night $n$
+
+- If $n = 1$: that person sees no other blue eyes, knows they must be blue, leaves on night $1$.
+- If $n = 2$: each sees one blue eye. When that person doesn't leave on night $1$, they deduce they must also have blue eyes. Both leave on night $2$.
+- By induction: all $n$ leave on night $n$.
+
+The visitor's statement seems to add no information, but it establishes **common knowledge** — everyone knows that everyone knows that... everyone knows at least one person has blue eyes. This is the key to the chain of deductions.
+
+</details>
