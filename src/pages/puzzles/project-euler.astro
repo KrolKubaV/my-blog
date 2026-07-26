@@ -60,7 +60,7 @@ const lastBlock = remainder > 0
       </div>
     </div>
     {lastBlock.length > 0 && (
-      <div class="block block-last">
+      <div class="block">
         <span class="block-label">{lastBlock[0]}–{lastBlock[lastBlock.length - 1]}</span>
         <div class="grid">
           {lastBlock.map(id => (
@@ -128,9 +128,6 @@ const lastBlock = remainder > 0
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     padding: 0.4rem;
-  }
-  .block-last {
-    grid-column: span 2;
   }
   .block-label {
     display: block;
