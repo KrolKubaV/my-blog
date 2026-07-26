@@ -8,8 +8,8 @@ import rehypeMathjaxRestore from './src/plugins/rehype-mathjax-restore.js';
 import expressiveCode from 'astro-expressive-code';
 
 export default defineConfig({
-  site: 'https://krolkubav.github.io',
-  base: '/my-blog',
+  site: 'https://jadamek.com',
+  base: '',
   integrations: [
     expressiveCode(),
     mdx(),

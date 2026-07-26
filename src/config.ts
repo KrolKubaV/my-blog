@@ -6,16 +6,16 @@ export const SITE = {
 };
 
 export const NAV = [
-  { label: 'Home', href: '/my-blog/' },
-  { label: 'Notes', href: '/my-blog/notes/' },
-  { label: 'Puzzles', href: '/my-blog/puzzles/' },
-  { label: 'Miscellaneous', href: '/my-blog/misc/' },
+  { label: 'Home', href: '/' },
+  { label: 'Notes', href: '/notes/' },
+  { label: 'Puzzles', href: '/puzzles/' },
+  { label: 'Miscellaneous', href: '/misc/' },
 ];
 
 export const SECTIONS = {
   'notes': {
     label: 'Notes',
-    href: '/my-blog/notes/',
+    href: '/notes/',
     subsections: [
       { label: 'Blackjack', slug: 'blackjack', description: 'Card counting, optimal strategy, and the mathematics of beating the house.' },
       { label: 'Mathematics of Casino Games', slug: 'casino-games', description: 'Expected values, house edges, and probability behind gambling.' },
@@ -26,7 +26,7 @@ export const SECTIONS = {
   },
   'puzzles': {
     label: 'Puzzles',
-    href: '/my-blog/puzzles/',
+    href: '/puzzles/',
     subsections: [
       { label: 'Mathematical Competitions', slug: 'mathematical-competitions', description: 'Problems from the IMO, Putnam, and other contests.' },
       { label: 'Jane Street Puzzles', slug: 'jane-street', description: 'Monthly puzzles from Jane Street.' },
@@ -36,7 +36,7 @@ export const SECTIONS = {
   },
   'misc': {
     label: 'Misc',
-    href: '/my-blog/misc/',
+    href: '/misc/',
     subsections: [],
   },
 };

@@ -14,7 +14,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <p class="breadcrumb"><a href="/my-blog/misc/">← Miscellaneous</a></p>
+  <p class="breadcrumb"><a href="/misc/">← Miscellaneous</a></p>
   <h1>{post.data.title}</h1>
   <article>
     <Content />

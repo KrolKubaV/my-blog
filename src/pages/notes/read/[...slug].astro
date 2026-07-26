@@ -19,8 +19,8 @@ const subsection = section.subsections.find(s => s.slug === post.data.subsection
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
   <p class="breadcrumb">
-    <a href="/my-blog/notes/">← Notes</a>
-    {subsection && <> · <a href={`/my-blog/notes/${subsection.slug}/`}>{subsection.label}</a></>}
+    <a href="/notes/">← Notes</a>
+    {subsection && <> · <a href={`/notes/${subsection.slug}/`}>{subsection.label}</a></>}
   </p>
   <h1>{post.data.title}</h1>
   <article>

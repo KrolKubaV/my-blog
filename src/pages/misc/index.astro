@@ -15,7 +15,7 @@ const posts = (await getCollection('misc'))
       {posts.map(post => (
         <PostItem
           title={post.data.title}
-          slug={`/my-blog/misc/read/${post.id}`}
+          slug={`/misc/read/${post.id}`}
         />
       ))}
     </ul>

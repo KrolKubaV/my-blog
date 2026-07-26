@@ -10,7 +10,7 @@ const section = SECTIONS['notes'];
   <ul class="section-list">
     {section.subsections.map(sub => (
       <li>
-        <a href={`/my-blog/notes/${sub.slug}/`}>{sub.label}</a>
+        <a href={`/notes/${sub.slug}/`}>{sub.label}</a>
       </li>
     ))}
   </ul>

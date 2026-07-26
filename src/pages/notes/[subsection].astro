@@ -18,7 +18,7 @@ const posts = (await getCollection('notes'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <BaseLayout title={subsection.label}>
-  <p><a href="/my-blog/notes/">← Notes</a></p>
+  <p><a href="/notes/">← Notes</a></p>
   <h1>{subsection.label}</h1>
 
   {posts.length > 0 ? (
@@ -26,7 +26,7 @@ const posts = (await getCollection('notes'))
       {posts.map(post => (
         <PostItem
           title={post.data.title}
-          slug={`/my-blog/notes/read/${post.id}`}
+          slug={`/notes/read/${post.id}`}
         />
       ))}
     </ul>
