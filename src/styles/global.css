@@ -276,7 +276,7 @@ details > :not(summary) {
 }
 /* Make subscripts/superscripts smaller (default is 0.7em) */
 .katex .sizing.reset-size6.size3 {
-  font-size: 0.55em;
+  font-size: 0.62em;
 }
 
 
