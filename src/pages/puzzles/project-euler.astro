@@ -43,7 +43,7 @@ const lastBlock = remainder > 0
         <div class="grid">
           {block.map(id => (
             <a href={`https://projecteuler.net/problem=${id}`} target="_blank" class={`cell ${id in solvedProblems ? 'solved' : 'unsolved'}`}>
-              {String(id).slice(-2)}
+              {id}
             </a>
           ))}
         </div>
