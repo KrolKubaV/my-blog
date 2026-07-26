@@ -21,6 +21,7 @@ const puzzles = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     subsection: z.string().optional(),
+    subcategory: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

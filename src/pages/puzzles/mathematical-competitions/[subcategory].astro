@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostItem from '../../../components/PostItem.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('puzzles');
+  const subsections = ['mathematical-competitions'];
+  const subcategories = ['imo', 'polish-olympiad'];
+  const paths = [];
+  for (const subcategory of subcategories) {
+    const label = subcategory === 'imo' ? 'IMO' : 'Polish Olympiad';
+    paths.push({
+      params: { subcategory },
+      props: { subcategory, label },
+    });
+  }
+  return paths;
+}
+
+const { subcategory, label } = Astro.props;
+const posts = (await getCollection('puzzles'))
+  .filter(p => !p.data.draft
+    && p.data.subsection === 'mathematical-competitions'
+    && p.data.subcategory === subcategory)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={label}>
+  <p><a href="/puzzles/mathematical-competitions/">← Mathematical Competitions</a></p>
+  <h1>{label}</h1>
+
+  {posts.length > 0 ? (
+    <ul>
+      {posts.map(post => (
+        <PostItem
+          title={post.data.title}
+          slug={`/puzzles/read/${post.id}`}
+        />
+      ))}
+    </ul>
+  ) : (
+    <p>No posts yet.</p>
+  )}
+</BaseLayout>

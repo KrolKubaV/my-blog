@@ -1,11 +1,12 @@
 ---
 interface Props {
   title?: string;
+  numbered?: boolean;
 }
 
-const { title }: { title?: string } = Astro.props;
+const { title, numbered = true }: Props = Astro.props;
 ---
-<div class="box problem">
+<div class:list={['box', 'problem', { unnumbered: !numbered }]}>
   <div class="box-title">{title}</div>
   <div class="box-content">
     <slot />
