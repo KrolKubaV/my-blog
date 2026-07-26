@@ -12,9 +12,9 @@ It asks section, subsection, title — creates the file automatically. Then edit
 
 ### Adding a Project Euler solved problem
 
-Edit `src/data/project-euler.ts` — add a line like:
+Just append a line to `src/data/project-euler.txt`:
 ```
-999: "2026-07-26 17:00:00",
+999: 2026-07-26 17:00:00,
 ```
 Or run:
 ```
@@ -38,7 +38,7 @@ astro dev logs
 
 | What | File |
 |---|---|
-| Solved PE problems | `src/data/project-euler.ts` |
+| Solved PE problems | `src/data/project-euler.txt` |
 | Blog posts | `src/content/notes/*/*.mdx`, `src/content/puzzles/*/*.mdx`, `src/content/misc/*.mdx` |
 | Navigation & sections | `src/config.ts` |
 | Header (your name) | `src/components/Header.astro` |
