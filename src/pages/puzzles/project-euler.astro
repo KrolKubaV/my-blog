@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const res = await fetch('https://projecteuler.net/profile/KrolKubaV.txt');
+const text = await res.text();
+const [username, location, language, rank] = text.trim().split(',');
 ---
 <BaseLayout title="Project Euler">
   <p class="breadcrumb"><a href="/puzzles/">← Puzzles</a></p>
@@ -8,10 +12,30 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <p>I enjoy working on <a href="https://projecteuler.net" target="_blank">Project Euler</a> problems — my goal is to eventually solve all of them.</p>
 
   <div class="profile">
-    <img src="https://projecteuler.net/profile/KrolKubaV.png" alt="Project Euler Progress" />
+    <img src="https://projecteuler.net/profile/KrolKubaV.png" alt={`${username}'s Project Euler profile`} />
+  </div>
+
+  <div class="info">
+    <div class="info-row">
+      <span class="info-label">Rank</span>
+      <span class="info-value">{rank}</span>
+    </div>
+    {location && (
+      <div class="info-row">
+        <span class="info-label">Location</span>
+        <span class="info-value">{location}</span>
+      </div>
+    )}
+    {language && (
+      <div class="info-row">
+        <span class="info-label">Language</span>
+        <span class="info-value">{language}</span>
+      </div>
+    )}
   </div>
 
   <div class="map">
+    <h2>Problem Map</h2>
     <img src="https://projecteuler.net/progress/KrolKubaV" alt="Problem map" />
   </div>
 
@@ -24,17 +48,42 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   }
   .profile {
     text-align: center;
-    margin: 2rem 0;
+    margin: 2.5rem 0 2rem;
   }
   .profile img {
     image-rendering: pixelated;
   }
+  .info {
+    margin: 0 auto 2.5rem;
+    max-width: 300px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.95rem;
+  }
+  .info-row:last-child {
+    border-bottom: none;
+  }
+  .info-label {
+    color: #6b7280;
+  }
+  .info-value {
+    font-weight: 700;
+    color: #111827;
+  }
   .map {
+    margin: 0 auto 2rem;
     text-align: center;
-    margin: 2rem 0;
     padding: 1.5rem;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
+  }
+  .map h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
   }
   .map img {
     max-width: 100%;
