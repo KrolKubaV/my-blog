@@ -15,6 +15,7 @@ const mainBlocks = Array.from({ length: fullBlocks }, (_, b) =>
 const lastBlock = remainder > 0
   ? Array.from({ length: remainder }, (_, i) => fullBlocks * blockSize + i + 1)
   : [];
+const allProblems = Array.from({ length: PROJECT_EULER_PROBLEMS_TOTAL }, (_, i) => i + 1);
 ---
 <BaseLayout title="Project Euler">
   <p class="breadcrumb"><a href="/puzzles/">← Puzzles</a></p>
@@ -37,7 +38,7 @@ const lastBlock = remainder > 0
   </div>
 
   <div class="blocks">
-    {mainBlocks.slice(0, 9).map(block => (
+    {mainBlocks.slice(0, 3).map(block => (
       <div class="block">
         <span class="block-label">{block[0]}–{block[block.length - 1]}</span>
         <div class="grid">
@@ -49,32 +50,16 @@ const lastBlock = remainder > 0
         </div>
       </div>
     ))}
-  </div>
-  <div class="blocks">
-    {mainBlocks.slice(9).map(block => (
-      <div class="block">
-        <span class="block-label">{block[0]}–{block[block.length - 1]}</span>
-        <div class="grid">
-          {block.map(id => (
-            <a href={`https://projecteuler.net/problem=${id}`} target="_blank" class={`cell ${id in solvedProblems ? 'solved' : 'unsolved'}`}>
-              {String(id).slice(-2)}
-            </a>
-          ))}
-        </div>
-      </div>
-    ))}
-    {lastBlock.length > 0 && (
-      <div class="block">
-        <span class="block-label">{lastBlock[0]}–{lastBlock[lastBlock.length - 1]}</span>
-        <div class="grid">
-          {lastBlock.map(id => (
-            <a href={`https://projecteuler.net/problem=${id}`} target="_blank" class={`cell ${id in solvedProblems ? 'solved' : 'unsolved'}`}>
-              {String(id).slice(-2)}
-            </a>
-          ))}
-        </div>
-      </div>
-    )}
+  </div>  
+  <div class="rest">
+    <span class="block-label">301–{PROJECT_EULER_PROBLEMS_TOTAL}</span>
+    <div class="grid rest-grid" style={`grid-template-columns: repeat(10, 1fr)`}>
+      {allProblems.slice(300).map(id => (
+        <a href={`https://projecteuler.net/problem=${id}`} target="_blank" class={`cell rest-cell ${id in solvedProblems ? 'solved' : 'unsolved'}`}>
+          {id}
+        </a>
+      ))}
+    </div>
   </div>
 </BaseLayout>
 
@@ -158,9 +143,22 @@ const lastBlock = remainder > 0
     text-decoration: none;
     min-width: 8px;
   }
-  .cell:hover {
-    opacity: 0.6;
-    text-decoration: none;
+  .rest {
+    margin: 0.75rem auto;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    max-width: 100%;
+  }
+  .rest .block-label {
+    margin-bottom: 0.3rem;
+  }
+  .rest-grid {
+    gap: 1px;
+  }
+  .rest-cell {
+    font-size: 0.45rem;
+    min-width: 6px;
   }
   .solved {
     background: #1e3a5f;
