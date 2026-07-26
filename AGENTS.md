@@ -1,40 +1,47 @@
-## Development
+## How to use this blog
 
-When starting the dev server, use background mode:
+Everything is on GitHub at `https://github.com/KrolKubaV/my-blog`. Push to deploy.
 
-```
-astro dev --background
-```
+### Adding a blog post
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
-
-## Adding Content
-
-### New blog post
-
-Run the interactive script:
+Run the script:
 ```
 bash new-post.sh
 ```
-It will ask for section, subsection, and title, then create the MDX file with proper frontmatter. Edit the file to add your content, then `git push` to deploy.
+It asks section, subsection, title — creates the file automatically. Then edit the file, write your content, and `git push`.
 
-### New Project Euler solved problem
+### Adding a Project Euler solved problem
 
-Run:
+Edit `src/data/project-euler.ts` — add a line like:
+```
+999: "2026-07-26 17:00:00",
+```
+Or run:
 ```
 bash new-solved.sh
 ```
-Enter the problem number and date. It updates `src/data/project-euler.ts` automatically.
 
-## Documentation
+### Changing navigation / section order
 
-Full documentation: https://docs.astro.build
+Edit `src/config.ts`.
 
-Consult these guides before working on related tasks:
+### Local preview
 
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+```
+astro dev --background
+astro dev stop
+astro dev status
+astro dev logs
+```
+
+### Key files
+
+| What | File |
+|---|---|
+| Solved PE problems | `src/data/project-euler.ts` |
+| Blog posts | `src/content/notes/*/*.mdx`, `src/content/puzzles/*/*.mdx`, `src/content/misc/*.mdx` |
+| Navigation & sections | `src/config.ts` |
+| Header (your name) | `src/components/Header.astro` |
+| Project Euler page | `src/pages/puzzles/project-euler.astro` |
+| Homepage | `src/pages/index.astro` |
+| Styles | `src/styles/global.css` |
