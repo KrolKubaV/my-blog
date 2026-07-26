@@ -42,7 +42,6 @@
 
 html {
   font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
-  font-size: 1.1rem;
   scroll-behavior: smooth;
 }
 
@@ -275,5 +274,7 @@ details > :not(summary) {
 .katex-display > .katex {
   font-size: 1em;
 }
+
+
 
 
