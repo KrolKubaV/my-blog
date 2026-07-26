@@ -7,11 +7,14 @@ const pct = Math.round((solvedCount / PROJECT_EULER_PROBLEMS_TOTAL) * 100);
 
 const allProblems = Array.from({ length: PROJECT_EULER_PROBLEMS_TOTAL }, (_, i) => i + 1);
 const cols = 25;
-const rows = Math.ceil(PROJECT_EULER_PROBLEMS_TOTAL / cols);
 ---
 <BaseLayout title="Project Euler">
   <p class="breadcrumb"><a href="/puzzles/">← Puzzles</a></p>
   <h1>Project Euler</h1>
+
+  <div class="profile-wrap">
+    <img src="https://projecteuler.net/profile/KrolKubaV.png" alt="KrolKubaV's Project Euler progress" />
+  </div>
 
   <p><a href="https://projecteuler.net" target="_blank">Project Euler</a> is a series of challenging mathematical and computational problems that require both mathematical insight and programming skill. I enjoy digging into them — my dream is to one day have every single problem solved.</p>
 
@@ -29,21 +32,26 @@ const rows = Math.ceil(PROJECT_EULER_PROBLEMS_TOTAL / cols);
     <div class="grid" style={`grid-template-columns: repeat(${cols}, 1fr)`}>
       {allProblems.map(id => (
         <span
-          class={id in solvedProblems ? 'cell solved' : 'cell unsolved'}
-          title={id in solvedProblems ? `Problem ${id}: Solved ${solvedProblems[id]}` : `Problem ${id}: Unsolved`}
-        ></span>
+          class={`cell ${id in solvedProblems ? 'solved' : 'unsolved'}`}
+          title={`Problem ${id}: ${id in solvedProblems ? 'Solved ' + solvedProblems[id] : 'Unsolved'}`}
+        >{id}</span>
       ))}
     </div>
-  </div>
-
-  <div class="profile-wrap">
-    <img src="https://projecteuler.net/profile/KrolKubaV.png" alt="KrolKubaV's Project Euler progress" />
   </div>
 </BaseLayout>
 
 <style>
   .breadcrumb {
     margin-bottom: 2rem;
+  }
+  .profile-wrap {
+    margin: 2rem 0 1.5rem;
+    text-align: center;
+  }
+  .profile-wrap img {
+    display: block;
+    margin: 0 auto;
+    image-rendering: pixelated;
   }
   .stats {
     margin: 2rem 0 1.5rem;
@@ -84,26 +92,28 @@ const rows = Math.ceil(PROJECT_EULER_PROBLEMS_TOTAL / cols);
   }
   .grid {
     display: grid;
-    gap: 2px;
+    gap: 1px;
   }
   .cell {
     aspect-ratio: 1;
-    border-radius: 2px;
-    min-width: 4px;
+    border-radius: 1px;
+    font-size: 0.45rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    min-width: 6px;
   }
   .solved {
     background: #1e3a5f;
+    color: white;
   }
   .unsolved {
     background: #f3f4f6;
+    color: #9ca3af;
   }
-  .profile-wrap {
-    margin: 2.5rem 0;
-    text-align: center;
-  }
-  .profile-wrap img {
-    display: block;
-    margin: 0 auto;
-    image-rendering: pixelated;
+  .cell:hover {
+    opacity: 0.8;
   }
 </style>
