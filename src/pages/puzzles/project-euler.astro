@@ -20,7 +20,7 @@ const lastBlock = remainder > 0
   <p class="breadcrumb"><a href="/puzzles/">← Puzzles</a></p>
   <h1>Project Euler</h1>
 
-  <p><a href="https://projecteuler.net" target="_blank">Project Euler</a> is a series of challenging mathematical and computational problems that require both mathematical insight and programming skill. I enjoy digging into them — my dream is to one day have every single problem solved.</p>
+  <p>Project Euler is a collection of challenging mathematical and computational problems that combine mathematical insight with programming skill. I enjoy working through them, and my dream is to solve every single problem one day.</p>
 
   <div class="profile-wrap">
     <img src="https://projecteuler.net/profile/KrolKubaV.png" alt="KrolKubaV's Project Euler progress" />
@@ -37,7 +37,7 @@ const lastBlock = remainder > 0
   </div>
 
   <div class="blocks">
-    {mainBlocks.map(block => (
+    {mainBlocks.slice(0, -1).map(block => (
       <div class="block">
         <span class="block-label">{block[0]}–{block[block.length - 1]}</span>
         <div class="grid">
@@ -50,11 +50,23 @@ const lastBlock = remainder > 0
       </div>
     ))}
   </div>
-  {lastBlock.length > 0 && (
-    <div class="blocks">
+  <div class="blocks">
+    {mainBlocks.length > 0 && (
       <div class="block">
-        <span class="block-label">{lastBlock[0]}–{lastBlock[lastBlock.length - 1]}</span>
+        <span class="block-label">{mainBlocks[mainBlocks.length - 1][0]}–{mainBlocks[mainBlocks.length - 1][mainBlocks[mainBlocks.length - 1].length - 1]}</span>
         <div class="grid">
+          {mainBlocks[mainBlocks.length - 1].map(id => (
+            <a href={`https://projecteuler.net/problem=${id}`} target="_blank" class={`cell ${id in solvedProblems ? 'solved' : 'unsolved'}`}>
+              {id}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+      {lastBlock.length > 0 && (
+      <div class="block block-small">
+        <span class="block-label">{lastBlock[0]}–{lastBlock[lastBlock.length - 1]}</span>
+        <div class="grid grid-small">
           {lastBlock.map(id => (
             <a href={`https://projecteuler.net/problem=${id}`} target="_blank" class={`cell ${id in solvedProblems ? 'solved' : 'unsolved'}`}>
               {id}
@@ -62,8 +74,8 @@ const lastBlock = remainder > 0
           ))}
         </div>
       </div>
-    </div>
-  )}
+      )}
+  </div>
 </BaseLayout>
 
 <style>
@@ -123,6 +135,13 @@ const lastBlock = remainder > 0
     padding: 0.4rem;
     flex: 0 0 calc(33.333% - 0.75rem);
     max-width: 250px;
+  }
+  .block-small {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+  .grid-small {
+    grid-template-columns: repeat(7, 1fr);
   }
   .block-label {
     display: block;
