@@ -24,7 +24,6 @@ case $section_num in
 ---
 title: "$title"
 description: ""
-pubDate: $(date +%Y-%m-%d)
 ---
 EOF
     echo "Created src/content/misc/$slug.mdx"
@@ -38,8 +37,8 @@ case $section in
   notes)
     echo "  1) Blackjack"
     echo "  2) Mathematics of Casino Games"
-    echo "  3) Measure Theory"
-    echo "  4) Game Theoretic Probability"
+    echo "  3) Game Theoretic Probability and Finance"
+    echo "  4) Combinatorial Game Theory"
     echo "  5) ML in Finance";;
   puzzles)
     echo "  1) Mathematical Competitions"
@@ -52,8 +51,8 @@ read -p "Choose: " sub_num
 case "$section-$sub_num" in
   notes-1) sub="blackjack"; sublabel="blackjack";;
   notes-2) sub="casino-games"; sublabel="casino-games";;
-  notes-3) sub="measure-theory"; sublabel="measure-theory";;
-  notes-4) sub="game-theoretic-probability"; sublabel="game-theoretic-probability";;
+  notes-3) sub="game-theoretic-probability"; sublabel="game-theoretic-probability";;
+  notes-4) sub="combinatorial-game-theory"; sublabel="combinatorial-game-theory";;
   notes-5) sub="ml-in-finance"; sublabel="ml-in-finance";;
   puzzles-1) sub="mathematical-competitions"; sublabel="mathematical-competitions";;
   puzzles-2) sub="jane-street"; sublabel="jane-street";;
@@ -72,7 +71,6 @@ cat > "$dir/$slug.mdx" <<EOF
 ---
 title: "$title"
 description: ""
-pubDate: $(date +%Y-%m-%d)
 subsection: "$sublabel"
 ---
 EOF

@@ -6,7 +6,7 @@ const notes = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
-    pubDate: z.coerce.date(),
+    pubDate: z.coerce.date().optional(),
     updatedDate: z.coerce.date().optional(),
     subsection: z.string().optional(),
     draft: z.boolean().default(false),
@@ -18,7 +18,7 @@ const puzzles = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
-    pubDate: z.coerce.date(),
+    pubDate: z.coerce.date().optional(),
     updatedDate: z.coerce.date().optional(),
     subsection: z.string().optional(),
     subcategory: z.string().optional(),
@@ -31,7 +31,7 @@ const misc = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
-    pubDate: z.coerce.date(),
+    pubDate: z.coerce.date().optional(),
     updatedDate: z.coerce.date().optional(),
     draft: z.boolean().default(false),
   }),
