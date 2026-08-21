@@ -1,0 +1,48 @@
+---
+title: "Deriving Basic Strategy"
+description: "Where the strategy table comes from — expected values, computed"
+subsection: "blackjack"
+---
+
+Basic strategy looks like a magic table, but every cell comes from one simple
+principle: **take the action with the highest expected value**. For each hand
+you compare the EV of standing, hitting, doubling, and splitting, and pick the
+best. The table is just the answer key to millions of such comparisons.
+
+## A taste of the computation
+
+With an infinite-deck approximation, every card value is equally likely
+(aces counted as $1$ when they would bust you), and we can already compute
+useful quantities — for example, the probability of busting when hitting a
+hard total.
+
+The code below is written as it would appear in a Jupyter notebook cell:
+
+```python title="In [1]"
+cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10] + [1]  # ace = 1
+
+def p_bust(hard_total):
+    return sum(c > 21 - hard_total for c in cards) / len(cards)
+
+for s in range(12, 21):
+    print(f"hard {s}: p(bust) = {p_bust(s):.3f}")
+```
+
+Running it shows why hitting $16$ is so painful:
+
+```text title="Out [1]"
+hard 12: p(bust) = 0.308
+...
+hard 16: p(bust) = 0.615
+```
+
+## From bust probabilities to strategy
+
+Bust probabilities alone are not enough — standing wins whenever the dealer
+busts. The full derivation compares, for a fixed player total and dealer upcard,
+
+$$\mathrm{EV}(\text{hit}) \quad \text{vs} \quad \mathrm{EV}(\text{stand}),$$
+
+each computed by summing over all dealer outcomes. Do this for all $550$ or so
+combinations and the classic strategy table pops out. In future posts we will
+build this computation up properly.

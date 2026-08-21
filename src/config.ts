@@ -28,9 +28,9 @@ export const SECTIONS = {
     label: 'Puzzles',
     href: '/puzzles/',
     subsections: [
+      { label: 'Project Euler', slug: 'project-euler', description: 'Computational problems requiring mathematical insight.' },
       { label: 'Mathematical Competitions', slug: 'mathematical-competitions', description: 'Problems from the IMO, Putnam, and other contests.' },
       { label: 'Jane Street Puzzles', slug: 'jane-street', description: 'Monthly puzzles from Jane Street.' },
-      { label: 'Project Euler', slug: 'project-euler', description: 'Computational problems requiring mathematical insight.' },
       { label: 'Miscellaneous', slug: 'miscellaneous', description: 'Logic puzzles, riddles, and brain teasers.' },
     ],
   },
@@ -46,7 +46,7 @@ export const SECTIONS = {
 // relative to the subsection folder. Articles not listed appear after the
 // listed ones, sorted by date (newest first).
 export const POST_ORDER: Record<string, string[]> = {
-  'notes/blackjack': ['resources', 'kelly-criterion'],
+  'notes/blackjack': ['resources', 'different-rules', 'deriving-basic-strategy'],
   'notes/casino-games': ['resources', 'expected-value-roulette'],
   'notes/game-theoretic-probability': ['resources', 'martingales'],
   'notes/combinatorial-game-theory': ['resources'],
