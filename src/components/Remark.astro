@@ -20,8 +20,8 @@ const { title }: { title?: string } = Astro.props;
     border-left: 4px solid;
   }
   .remark {
-    background: #fef2f2;
-    border-color: #ef4444;
+    background: var(--box-remark-bg);
+    border-color: var(--box-remark-border);
   }
   .box-title {
     font-weight: 700;
@@ -29,7 +29,7 @@ const { title }: { title?: string } = Astro.props;
     font-style: italic;
   }
   .remark .box-title {
-    color: #991b1b;
+    color: var(--box-remark-title);
   }
   .box :global(*) {
     margin-top: 0;

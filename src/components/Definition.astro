@@ -20,8 +20,8 @@ const { title }: { title?: string } = Astro.props;
     border-left: 4px solid;
   }
   .definition {
-    background: #eff6ff;
-    border-color: #3b82f6;
+    background: var(--box-definition-bg);
+    border-color: var(--box-definition-border);
   }
   .box-title {
     font-weight: 700;
@@ -29,7 +29,7 @@ const { title }: { title?: string } = Astro.props;
     font-style: italic;
   }
   .definition .box-title {
-    color: #1e40af;
+    color: var(--box-definition-title);
   }
   .box :global(*) {
     margin-top: 0;

@@ -9,8 +9,9 @@ in `src/content/` — push to deploy.
 bash new-post.sh        # asks section, subsection, title; creates the file
 ```
 
-The file lands in `src/content/<section>/<subsection>/<slug>.mdx`. The slug
-comes from the title, and it is the article's URL.
+The file is created from a template in `templates/` (imports and skeleton
+already filled in) and lands at `src/content/<section>/<subsection>/<slug>.mdx`.
+The slug comes from the title, and it is the article's URL.
 
 ## Frontmatter
 
@@ -48,12 +49,10 @@ $$f^* = \frac{bp - q}{b}$$
 
 ## Boxes: theorem, definition, remark
 
-Import once at the top of the post (after the frontmatter):
+One import at the top of the post gives you all the boxes:
 
 ```mdx
-import Theorem from '../../../components/Theorem.astro';
-import Definition from '../../../components/Definition.astro';
-import Remark from '../../../components/Remark.astro';
+import { Definition, Problem, Remark, Theorem } from '@components/boxes';
 ```
 
 Then use them like quotes with a title:
@@ -72,7 +71,7 @@ This assumes an infinite bankroll.
 </Remark>
 ```
 
-All three accept an optional `title`.
+All three accept an optional `title`. `Problem` is for puzzle statements.
 
 ## Puzzles
 
@@ -134,3 +133,13 @@ Append one line per solved problem to `src/data/project-euler.txt`
 1. `npm run dev` → http://localhost:4321 (auto-reloads as you edit)
 2. Write, preview, repeat
 3. `git add -A && git commit -m "..." && git push` — push deploys
+
+## Site features (no work needed, good to know)
+
+- **Dark mode** — ◐ button in the header; respects your OS setting by default.
+- **Search** — the ⌕ button searches all posts (indexed at build time; not
+  available while using `astro dev` alone).
+- **Prev/next links** — appear automatically at the end of every article,
+  following your `POST_ORDER`.
+- **Table of contents** — appears beside long articles on wide screens.
+- **RSS** — available at `/rss.xml`.

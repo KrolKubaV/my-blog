@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Header from '../components/Header.astro';
+import { SITE } from '../config';
 
 interface Props {
   title: string;
@@ -8,21 +9,40 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const baseUrl = import.meta.env.PROD ? `${SITE.url}/` : '/';
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-base-url={baseUrl}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href={`${SITE.url}/rss.xml`} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.1/dist/katex.min.css" crossorigin="anonymous" />
+    <script is:inline>
+      const theme =
+        localStorage.theme ??
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      document.documentElement.dataset.theme =
+        theme === 'dark' ? 'github-dark' : 'github-light';
+    </script>
+    <meta name="data-base-url" content={baseUrl} />
   </head>
   <body>
     <Header />
     <main>
       <slot />
     </main>
+    <script is:inline>
+      const toggle = document.getElementById('theme-toggle');
+      toggle?.addEventListener('click', () => {
+        const dark = document.documentElement.classList.toggle('dark');
+        localStorage.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.theme = dark ? 'github-dark' : 'github-light';
+      });
+    </script>
   </body>
 </html>

@@ -1,16 +1,23 @@
 ---
 import { NAV } from '../config';
+import Search from './Search.astro';
 ---
 <header>
   <nav>
     <a href="/" class="site-name">Jakub Adamek</a>
-    <div class="nav-links">
-      {NAV.slice(1).map((item, i) => (
-        <>
-          <a href={item.href}>{item.label}</a>
-          {i < NAV.length - 2 && <span class="dot">·</span>}
-        </>
-      ))}
+    <div class="right">
+      <div class="nav-links">
+        {NAV.slice(1).map((item, i) => (
+          <>
+            <a href={item.href}>{item.label}</a>
+            {i < NAV.length - 2 && <span class="dot">·</span>}
+          </>
+        ))}
+      </div>
+      <div class="controls">
+        <Search />
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">◐</button>
+      </div>
     </div>
   </nav>
 </header>
@@ -19,19 +26,30 @@ import { NAV } from '../config';
   header {
     margin-bottom: 2.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--color-border);
   }
   nav {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     font-size: 0.95rem;
+    gap: 1rem;
   }
   .site-name {
     font-weight: 700;
     text-decoration: none;
-    color: #1e3a5f;
+    color: var(--color-accent);
     font-size: 1.15rem;
+  }
+  .right {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
   }
   .nav-links {
     display: flex;
@@ -45,7 +63,7 @@ import { NAV } from '../config';
     text-decoration: underline;
   }
   .dot {
-    color: #9ca3af;
+    color: var(--color-muted);
     user-select: none;
   }
 </style>

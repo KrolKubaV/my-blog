@@ -1,0 +1,71 @@
+---
+// Table of contents, built client-side from the article's h2/h3 headings.
+// Shows as a sticky sidebar on very wide screens; hidden otherwise.
+---
+
+<nav class="toc" id="toc" aria-label="Table of contents">
+  <div class="toc-title">Contents</div>
+  <ul id="toc-list"></ul>
+</nav>
+
+<script>
+  function slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-');
+  }
+
+  const article = document.querySelector('article');
+  const toc = document.getElementById('toc');
+  const list = document.getElementById('toc-list');
+  if (!article || !toc || !list) throw new Error('TOC: missing elements');
+
+  const headings = Array.from(article.querySelectorAll('h2, h3'));
+  if (headings.length >= 2) {
+    toc.classList.add('has-entries');
+
+    for (const h of headings) {
+      if (!h.id) h.id = slugify(h.textContent || '');
+
+      if (h.tagName === 'H3' && list.lastElementChild) {
+        let sub = list.lastElementChild.querySelector(':scope > ul');
+        if (!sub) {
+          sub = document.createElement('ul');
+          list.lastElementChild.appendChild(sub);
+        }
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `#${h.id}`;
+        a.textContent = h.textContent || '';
+        li.appendChild(a);
+        sub.appendChild(li);
+      } else {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `#${h.id}`;
+        a.textContent = h.textContent || '';
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+    }
+
+    const links = Array.from(list.querySelectorAll('a'));
+    const byId = new Map(links.map(a => [a.getAttribute('href')!.slice(1), a]));
+    const observer = new IntersectionObserver(
+      entries => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'));
+            byId.get(e.target.id)?.classList.add('active');
+          }
+        }
+      },
+      { rootMargin: '0% 0% -80% 0%' }
+    );
+    headings.forEach(h => observer.observe(h));
+  } else {
+    toc.remove();
+  }
+</script>

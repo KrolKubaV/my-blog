@@ -21,8 +21,8 @@ const { title, numbered = true }: Props = Astro.props;
     border-left: 4px solid;
   }
   .problem {
-    background: #f0fdfa;
-    border-color: #0d5e63;
+    background: var(--box-problem-bg);
+    border-color: var(--box-problem-border);
   }
   .box-title {
     font-weight: 700;
@@ -30,7 +30,7 @@ const { title, numbered = true }: Props = Astro.props;
     font-style: italic;
   }
   .problem .box-title {
-    color: #0d5e63;
+    color: var(--box-problem-title);
   }
   .box-content > :first-child {
     margin-top: 0;

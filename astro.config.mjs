@@ -11,7 +11,10 @@ export default defineConfig({
   site: 'https://jadamek.com',
   base: '',
   integrations: [
-    expressiveCode(),
+    expressiveCode({
+      themes: ['github-light', 'github-dark'],
+      themeCssSelector: theme => `[data-theme="${theme.name}"]`,
+    }),
     mdx(),
     sitemap(),
   ],

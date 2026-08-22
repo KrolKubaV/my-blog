@@ -1,7 +1,10 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrevNext from '../../../components/PrevNext.astro';
+import Toc from '../../../components/Toc.astro';
 import { getCollection, render } from 'astro:content';
 import { SECTIONS } from '../../../config';
+import { orderedPosts, neighbours } from '../../../lib/posts';
 
 export async function getStaticPaths() {
   const posts = await getCollection('notes');
@@ -16,6 +19,8 @@ const { Content } = await render(post);
 
 const section = SECTIONS['notes'];
 const subsection = section.subsections.find(s => s.slug === post.data.subsection);
+const siblings = await orderedPosts('notes', `notes/${post.data.subsection}`, post.data.subsection);
+const { prev, next } = neighbours(siblings, post.id);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
   <p class="breadcrumb">
@@ -26,6 +31,11 @@ const subsection = section.subsections.find(s => s.slug === post.data.subsection
   <article>
     <Content />
   </article>
+  <PrevNext
+    prev={prev && { title: prev.data.title, href: `/notes/read/${prev.id}/` }}
+    next={next && { title: next.data.title, href: `/notes/read/${next.id}/` }}
+  />
+  <Toc />
 </BaseLayout>
 
 <style>

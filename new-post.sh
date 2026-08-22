@@ -20,12 +20,7 @@ case $section_num in
   3)
     read -p "Title: " title
     slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g; s/[^a-z0-9-]//g')
-    cat > "src/content/misc/$slug.mdx" <<EOF
----
-title: "$title"
-description: ""
----
-EOF
+    sed -e "s/__TITLE__/$title/g" templates/plain.mdx > "src/content/misc/$slug.mdx"
     echo "Created src/content/misc/$slug.mdx"
     exit 0;;
   *) echo "Invalid"; exit 1;;
@@ -67,12 +62,6 @@ slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g; s/[^a-z0-9-]//
 dir="src/content/$folder/$sub"
 mkdir -p "$dir"
 
-cat > "$dir/$slug.mdx" <<EOF
----
-title: "$title"
-description: ""
-subsection: "$sublabel"
----
-EOF
+sed -e "s/__TITLE__/$title/g" -e "s/__SUBSECTION__/$sub/g" "templates/subsection.mdx" > "$dir/$slug.mdx"
 
 echo "Created $dir/$slug.mdx"

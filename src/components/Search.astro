@@ -1,0 +1,92 @@
+---
+// Site search using the Pagefind index (built after `npm run build`).
+// In `astro dev` there is no index — results only appear in the production build.
+---
+
+<button class="search-button" id="search-open" aria-label="Search">
+  <span aria-hidden="true">⌕</span> Search
+</button>
+
+<dialog class="search-dialog" id="search-dialog">
+  <div class="search-input-wrap">
+    <input type="text" id="search-input" placeholder="Search posts…" autocomplete="off" />
+  </div>
+  <div class="search-results" id="search-results"></div>
+</dialog>
+
+<script>
+  const openBtn = document.getElementById('search-open') as HTMLButtonElement;
+  const dialog = document.getElementById('search-dialog') as HTMLDialogElement;
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const results = document.getElementById('search-results') as HTMLDivElement;
+
+  type Pagefind = {
+    search(query: string): Promise<{
+      results: { data: () => Promise<{ url: string; meta: { title: string; section?: string } }> }[];
+    }>;
+    options(opts: { baseUrl: string }): void;
+  };
+  let pagefind: Pagefind | undefined;
+
+  async function loadPagefind(): Promise<Pagefind | undefined> {
+    if (!pagefind) {
+      const base = document.documentElement.dataset.baseUrl || '/';
+      try {
+        pagefind = (await import(/* @vite-ignore */ `${base}pagefind/pagefind.js`)) as any;
+        await pagefind.options({ baseUrl: base });
+      } catch {
+        return undefined;
+      }
+    }
+    return pagefind;
+  }
+
+  openBtn.addEventListener('click', () => {
+    dialog.showModal();
+    input.focus();
+  });
+
+  dialog.addEventListener('click', e => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  let debounce: ReturnType<typeof setTimeout>;
+  input.addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(runSearch, 120);
+  });
+
+  async function runSearch() {
+    const query = input.value.trim();
+    if (!query) {
+      results.innerHTML = '';
+      return;
+    }
+    const pf = await loadPagefind();
+    if (!pf) {
+      results.innerHTML =
+        '<div style="padding:0.8rem;font-style:italic">Search index not found. Run <code>npm run build</code> and serve the site.</div>';
+      return;
+    }
+    const res = await pf.search(query);
+    const data = await Promise.all(res.results.slice(0, 8).map(r => r.data()));
+    results.innerHTML = '';
+    for (const d of data) {
+      const a = document.createElement('a');
+      a.href = d.url;
+      a.className = 'search-result';
+      const title = document.createElement('div');
+      title.className = 'result-title';
+      title.textContent = d.meta.title;
+      a.appendChild(title);
+      if (d.meta.section) {
+        const sec = document.createElement('div');
+        sec.className = 'result-section';
+        sec.textContent = d.meta.section;
+        a.appendChild(sec);
+      }
+      a.addEventListener('click', () => dialog.close());
+      results.appendChild(a);
+    }
+  }
+</script>
