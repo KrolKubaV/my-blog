@@ -1,23 +1,16 @@
 ---
 import { NAV } from '../config';
-import Search from './Search.astro';
 ---
 <header>
   <nav>
     <a href="/" class="site-name">Jakub Adamek</a>
-    <div class="right">
-      <div class="nav-links">
-        {NAV.slice(1).map((item, i) => (
-          <>
-            <a href={item.href}>{item.label}</a>
-            {i < NAV.length - 2 && <span class="dot">·</span>}
-          </>
-        ))}
-      </div>
-      <div class="controls">
-        <Search />
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">◐</button>
-      </div>
+    <div class="nav-links">
+      {NAV.slice(1).map((item, i) => (
+        <>
+          <a href={item.href}>{item.label}</a>
+          {i < NAV.length - 2 && <span class="dot">·</span>}
+        </>
+      ))}
     </div>
   </nav>
 </header>
@@ -40,16 +33,6 @@ import Search from './Search.astro';
     text-decoration: none;
     color: var(--color-accent);
     font-size: 1.15rem;
-  }
-  .right {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-  }
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
   }
   .nav-links {
     display: flex;

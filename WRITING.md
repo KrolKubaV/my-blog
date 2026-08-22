@@ -136,9 +136,7 @@ Append one line per solved problem to `src/data/project-euler.txt`
 
 ## Site features (no work needed, good to know)
 
-- **Dark mode** — ◐ button in the header; respects your OS setting by default.
-- **Search** — the ⌕ button searches all posts (indexed at build time; not
-  available while using `astro dev` alone).
+- **Dark mode** — follows your OS light/dark setting automatically.
 - **Prev/next links** — appear automatically at the end of every article,
   following your `POST_ORDER`.
 - **Table of contents** — appears beside long articles on wide screens.

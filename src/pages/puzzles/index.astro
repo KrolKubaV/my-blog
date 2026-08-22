@@ -11,7 +11,6 @@ const section = SECTIONS['puzzles'];
     {section.subsections.map(sub => (
       <li>
         <a href={`/puzzles/${sub.slug}/`}>{sub.label}</a>
-        <p class="description">{sub.description}</p>
       </li>
     ))}
   </ul>
@@ -43,11 +42,5 @@ const section = SECTIONS['puzzles'];
     color: #0d5e63;
     padding-left: 0.4rem;
     text-decoration: none;
-  }
-  .description {
-    margin: -0.4rem 0 0;
-    font-size: 0.9rem;
-    color: var(--color-muted);
-    font-style: italic;
   }
 </style>
