@@ -1,0 +1,26 @@
+---
+import PostLayout from '../../../layouts/PostLayout.astro';
+import { getTopics, neighbours } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  const topics = await getTopics();
+  return topics.flatMap(topic =>
+    topic.notes.map(note => ({
+      params: { topic: topic.slug, note: note.id.slice(topic.slug.length + 1) },
+      props: { note, topic, ...neighbours(topic.notes, note.id) },
+    }))
+  );
+}
+
+const { note, topic, prev, next } = Astro.props;
+---
+<PostLayout
+  post={note}
+  crumbs={[
+    { label: 'Notes', href: '/notes/' },
+    { label: topic.label, href: `/notes/${topic.slug}/` },
+  ]}
+  prev={prev}
+  next={next}
+  numbered
+/>

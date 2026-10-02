@@ -1,0 +1,26 @@
+---
+// One page per tag, e.g. /puzzles/tag/imo/. New tags get a page automatically.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PuzzleBrowser from '../../../components/PuzzleBrowser.astro';
+import { INTROS } from '../../../config';
+import { collectTags, getPosts } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  const tags = collectTags(await getPosts('puzzles'));
+  return tags.map(tag => ({ params: { tag: tag.slug }, props: { label: tag.label } }));
+}
+
+const { tag } = Astro.params;
+const { label } = Astro.props;
+---
+<BaseLayout title={`${label} puzzles`} description={INTROS.puzzles}>
+  <h1 class="page-title">Puzzles</h1>
+  <p class="page-intro">{INTROS.puzzles}</p>
+  <div class="body"><PuzzleBrowser tag={tag} /></div>
+</BaseLayout>
+
+<style>
+  .body {
+    margin-top: 2.5rem;
+  }
+</style>

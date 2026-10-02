@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { INTROS } from '../../config';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts('other');
+---
+<BaseLayout title="Other" description={INTROS.other}>
+  <h1 class="page-title">Other</h1>
+  <p class="page-intro">{INTROS.other}</p>
+  <div class="list">
+    <PostList posts={posts} />
+  </div>
+</BaseLayout>
+
+<style>
+  .list {
+    margin-top: 2rem;
+  }
+</style>

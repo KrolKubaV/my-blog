@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "new": "node scripts/new.mjs",
     "astro": "astro"
   },
   "dependencies": {
@@ -16,12 +17,15 @@
     "@astrojs/mdx": "^7.0.3",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.1.1",
     "astro-expressive-code": "^0.44.0",
     "katex": "^0.18.1",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0",
-    "tailwindcss": "^4.3.3"
+    "remark-math": "^6.0.0"
+  },
+  "overrides": {
+    "rehype-katex": {
+      "katex": "$katex"
+    }
   }
 }

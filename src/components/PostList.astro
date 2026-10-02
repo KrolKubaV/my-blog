@@ -1,0 +1,35 @@
+---
+import { postUrl, type Post } from '../lib/posts';
+
+interface Props {
+  posts: Post[];
+  numbered?: boolean; // 01, 02, ... (reading order of a note topic)
+  showTags?: boolean;
+}
+
+const { posts, numbered = false, showTags = false } = Astro.props;
+---
+<ul class:list={['post-list', { numbered }]}>
+  {posts.map((post, i) => (
+    <li>
+      <a href={postUrl(post)} class="post-link">
+        {numbered && <span class="num">{String(i + 1).padStart(2, '0')}</span>}
+        <span class="main">
+          <span class="title">{post.data.title}</span>
+          {post.data.draft && <span class="badge draft">Draft</span>}
+          {post.data.description && <span class="desc">{post.data.description}</span>}
+          {showTags && post.data.tags.length > 0 && (
+            <span class="tags">{post.data.tags.map(t => <span class="tag">{t}</span>)}</span>
+          )}
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .badge {
+    margin-left: 0.5rem;
+    vertical-align: 0.15em;
+  }
+</style>

@@ -1,0 +1,180 @@
+---
+title: "Style Guide"
+description: "Every building block, with the code to copy. Visible only on your computer."
+date: 2026-10-02
+draft: true
+---
+
+This page is a draft, so it never appears on the live site. Keep it as a
+cheat sheet: each example shows what to type, then what it looks like.
+
+## Text
+
+Normal Markdown: **bold**, *italic*, `inline code`, [a link](/notes/),
+lists, quotes and tables.
+
+```mdx
+**bold**, *italic*, `inline code`, [a link](/notes/)
+
+- a bullet
+1. a numbered item
+
+> A quote.
+
+| Rule | House edge |
+|---|---|
+| S17 | 0.4% |
+```
+
+> A quote looks like this.
+
+| Rule | Effect |
+|---|---|
+| H17 | about −0.2% |
+| 6:5 payout | about −1.4% |
+
+## Maths
+
+Inline maths goes between single dollars, $\E[X] = \sum_x x\,p(x)$.
+A formula on its own line goes between double dollars:
+
+```mdx
+Inline: $\E[X] = \sum_x x\,p(x)$
+
+$$P(\text{bust}) = \frac{4}{13}$$
+```
+
+$$P(\text{bust}) = \frac{4}{13}$$
+
+Shortcuts that work everywhere: `\R`, `\N`, `\Z`, `\Q`, `\E`, `\Var`
+(add more in `astro.config.mjs`). For example $x \in \R$, $\Var(X)$.
+
+## Theorems and friends
+
+No import line needed. Every box takes an optional `title`.
+
+```mdx
+<Definition title="Martingale">
+A sequence $(X_n)$ with $\E[X_{n+1} \mid \mathcal F_n] = X_n$.
+</Definition>
+
+<Theorem title="Optional stopping">
+If $\tau$ is a bounded stopping time, then $\E[X_\tau] = \E[X_0]$.
+</Theorem>
+
+<Proof>
+Write $X_\tau$ as a telescoping sum and take expectations.
+</Proof>
+```
+
+<Definition title="Martingale">
+A sequence $(X_n)$ with $\E[X_{n+1} \mid \mathcal F_n] = X_n$.
+</Definition>
+
+<Theorem title="Optional stopping">
+If $\tau$ is a bounded stopping time, then $\E[X_\tau] = \E[X_0]$.
+</Theorem>
+
+<Proof>
+Write $X_\tau$ as a telescoping sum and take expectations.
+</Proof>
+
+`Lemma`, `Proposition` and `Corollary` look like `Theorem` and share its
+numbering. `Example` and `Remark` work the same way:
+
+<Lemma>
+Every bounded martingale converges almost surely.
+</Lemma>
+
+<Example title="Fair coin">
+Your winnings after $n$ fair one-unit bets form a martingale.
+</Example>
+
+<Remark>
+Remarks are not numbered.
+</Remark>
+
+## Problems, hints and solutions
+
+```mdx
+<Problem>
+How many ways are there to ...?
+</Problem>
+
+<Hint>
+Think about parity.
+</Hint>
+
+<Solution>
+The answer is $42$.
+</Solution>
+```
+
+<Problem>
+How many ways are there to tile a $2 \times n$ board with dominoes?
+</Problem>
+
+<Hint>
+Look at the left-most column.
+</Hint>
+
+<Solution>
+Either one vertical domino or two horizontal ones cover the first column, so
+$T_n = T_{n-1} + T_{n-2}$ with $T_1 = 1$, $T_2 = 2$: the Fibonacci numbers.
+</Solution>
+
+An empty solution, `<Solution></Solution>`, shows a quiet placeholder:
+
+<Solution></Solution>
+
+Use `<Problem numbered={false}>` for a single puzzle, and
+`<Hint label="hint 2">` for several hints.
+
+## Code and notebook cells
+
+Write `in` / `out` after the language for notebook-style cells. They are
+numbered automatically.
+
+````mdx
+```python in
+sum(range(10))
+```
+
+```text out
+45
+```
+````
+
+```python in
+sum(range(10))
+```
+
+```text out
+45
+```
+
+```python in
+import math
+math.comb(52, 5)
+```
+
+```text out
+2598960
+```
+
+An ordinary code block, optionally with a file name:
+
+````mdx
+```python title="strategy.py"
+def hit(total): return total < 17
+```
+````
+
+```python title="strategy.py"
+def hit(total: int) -> bool:
+    return total < 17
+```
+
+## Pictures
+
+Put the image next to the `.mdx` file and write `![Description](./photo.jpg)`.

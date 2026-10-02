@@ -1,0 +1,5 @@
+---
+import Solution from './Solution.astro';
+const { label = 'hint' } = Astro.props;
+---
+<Solution label={label}><slot /></Solution>

@@ -1,0 +1,109 @@
+---
+// One project in the list: picture on the left, text on the right.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { postUrl } from '../lib/posts';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, cover, tags, status, draft } = project.data;
+// Projects without a picture get a soft tile with their initials.
+const initials = title.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+---
+<a href={postUrl(project)} class="project">
+  <div class="cover">
+    {cover ? (
+      <Image src={cover} alt="" widths={[240, 480]} sizes="12rem" />
+    ) : (
+      <span class="initials" aria-hidden="true">{initials}</span>
+    )}
+  </div>
+  <div class="body">
+    <div class="heading">
+      <span class="title">{title}</span>
+      {draft ? <span class="badge draft">Draft</span> : status && <span class="badge">{status}</span>}
+    </div>
+    {description && <p>{description}</p>}
+    {tags.length > 0 && <div class="tags">{tags.map(t => <span class="tag">{t}</span>)}</div>}
+  </div>
+</a>
+
+<style>
+  .project {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 1.25rem 0;
+    color: inherit;
+  }
+  .cover {
+    flex: none;
+    width: 12rem;
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    transition: transform 0.4s ease;
+  }
+  .project:hover .cover img {
+    transform: scale(1.04);
+  }
+  .initials {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-size: 2rem;
+    font-weight: 700;
+    color: color-mix(in srgb, var(--accent) 45%, var(--bg));
+    background:
+      radial-gradient(circle at 25% 20%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
+      radial-gradient(circle at 80% 90%, color-mix(in srgb, var(--violet) 10%, transparent), transparent 55%),
+      var(--surface);
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+  .heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--heading);
+    transition: color 0.15s;
+  }
+  .project:hover .title {
+    color: var(--accent);
+  }
+  p {
+    color: var(--muted);
+  }
+  .tags {
+    margin-top: 0.3rem;
+  }
+  @media (max-width: 34rem) {
+    .project {
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .cover {
+      width: 100%;
+    }
+  }
+</style>

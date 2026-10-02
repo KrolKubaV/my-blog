@@ -1,0 +1,6 @@
+---
+import Box from './Box.astro';
+// <Problem numbered={false}> drops the number, e.g. for a single puzzle.
+const { title, numbered = true } = Astro.props;
+---
+<Box kind="problem" label="Problem" title={title} numbered={numbered}><slot /></Box>

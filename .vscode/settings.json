@@ -1,0 +1,11 @@
+{
+  // Show snippet suggestions (thm, def, sol, cell, ...) while typing in posts.
+  "[mdx]": {
+    "editor.quickSuggestions": { "other": "on", "comments": "off", "strings": "off" },
+    "editor.wordWrap": "on"
+  },
+  "[markdown]": {
+    "editor.quickSuggestions": { "other": "on", "comments": "off", "strings": "off" },
+    "editor.wordWrap": "on"
+  }
+}

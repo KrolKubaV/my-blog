@@ -1,0 +1,43 @@
+---
+// The puzzles page: Project Euler on top, then every puzzle with tag filters.
+// Used by /puzzles/ and by each /puzzles/tag/<tag>/ page.
+import EulerCard from './EulerCard.astro';
+import PostList from './PostList.astro';
+import { collectTags, getPosts, slugify } from '../lib/posts';
+
+interface Props {
+  tag?: string; // slug of the selected tag
+}
+
+const { tag } = Astro.props;
+const all = await getPosts('puzzles');
+const tags = collectTags(all);
+const shown = tag ? all.filter(p => p.data.tags.some(t => slugify(t) === tag)) : all;
+---
+<EulerCard />
+
+<h2 class="section-heading" id="all">Puzzles</h2>
+<nav class="tags filter" aria-label="Filter by tag">
+  <a href="/puzzles/#all" class:list={['tag', { active: !tag }]}>All<span class="count">{all.length}</span></a>
+  {tags.map(t => (
+    <a href={`/puzzles/tag/${t.slug}/#all`} class:list={['tag', { active: t.slug === tag }]}>
+      {t.label}<span class="count">{t.count}</span>
+    </a>
+  ))}
+</nav>
+
+<PostList posts={shown} showTags />
+
+<style>
+  .section-heading {
+    margin-top: 3rem;
+  }
+  .filter {
+    margin-bottom: 0.75rem;
+  }
+  .filter .tag {
+    height: 1.85rem;
+    padding: 0 0.8rem;
+    font-size: 0.8rem;
+  }
+</style>

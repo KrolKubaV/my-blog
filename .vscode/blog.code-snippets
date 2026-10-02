@@ -1,0 +1,27 @@
+{
+  // Type the prefix in a post (e.g. "thm") and press Tab or Enter.
+  // Tab jumps between the places to fill in.
+  "Theorem": { "scope": "mdx,markdown", "prefix": "thm", "body": ["<Theorem title=\"$1\">", "$0", "</Theorem>"] },
+  "Lemma": { "scope": "mdx,markdown", "prefix": "lem", "body": ["<Lemma>", "$0", "</Lemma>"] },
+  "Proposition": { "scope": "mdx,markdown", "prefix": "prop", "body": ["<Proposition>", "$0", "</Proposition>"] },
+  "Corollary": { "scope": "mdx,markdown", "prefix": "cor", "body": ["<Corollary>", "$0", "</Corollary>"] },
+  "Definition": { "scope": "mdx,markdown", "prefix": "def", "body": ["<Definition title=\"$1\">", "$0", "</Definition>"] },
+  "Example": { "scope": "mdx,markdown", "prefix": "ex", "body": ["<Example>", "$0", "</Example>"] },
+  "Remark": { "scope": "mdx,markdown", "prefix": "rem", "body": ["<Remark>", "$0", "</Remark>"] },
+  "Proof": { "scope": "mdx,markdown", "prefix": "proof", "body": ["<Proof>", "$0", "</Proof>"] },
+  "Problem": { "scope": "mdx,markdown", "prefix": "prob", "body": ["<Problem>", "$0", "</Problem>"] },
+  "Problem + solution": {
+    "scope": "mdx,markdown",
+    "prefix": "probsol",
+    "body": ["<Problem>", "$1", "</Problem>", "", "<Solution>", "$0", "</Solution>"]
+  },
+  "Solution": { "scope": "mdx,markdown", "prefix": "sol", "body": ["<Solution>", "$0", "</Solution>"] },
+  "Hint": { "scope": "mdx,markdown", "prefix": "hint", "body": ["<Hint>", "$0", "</Hint>"] },
+  "Display maths": { "scope": "mdx,markdown", "prefix": "$$", "body": ["$$", "$0", "$$"] },
+  "Notebook cell (in + out)": {
+    "scope": "mdx,markdown",
+    "prefix": "cell",
+    "body": ["```python in", "$1", "```", "", "```text out", "$0", "```"]
+  },
+  "Code block": { "scope": "mdx,markdown", "prefix": "code", "body": ["```${1:python}", "$0", "```"] }
+}

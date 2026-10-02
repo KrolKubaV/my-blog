@@ -1,73 +1,52 @@
+// Site-wide settings: your name, links, navigation, note topics and order.
+// Posts themselves never need to be registered here; they appear by
+// existing in src/content/.
+
 export const SITE = {
   title: 'Jakub Adamek',
-  description: 'Personal website — mathematics, puzzles, and more.',
+  description: 'Mathematics, probability, puzzles, and things I build.',
   author: 'Jakub Adamek',
-  url: 'https://krolkubav.github.io/my-blog',
+  url: 'https://jadamek.com',
 };
+
+// Links shown in the footer, e.g. { label: 'Email', href: 'mailto:...' }.
+export const LINKS: { label: string; href: string }[] = [];
 
 export const NAV = [
-  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/projects/' },
   { label: 'Notes', href: '/notes/' },
   { label: 'Puzzles', href: '/puzzles/' },
-  { label: 'Miscellaneous', href: '/misc/' },
+  { label: 'Other', href: '/other/' },
 ];
 
-export const SECTIONS = {
-  'notes': {
-    label: 'Notes',
-    href: '/notes/',
-    subsections: [
-      { label: 'Blackjack', slug: 'blackjack' },
-      { label: 'Mathematics of Casino Games', slug: 'casino-games' },
-      { label: 'Game Theoretic Probability and Finance', slug: 'game-theoretic-probability' },
-      { label: 'Combinatorial Game Theory', slug: 'combinatorial-game-theory' },
-      { label: 'ML in Finance', slug: 'ml-in-finance' },
-    ],
-  },
-  'puzzles': {
-    label: 'Puzzles',
-    href: '/puzzles/',
-    subsections: [
-      { label: 'Project Euler', slug: 'project-euler' },
-      { label: 'Mathematical Competitions', slug: 'mathematical-competitions' },
-      { label: 'Jane Street Puzzles', slug: 'jane-street' },
-      { label: 'Miscellaneous', slug: 'miscellaneous' },
-    ],
-  },
-  'misc': {
-    label: 'Misc',
-    href: '/misc/',
-    subsections: [],
-  },
+// The line under each section's heading.
+export const INTROS = {
+  projects: 'Things I have built.',
+  notes: 'Notes on topics I am studying, written as I go.',
+  puzzles: 'Competition problems, puzzles, and my Project Euler progress.',
+  other: 'Everything else.',
 };
 
-// Article ordering per listing page. Keys are '<collection>/<subsection>'
-// ('misc' has no subsection); values list article slugs in display order,
-// relative to the subsection folder. Articles not listed appear after the
-// listed ones, sorted by date (newest first).
-export const POST_ORDER: Record<string, string[]> = {
-  'notes/blackjack': ['resources', 'different-rules', 'deriving-basic-strategy'],
-  'notes/casino-games': ['resources', 'expected-value-roulette'],
-  'notes/game-theoretic-probability': ['resources', 'martingales'],
-  'notes/combinatorial-game-theory': ['resources'],
-  'notes/ml-in-finance': ['resources', 'neural-option-pricing'],
-  'puzzles/mathematical-competitions': [
-    'imo/imo-2026',
-    'imo/imo-2025',
-    'polish-olympiad/2026-third-round',
-    'polish-olympiad/2026-second-round',
-  ],
-  'puzzles/jane-street': ['dropped-coin'],
-  'puzzles/miscellaneous': ['blue-eyes'],
-  'misc': ['my-running-routes'],
+// Note topics, in display order. Each topic is a folder in src/content/notes/.
+// A folder that is not listed here still appears (at the end, named after
+// the folder), so this list only matters for nice names and order.
+export const NOTE_TOPICS = [
+  { slug: 'blackjack', label: 'Blackjack', description: 'Card counting, optimal strategy, and the mathematics of beating the house.' },
+  { slug: 'casino-games', label: 'Mathematics of Casino Games', description: 'Expected values, house edges, and probability behind gambling.' },
+  { slug: 'game-theoretic-probability', label: 'Game Theoretic Probability and Finance', description: 'Probability through the lens of prediction and betting.' },
+  { slug: 'combinatorial-game-theory', label: 'Combinatorial Game Theory', description: 'Nim, minimax, and the mathematics of perfect-information games.' },
+  { slug: 'ml-in-finance', label: 'ML in Finance', description: 'Neural networks, deep learning, and quantitative models.' },
+];
+
+// Optional: the reading order of notes inside a topic (file names without
+// .mdx). Notes not listed come after the listed ones, oldest first.
+export const NOTE_ORDER: Record<string, string[]> = {
+  'blackjack': ['resources', 'different-rules', 'deriving-basic-strategy'],
+  'casino-games': ['resources', 'expected-value-roulette'],
+  'game-theoretic-probability': ['resources', 'martingales'],
+  'combinatorial-game-theory': ['resources'],
+  'ml-in-finance': ['resources', 'neural-option-pricing'],
 };
 
-export function postRank(key: string, id: string): number {
-  const list = POST_ORDER[key];
-  if (!list) return Number.MAX_SAFE_INTEGER;
-  const slash = key.indexOf('/');
-  const prefix = slash === -1 ? '' : key.slice(slash + 1) + '/';
-  const rel = id.startsWith(prefix) ? id.slice(prefix.length) : id;
-  const i = list.indexOf(rel);
-  return i === -1 ? Number.MAX_SAFE_INTEGER : i;
-}
+// Your Project Euler username (for the progress badge).
+export const PROJECT_EULER_USER = 'KrolKubaV';

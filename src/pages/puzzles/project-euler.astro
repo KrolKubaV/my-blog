@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EulerChart from '../../components/EulerChart.astro';
+import { PROJECT_EULER_USER } from '../../config';
+import { formatDate } from '../../lib/posts';
+import { getEulerStats } from '../../lib/project-euler';
+
+const pe = await getEulerStats();
+const latest = pe.recent[0];
+
+// Blocks of 100 problems: 1–100, 101–200, ...
+const blocks = Array.from({ length: Math.ceil(pe.total / 100) }, (_, b) =>
+  Array.from({ length: Math.min(100, pe.total - b * 100) }, (_, i) => b * 100 + i + 1)
+);
+const solvedIn = (block: number[]) => block.filter(id => pe.solved.has(id)).length;
+---
+<BaseLayout title="Project Euler" description={`${pe.count} of ${pe.total} Project Euler problems solved.`}>
+  <nav class="crumbs" aria-label="Breadcrumbs"><a href="/puzzles/">Puzzles</a></nav>
+  <div class="title-row">
+    <h1 class="page-title">Project Euler</h1>
+    <img
+      class="badge-img"
+      src={`https://projecteuler.net/profile/${PROJECT_EULER_USER}.png`}
+      alt={`${PROJECT_EULER_USER}'s Project Euler profile badge`}
+      width="200"
+      height="60"
+      loading="lazy"
+    />
+  </div>
+  <p class="page-intro">
+    A collection of challenging problems that need both mathematical insight and
+    programming. I enjoy working through them, and my dream is to solve every
+    single one.
+  </p>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="label">Solved</span>
+      <span class="value">{pe.count}</span>
+    </div>
+    <div class="stat">
+      <span class="label">Complete</span>
+      <span class="value">{pe.percent}%</span>
+      <span class="sub">of {pe.total}</span>
+    </div>
+    <div class="stat">
+      <span class="label">Level</span>
+      <span class="value">{pe.level}</span>
+      <span class="sub">{25 * (pe.level + 1) - pe.count} to level {pe.level + 1}</span>
+    </div>
+    {latest && (
+      <div class="stat">
+        <span class="label">Last solved</span>
+        <span class="value">#{latest.id}</span>
+        <span class="sub">{formatDate(latest.date)}</span>
+      </div>
+    )}
+  </div>
+
+  <div class="card panel">
+    <EulerChart solves={pe.recent} />
+  </div>
+
+  <h2 class="section-heading">Recently solved</h2>
+  <div class="recent">
+    {pe.recent.slice(0, 10).map(s => (
+      <a class="tag" href={`https://projecteuler.net/problem=${s.id}`} title={formatDate(s.date)}>
+        #{s.id}<span class="count">{formatDate(s.date, 'day')}</span>
+      </a>
+    ))}
+  </div>
+
+  <h2 class="section-heading">
+    All problems
+    <span class="legend"><i class="key solved"></i>Solved <i class="key"></i>Not yet</span>
+  </h2>
+  <div class="blocks">
+    {blocks.map(block => (
+      <section class="block" aria-label={`Problems ${block[0]} to ${block.at(-1)}`}>
+        <header>
+          <span>{block[0]}–{block.at(-1)}</span>
+          <span>{solvedIn(block)}/{block.length}</span>
+        </header>
+        <div class="grid">
+          {block.map(id => {
+            const date = pe.solved.get(id);
+            return (
+              <a
+                href={`https://projecteuler.net/problem=${id}`}
+                class:list={['cell', { solved: date }]}
+                title={date ? `Problem ${id} · solved ${formatDate(date)}` : `Problem ${id}`}
+              >{id}</a>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .badge-img {
+    flex: none;
+    width: auto;
+    height: 3.25rem;
+    border-radius: 4px;
+    image-rendering: pixelated;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    margin-top: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--border);
+    overflow: hidden;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 1rem 1.15rem;
+    background: var(--bg);
+  }
+  .label {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .value {
+    font-size: 1.75rem;
+    font-weight: 650;
+    line-height: 1.2;
+    color: var(--heading);
+  }
+  .sub {
+    font-size: 0.78rem;
+    color: var(--faint);
+  }
+  @media (max-width: 40rem) {
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .panel {
+    margin-top: 1.25rem;
+    padding: 1.25rem 1.25rem 0.75rem;
+  }
+  .recent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .recent .tag {
+    font-variant-numeric: tabular-nums;
+  }
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .key {
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-left: 0.5rem;
+    border-radius: 3px;
+    background: var(--surface-2);
+  }
+  .key.solved {
+    background: var(--chart);
+  }
+  .blocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr));
+    gap: 1rem;
+  }
+  .block header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 2px;
+  }
+  .cell {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 3px;
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--faint);
+    background: var(--surface-2);
+    transition: transform 0.1s;
+  }
+  .cell.solved {
+    font-weight: 650;
+    color: var(--on-chart);
+    background: var(--chart);
+  }
+  .cell:hover {
+    position: relative;
+    z-index: 1;
+    transform: scale(1.35);
+    box-shadow: var(--shadow);
+  }
+</style>

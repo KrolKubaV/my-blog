@@ -1,0 +1,12 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+import { getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const puzzles = await getPosts('puzzles');
+  return puzzles.map(puzzle => ({ params: { slug: puzzle.id }, props: { puzzle } }));
+}
+
+const { puzzle } = Astro.props;
+---
+<PostLayout post={puzzle} crumbs={[{ label: 'Puzzles', href: '/puzzles/' }]} tagBase="/puzzles/tag/" />

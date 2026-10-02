@@ -1,0 +1,96 @@
+---
+// "On this page" sidebar, only on wide screens and only for longer posts.
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const items = Astro.props.headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+{items.length >= 3 && (
+  <aside class="toc" aria-label="On this page">
+    <div class="inner">
+      <p class="toc-title">On this page</p>
+      <ul>
+        {items.map(h => (
+          <li class:list={{ sub: h.depth === 3 }}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </aside>
+)}
+
+<script>
+  // Highlight the section currently being read: the last heading above the top fifth.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  const targets = links.map(a => document.getElementById(decodeURIComponent(a.hash.slice(1))));
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const line = window.innerHeight * 0.2;
+    let current = -1;
+    targets.forEach((t, i) => {
+      if (t && t.getBoundingClientRect().top < line) current = i;
+    });
+    links.forEach((a, i) => a.classList.toggle('active', i === current));
+  };
+  if (links.length) {
+    addEventListener('scroll', () => queued || (queued = true, requestAnimationFrame(update)), { passive: true });
+    update();
+  }
+</script>
+
+<style>
+  .toc {
+    display: none;
+  }
+  @media (min-width: 82rem) {
+    .toc {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(100% + 3.5rem);
+      width: 13rem;
+    }
+  }
+  .inner {
+    position: sticky;
+    top: 2rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+  .toc-title {
+    margin-bottom: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    border-left: 1px solid var(--border);
+  }
+  a {
+    display: block;
+    margin-left: -1px;
+    padding: 0.28rem 0 0.28rem 0.85rem;
+    border-left: 1px solid transparent;
+    color: var(--muted);
+  }
+  .sub a {
+    padding-left: 1.6rem;
+  }
+  a:hover {
+    color: var(--heading);
+  }
+  a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+</style>

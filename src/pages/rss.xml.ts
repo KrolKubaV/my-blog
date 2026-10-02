@@ -1,34 +1,24 @@
 import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
+import type { APIContext } from 'astro';
 import { SITE } from '../config';
+import { getPosts, postUrl, SECTION_LABELS, type Section } from '../lib/posts';
 
-const SECTIONS_BY_COLLECTION = [
-  ['notes', 'Notes'],
-  ['puzzles', 'Puzzles'],
-  ['misc', 'Misc'],
-] as const;
-
-export async function GET(context) {
-  const all = [];
-  for (const [collection, label] of SECTIONS_BY_COLLECTION) {
-    for (const p of await getCollection(collection)) {
-      if (p.data.draft) continue;
-      const prefix = `${collection}/read`;
-      all.push({
-        title: p.data.title,
-        description: p.data.description ?? '',
-        link: `/${prefix}/${p.id}/`,
-        pubDate: p.data.pubDate,
-        categories: [label],
-      });
-    }
-  }
+export async function GET(context: APIContext) {
+  const sections: Section[] = ['projects', 'notes', 'puzzles', 'other'];
+  const posts = (await Promise.all(sections.map(s => getPosts(s)))).flat();
   return rss({
     title: SITE.title,
     description: SITE.description,
     site: context.site ?? SITE.url,
-    items: all.sort(
-      (a, b) => (b.pubDate?.valueOf() ?? 0) - (a.pubDate?.valueOf() ?? 0)
-    ),
+    items: posts
+      .filter(p => !p.data.draft)
+      .sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0))
+      .map(p => ({
+        title: p.data.title,
+        description: p.data.description ?? '',
+        link: postUrl(p),
+        pubDate: p.data.date,
+        categories: [SECTION_LABELS[p.collection as Section], ...p.data.tags],
+      })),
   });
 }

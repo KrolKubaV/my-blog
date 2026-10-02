@@ -6,20 +6,50 @@ interface Props {
 
 const { prev, next } = Astro.props;
 ---
-
 {(prev || next) && (
-<nav class="prev-next">
-  {prev ? (
-    <a href={prev.href} class="prev">
-      <span class="label">← Previous</span>
-      <span class="title">{prev.title}</span>
-    </a>
-  ) : <span />}
-  {next ? (
-    <a href={next.href} class="next">
-      <span class="label">Next →</span>
-      <span class="title">{next.title}</span>
-    </a>
-  ) : <span />}
-</nav>
+  <nav class="prev-next" aria-label="More in this series">
+    {prev ? (
+      <a href={prev.href} class="card">
+        <span class="label">← Previous</span>
+        <span class="title">{prev.title}</span>
+      </a>
+    ) : <span />}
+    {next ? (
+      <a href={next.href} class="card next">
+        <span class="label">Next →</span>
+        <span class="title">{next.title}</span>
+      </a>
+    ) : <span />}
+  </nav>
 )}
+
+<style>
+  .prev-next {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 4rem;
+  }
+  a {
+    padding: 0.9rem 1.1rem;
+  }
+  .next {
+    text-align: right;
+  }
+  .label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--faint);
+  }
+  .title {
+    display: block;
+    margin-top: 0.15rem;
+    font-weight: 600;
+    color: var(--heading);
+  }
+  @media (max-width: 34rem) {
+    .prev-next {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

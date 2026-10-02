@@ -1,0 +1,33 @@
+---
+title: "Blackjack Lab"
+description: "A desktop app for drilling basic strategy, built on a tested blackjack engine."
+date: 2026-09-25
+tags: [Python, Qt, Probability]
+cover: ./blackjack-lab.png
+status: "In progress"
+---
+
+A lab for learning to count cards properly and for doing blackjack research
+in the spirit of Edward Thorp: derive things, prove them by computation, and
+practise until they're automatic.
+
+It has three parts:
+
+- **Engine.** A small, tested blackjack engine. Rules are modelled precisely
+  (number of decks, S17/H17, DAS, doubling limits, splits, resplitting aces,
+  surrender, peek/ENHC, payout, penetration), and shoes are seeded so every
+  hand can be reproduced.
+- **Practice app.** A Qt6 desktop app with a basic strategy drill, graded
+  against rule-specific charts. Every hand is saved together with its exact
+  rules.
+- **Research notebooks.** Jupyter notebooks for the maths. The first project
+  is re-deriving basic strategy from scratch (see the
+  [blackjack notes](/notes/blackjack/)).
+
+## Status
+
+| Area | State |
+|---|---|
+| Engine (rules, shoe, round, history, simulation) | done, 500+ tests |
+| Basic strategy drill, rules, chart, session stats, hand history | done |
+| Counting, deviations, full table, simulator, analysis | planned |

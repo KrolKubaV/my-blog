@@ -1,412 +1,617 @@
-@import "tailwindcss";
+/* ==========================================================================
+   Fonts: Computer Modern (the LaTeX fonts), served from public/fonts/.
+   ========================================================================== */
 
-@font-face {
-  font-family: 'Latin Modern Roman';
-  font-style: normal;
-  font-weight: normal;
-  font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-regular.woff2') format('woff2'),
-       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-regular.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Latin Modern Roman';
-  font-style: italic;
-  font-weight: normal;
-  font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-italic.woff2') format('woff2'),
-       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-italic.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Latin Modern Roman';
-  font-style: normal;
-  font-weight: bold;
-  font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold.woff2') format('woff2'),
-       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold.otf') format('opentype');
-}
-@font-face {
-  font-family: 'Latin Modern Roman';
-  font-style: italic;
-  font-weight: bold;
-  font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold-italic.woff2') format('woff2'),
-       url('https://cdn.jsdelivr.net/gh/vincentdoerig/latex-css@master/fonts/LM-bold-italic.otf') format('opentype');
-}
+@font-face { font-family: 'CMU Serif'; font-weight: 400; font-style: normal; font-display: swap; src: url('/fonts/cmu-serif-500-roman.woff2') format('woff2'); }
+@font-face { font-family: 'CMU Serif'; font-weight: 400; font-style: italic; font-display: swap; src: url('/fonts/cmu-serif-500-italic.woff2') format('woff2'); }
+@font-face { font-family: 'CMU Serif'; font-weight: 700; font-style: normal; font-display: swap; src: url('/fonts/cmu-serif-700-roman.woff2') format('woff2'); }
+@font-face { font-family: 'CMU Serif'; font-weight: 700; font-style: italic; font-display: swap; src: url('/fonts/cmu-serif-700-italic.woff2') format('woff2'); }
+@font-face { font-family: 'CMU Typewriter Text'; font-weight: 400; font-style: normal; font-display: swap; src: url('/fonts/cmu-typewriter-text-500-roman.woff2') format('woff2'); }
+@font-face { font-family: 'CMU Typewriter Text'; font-weight: 400; font-style: italic; font-display: swap; src: url('/fonts/cmu-typewriter-text-500-italic.woff2') format('woff2'); }
+@font-face { font-family: 'CMU Typewriter Text'; font-weight: 700; font-style: normal; font-display: swap; src: url('/fonts/cmu-typewriter-text-700-roman.woff2') format('woff2'); }
 
-@theme {
-  --font-serif: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
-  --font-sans: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
-}
+/* ==========================================================================
+   Design tokens. Change the look of the whole site from here.
+   ========================================================================== */
 
-/* ---------- Color system ---------- */
 :root {
-  --color-bg: #ffffff;
-  --color-text: #374151;
-  --color-heading: #111827;
-  --color-link: #1a1a1a;
-  --color-accent: #1e3a5f;
-  --color-muted: #9ca3af;
-  --color-border: #e5e7eb;
-  --color-soft-border: #d1d5db;
-  --color-code-bg: #f3f4f6;
-  --color-pre-bg: #f9fafb;
-  --color-quote: #6b7280;
-  --color-details-bg: #fafafa;
-  --color-summary: #0d5e63;
-  --color-summary-hover-bg: #f0fdfa;
+  color-scheme: light;
 
-  --box-theorem-bg: #f0fdf4;
-  --box-theorem-border: #22c55e;
-  --box-theorem-title: #166534;
-  --box-definition-bg: #eff6ff;
-  --box-definition-border: #3b82f6;
-  --box-definition-title: #1e40af;
-  --box-remark-bg: #fef2f2;
-  --box-remark-border: #ef4444;
-  --box-remark-title: #991b1b;
-  --box-problem-bg: #f0fdfa;
-  --box-problem-border: #0d5e63;
-  --box-problem-title: #0d5e63;
+  /* One font everywhere: the LaTeX look. */
+  --font-sans: 'CMU Serif', 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+  --font-serif: var(--font-sans);
+  --font-mono: 'CMU Typewriter Text', 'Latin Modern Mono', ui-monospace, monospace;
+  --font-body: var(--font-serif);
+
+  --page: 46rem; /* width of the content column */
+
+  --bg: #ffffff;
+  --surface: #f7f8fa;
+  --surface-2: #eef0f3;
+  --border: #e4e6eb;
+  --border-strong: #d2d6dd;
+  --text: #2c3038;
+  --heading: #0e1116;
+  --muted: #5f6672;
+  --faint: #8c939e;
+  --accent: #2b59c3;
+  --accent-hover: #1e45a3;
+  --accent-soft: #edf2fd;
+  --chart: #2b59c3; /* chart marks; validated for contrast and lightness */
+  --on-chart: #ffffff;
+
+  /* Box colours (theorem, definition, ...) */
+  --blue: #2b59c3;
+  --green: #0b7a5c;
+  --amber: #a1650a;
+  --violet: #6a4cc2;
+  --rose: #c03a5a;
+
+  --radius: 12px;
+  --shadow: 0 1px 2px rgb(15 17 22 / 0.04), 0 4px 16px -4px rgb(15 17 22 / 0.08);
 }
 
-html.dark {
-  --color-bg: #15171c;
-  --color-text: #c9cdd4;
-  --color-heading: #eceef1;
-  --color-link: #d5d9df;
-  --color-accent: #8ab4f8;
-  --color-muted: #7b8290;
-  --color-border: #2a2e36;
-  --color-soft-border: #343943;
-  --color-code-bg: #232730;
-  --color-pre-bg: #1c1f26;
-  --color-quote: #99a1af;
-  --color-details-bg: #1c1f26;
-  --color-summary: #7dd3c8;
-  --color-summary-hover-bg: #1d2a2c;
+/* Dark mode. The theme button in the header sets data-theme; without a
+   choice it follows the operating system (see BaseLayout.astro). */
+:root[data-theme='dark'] {
+  color-scheme: dark;
 
-  --box-theorem-bg: #17251c;
-  --box-theorem-border: #2f7d4f;
-  --box-theorem-title: #86efac;
-  --box-definition-bg: #16202e;
-  --box-definition-border: #3b82f6;
-  --box-definition-title: #93c5fd;
-  --box-remark-bg: #2b1c1c;
-  --box-remark-border: #ef4444;
-  --box-remark-title: #fca5a5;
-  --box-problem-bg: #14262a;
-  --box-problem-border: #14b8a6;
-  --box-problem-title: #7dd3c8;
+  --bg: #0e1014;
+  --surface: #161a20;
+  --surface-2: #1c2129;
+  --border: #262b33;
+  --border-strong: #353b46;
+  --text: #c8cdd5;
+  --heading: #f2f4f7;
+  --muted: #98a0ad;
+  --faint: #6d7583;
+  --accent: #8eaeff;
+  --accent-hover: #b3c9ff;
+  --accent-soft: #18223a;
+  --chart: #6b8ff0;
+  --on-chart: #0e1014;
+
+  --blue: #8eaeff;
+  --green: #5ccfa6;
+  --amber: #eeb35c;
+  --violet: #b9a2ff;
+  --rose: #ff8aa4;
+
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px -6px rgb(0 0 0 / 0.5);
 }
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
-  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
-  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 2rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 body {
-  font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
-  line-height: 1.75;
-  font-weight: 400;
-  max-width: 880px;
+  margin: 0;
   min-height: 100vh;
-  overflow-x: hidden;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
-  color: var(--color-text);
-  background: var(--color-bg);
-  text-rendering: optimizeLegibility;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Typography */
-p {
-  margin-top: 0.75rem;
+.page {
+  width: 100%;
+  max-width: calc(var(--page) + 3rem);
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
+
+main.page {
+  flex: 1;
+  padding-top: 3.5rem;
+  padding-bottom: 5rem;
+}
+
+img, svg, video { max-width: 100%; height: auto; display: block; }
 
 a {
-  color: var(--color-link);
+  color: var(--accent);
   text-decoration: none;
-  transition: color 0.15s;
 }
-a:hover {
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
+a:hover { color: var(--accent-hover); }
 
-h1 {
-  font-size: 2.25rem;
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  color: var(--color-heading);
-}
-
-h2 {
-  font-size: 1.5rem;
-  line-height: 1.3;
-  font-weight: 700;
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--color-heading);
-}
-
-h3 {
-  font-size: 1.2rem;
-  line-height: 1.4;
-  font-weight: 700;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-heading);
-}
-
-h4 {
-  font-size: 1.05rem;
-  line-height: 1.5;
-  font-weight: 700;
-  margin-top: 1.75rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-heading);
-}
-
-/* Lists */
-article ul, article ol {
-  padding-left: 1.25rem;
-  margin-top: 0.5rem;
-}
-
-article li {
-  margin-top: 0.25rem;
-}
-
-article li::marker {
-  color: var(--color-muted);
-}
-
-/* Code */
-code {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 82%;
-  background: var(--color-code-bg);
-  padding: 0.15em 0.35em;
-  border-radius: 3px;
-}
-
-pre {
-  margin-top: 1.25rem;
-  padding: 1.25rem 1.5rem;
-  background: var(--color-pre-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  overflow-x: auto;
-}
-
-pre code {
-  background: none;
-  padding: 0;
-  font-size: 85%;
-  line-height: 1.6;
-}
-
-/* Blockquote */
-blockquote {
-  border-left: 3px solid var(--color-soft-border);
-  margin-left: 0;
-  margin-top: 1rem;
-  padding-left: 1rem;
-  color: var(--color-quote);
-  font-style: italic;
-}
-
-hr {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: 2rem 0;
-}
-
-/* Math display */
-.math-display {
-  margin: 1.5em 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  text-align: center;
-}
-
-/* Article spacing */
-article > * + * {
-  margin-top: 1em;
-}
-
-/* Auto-numbered boxes */
-article {
-  counter-reset: theorem definition remark problem section;
-}
-
-article h2 {
-  counter-increment: section;
-}
-
-article h2::before {
-  content: counter(section) ". ";
-  color: var(--color-heading);
-  font-weight: 700;
-}
-
-.box.theorem {
-  counter-increment: theorem;
-}
-
-.box.theorem .box-title::before {
-  content: "Theorem " counter(theorem) " \2014  ";
-  font-style: italic;
-}
-
-.box.definition {
-  counter-increment: definition;
-}
-
-.box.definition .box-title::before {
-  content: "Definition " counter(definition) " \2014  ";
-  font-style: italic;
-}
-
-.box.remark {
-  counter-increment: remark;
-}
-
-.box.remark .box-title::before {
-  content: "Remark " counter(remark) " \2014  ";
-  font-style: italic;
-}
-
-.box.problem {
-  counter-increment: problem;
-}
-.box.problem.unnumbered {
-  counter-increment: none;
-}
-
-.box.problem .box-title::before {
-  content: "Problem " counter(problem) " ";
-  font-style: italic;
-}
-.box.problem.unnumbered .box-title::before {
-  content: "Problem ";
-}
-
-/* Collapsible solutions */
-details {
-  margin: 1.5rem 0;
-  border: 1px solid var(--color-soft-border);
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
   border-radius: 4px;
-  background: var(--color-details-bg);
 }
 
-details summary {
-  cursor: pointer;
-  padding: 0.75rem 1rem;
+h1, h2, h3, h4 {
+  font-family: var(--font-sans);
+  color: var(--heading);
+  line-height: 1.25;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p, ul, ol, figure, blockquote, table, pre { margin: 0; }
+
+::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+/* ==========================================================================
+   Shared UI pieces
+   ========================================================================== */
+
+.page-title {
+  font-size: clamp(2rem, 5vw, 2.6rem);
   font-weight: 700;
-  color: var(--color-summary);
-  font-style: italic;
-  border-radius: 4px;
-  transition: background 0.15s;
+  line-height: 1.12;
 }
 
-details summary:hover {
-  background: var(--color-summary-hover-bg);
+.page-intro {
+  margin-top: 0.75rem;
+  font-size: 1.125rem;
+  color: var(--muted);
+  max-width: 38rem;
 }
 
-details[open] summary {
-  border-bottom: 1px solid var(--color-soft-border);
-  margin-bottom: 0;
-}
-
-details > :not(summary) {
-  padding: 1rem 1.25rem;
-}
-
-/* Restore base KaTeX size to 1em */
-.katex {
-  font-size: 1em;
-}
-.katex-display > .katex {
-  font-size: 1em;
-}
-/* Make subscripts/superscripts smaller (default is 0.7em) */
-.katex .sizing.reset-size6.size3 {
-  font-size: 0.62em;
-}
-
-/* ---------- Prev / next navigation ---------- */
-.prev-next {
+.section-heading {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 3rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--color-border);
-}
-.prev-next a {
-  max-width: 48%;
-}
-.prev-next .next {
-  margin-left: auto;
-  text-align: right;
-}
-.prev-next .label {
-  display: block;
+  margin: 3.5rem 0 1rem;
   font-size: 0.8rem;
-  color: var(--color-muted);
-  font-style: italic;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
 }
-.prev-next .title {
-  font-weight: 700;
+.section-heading a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
-/* ---------- Table of contents ---------- */
-.toc {
-  position: fixed;
-  top: 8rem;
-  left: calc(50% + 480px);
-  width: 260px;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  display: none;
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--faint);
 }
-@media (min-width: 1520px) {
-  .toc.has-entries { display: block; }
+.crumbs a { color: var(--muted); }
+.crumbs a:hover { color: var(--accent); }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--surface-2);
+  white-space: nowrap;
 }
-.toc .toc-title {
-  font-weight: 700;
-  font-style: italic;
-  color: var(--color-heading);
-  margin-bottom: 0.5rem;
+a.tag:hover { color: var(--heading); background: var(--border); }
+.tag.active { color: var(--bg); background: var(--heading); }
+.tag .count { margin-left: 0.35rem; opacity: 0.6; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 12%, transparent);
 }
-.toc ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.badge.draft { color: var(--rose); background: color-mix(in srgb, var(--rose) 12%, transparent); }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 2.25rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--heading);
+  background: var(--bg);
+  transition: border-color 0.15s, background 0.15s;
 }
-.toc ul ul {
-  padding-left: 0.9rem;
+.button:hover { color: var(--heading); border-color: var(--faint); background: var(--surface); }
+.button.primary { color: var(--bg); background: var(--heading); border-color: var(--heading); }
+.button.primary:hover { color: var(--bg); opacity: 0.88; }
+.button svg { width: 1rem; height: 1rem; }
+
+.progress {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
 }
-.toc a {
+.progress > span {
   display: block;
-  padding: 0.18rem 0;
-  color: var(--color-muted);
-  border-left: 2px solid transparent;
-  padding-left: 0.6rem;
-}
-.toc a:hover {
-  color: var(--color-accent);
-  text-decoration: none;
-}
-.toc a.active {
-  color: var(--color-accent);
-  border-left-color: var(--color-accent);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
 }
 
+.card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+a.card:hover {
+  color: inherit;
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Article text (everything written in .mdx files)
+   ========================================================================== */
+
+.prose {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text);
+  counter-reset: theorem definition example remark problem h2;
+}
+@media (max-width: 40rem) {
+  .prose { font-size: 1.075rem; }
+}
+
+.prose > * + *,
+.prose .box-body > * + *,
+.prose .reveal-body > * + *,
+.prose li > * + * { margin-top: 1.1em; }
+
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose a:hover { text-decoration-color: currentColor; }
+
+.prose strong { color: var(--heading); font-weight: 650; }
+
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: 650;
+  margin-top: 2.6em;
+  margin-bottom: -0.2em;
+}
+.prose h3 {
+  font-size: 1.2rem;
+  font-weight: 650;
+  margin-top: 2em;
+  margin-bottom: -0.3em;
+}
+.prose h4 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin-top: 1.6em;
+}
+.prose > :first-child { margin-top: 0; }
+
+/* Notes number their sections like lecture notes: "1. Introduction". */
+.prose.numbered h2 { counter-increment: h2; }
+.prose.numbered h2::before {
+  content: counter(h2) '.';
+  margin-right: 0.5em;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose ul, .prose ol { padding-left: 1.4em; }
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li { margin-top: 0.35em; padding-left: 0.2em; }
+.prose li::marker { color: var(--faint); }
+
+.prose blockquote {
+  padding-left: 1.1em;
+  border-left: 3px solid var(--border-strong);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.prose hr {
+  border: 0;
+  height: 1px;
+  margin: 2.5em 0;
+  background: var(--border);
+}
+
+.prose img { border-radius: 10px; margin-inline: auto; }
+.prose figcaption {
+  margin-top: 0.6rem;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Inline `code` */
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  background: var(--surface-2);
+  color: var(--heading);
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  overflow-x: auto;
+}
+.prose th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--heading);
+  border-bottom: 1.5px solid var(--border-strong);
+}
+.prose th, .prose td { padding: 0.55rem 1rem 0.55rem 0; }
+.prose td { border-bottom: 1px solid var(--border); }
+
+/* ---------- Math (KaTeX) ---------- */
+
+.katex { font-size: 1em; } /* same size as the text, like LaTeX */
+.katex-display {
+  margin: 1em 0;
+  padding: 0.2em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.katex-display > .katex { font-size: 1em; }
+.prose .katex-display:last-child { margin-bottom: 0; }
+
+/* ---------- Theorem / Definition / Example / Remark / Problem boxes ---------- */
+
+.box {
+  --hue: var(--blue);
+  position: relative;
+  padding: 1.05rem 1.3rem 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--hue) 22%, var(--border));
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--hue) 4.5%, var(--bg));
+}
+.prose .box { margin-top: 1.6em; }
+.prose .box + * { margin-top: 1.6em; }
+
+.box-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.6rem;
+  margin-bottom: 0.45rem;
+  font-family: var(--font-sans);
+  line-height: 1.4;
+}
+.box-kind {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--hue);
+}
+.box-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.box.theorem { --hue: var(--blue); counter-increment: theorem; }
+.box.definition { --hue: var(--green); counter-increment: definition; }
+.box.example { --hue: var(--violet); counter-increment: example; }
+.box.remark { --hue: var(--amber); }
+.box.problem { --hue: var(--violet); counter-increment: problem; }
+.box.problem.unnumbered { counter-increment: none; }
+
+.box.theorem .box-kind[data-numbered]::after { content: ' ' counter(theorem); }
+.box.definition .box-kind[data-numbered]::after { content: ' ' counter(definition); }
+.box.example .box-kind[data-numbered]::after { content: ' ' counter(example); }
+.box.problem:not(.unnumbered) .box-kind[data-numbered]::after { content: ' ' counter(problem); }
+
+.box-body > :first-child { margin-top: 0; }
+
+/* Proof: "Proof." ... ∎ */
+.proof-label {
+  float: left;
+  margin-right: 0.4em;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--heading);
+}
+.proof > * + * { margin-top: 1.1em; }
+.proof > .proof-label + * { margin-top: 0; }
+.proof > :last-child::after {
+  content: '\220E';
+  float: right;
+  margin-left: 1rem;
+  color: var(--muted);
+}
+
+/* ---------- Show/hide solutions and hints ---------- */
+
+.reveal {
+  --hue: var(--accent);
+  margin-top: 1.6em;
+  font-family: var(--font-body);
+}
+.prose .box + .reveal,
+.prose .box + .reveal-empty { margin-top: 0.75rem; }
+
+.reveal > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.1rem;
+  padding: 0 0.95rem 0 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 550;
+  color: var(--heading);
+  background: var(--bg);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.reveal > summary::-webkit-details-marker { display: none; }
+.reveal > summary:hover { background: var(--surface); border-color: var(--faint); }
+.reveal > summary .chevron {
+  width: 1rem;
+  height: 1rem;
+  color: var(--muted);
+  transition: transform 0.25s ease;
+}
+.reveal[open] > summary .chevron { transform: rotate(90deg); }
+.reveal .when-open { display: none; }
+.reveal[open] .when-open { display: inline; }
+.reveal[open] .when-closed { display: none; }
+
+.reveal-body {
+  margin-top: 0.9rem;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  border-left: 2px solid color-mix(in srgb, var(--hue) 45%, transparent);
+}
+.reveal-body > :first-child { margin-top: 0; }
+
+/* Smooth open/close where the browser supports it; instant elsewhere. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (interpolate-size: allow-keywords) {
+    .reveal { interpolate-size: allow-keywords; }
+    .reveal::details-content {
+      height: 0;
+      opacity: 0;
+      overflow: clip;
+      transition: height 0.35s ease, opacity 0.35s ease, content-visibility 0.35s allow-discrete;
+    }
+    .reveal[open]::details-content { height: auto; opacity: 1; }
+  }
+}
+
+.reveal-empty {
+  display: inline-flex;
+  align-items: center;
+  height: 2.1rem;
+  padding: 0 0.95rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--faint);
+}
+
+/* ---------- Code blocks (Expressive Code) ---------- */
+
+.prose .expressive-code { margin-top: 1.4em; font-size: 1rem; }
+
+/* Jupyter-style cells: ```python in  /  ```text out */
+.prose .expressive-code:has(.nb-cell) { position: relative; }
+.expressive-code .nb-prompt {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+  user-select: none;
+}
+.expressive-code .nb-in .nb-prompt { color: var(--blue); }
+.expressive-code .nb-out .nb-prompt { color: var(--rose); }
+.prose .expressive-code:has(.nb-out) { margin-top: 0.75rem; }
+.expressive-code .frame.nb-out pre {
+  background: transparent !important;
+  border-style: dashed !important;
+}
+/* Wide screens: prompts hang in the margin, like a notebook. */
+@media (min-width: 72rem) {
+  .expressive-code .nb-prompt {
+    position: absolute;
+    right: calc(100% + 0.9rem);
+    top: 1.15rem;
+    margin: 0;
+    white-space: pre;
+  }
+}
+
+/* ==========================================================================
+   Lists of posts
+   ========================================================================== */
+
+.post-list { list-style: none; padding: 0; }
+.post-list > li + li { border-top: 1px solid var(--border); }
+
+.post-link {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 1.05rem 0;
+  color: inherit;
+}
+.post-link:hover { color: inherit; }
+.post-link .num {
+  flex: none;
+  width: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.post-link .main { flex: 1; min-width: 0; }
+.post-link .title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--heading);
+  transition: color 0.15s;
+}
+.post-link:hover .title { color: var(--accent); }
+.post-link .desc {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.925rem;
+  color: var(--muted);
+}
+.post-link .tags { margin-top: 0.5rem; }
+.post-link .meta {
+  flex: none;
+  font-size: 0.85rem;
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

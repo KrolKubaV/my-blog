@@ -1,0 +1,5 @@
+---
+import Box from './Box.astro';
+const { title, numbered } = Astro.props;
+---
+<Box kind="definition" label="Definition" title={title} numbered={numbered}><slot /></Box>

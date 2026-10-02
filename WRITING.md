@@ -1,143 +1,74 @@
 # Writing guide
 
-How to add and structure content on the blog. Everything here is Markdown/MDX
-in `src/content/` — push to deploy.
-
-## Adding a post
+## Add something
 
 ```bash
-bash new-post.sh        # asks section, subsection, title; creates the file
+npm run new
 ```
 
-The file is created from a template in `templates/` (imports and skeleton
-already filled in) and lands at `src/content/<section>/<subsection>/<slug>.mdx`.
-The slug comes from the title, and it is the article's URL.
+Pick **Project**, **Note**, **Puzzle**, **Other post** or **Solved Project
+Euler problem**, answer two or three questions, and the file is created (and
+opened in VS Code). Then:
 
-## Frontmatter
+```bash
+npm run dev        # preview at http://localhost:4321, refreshes as you type
+git add -A && git commit -m "new post" && git push    # save to GitHub
+```
+
+The live site is switched off for now, so pushing does not publish anything.
+To switch it back on, set `SITE_ONLINE: 'true'` in
+`.github/workflows/deploy.yml` and push.
+
+That's all. Nothing needs registering anywhere.
+
+## Where things live
+
+```
+src/content/
+  projects/   blackjack-lab.mdx  blackjack-lab.png   ← picture next to the post
+  notes/      blackjack/different-rules.mdx           ← folder = topic
+  puzzles/    imo-2026.mdx                            ← grouped by tags
+  other/      my-running-routes.mdx
+src/data/project-euler.txt                            ← solved PE problems
+src/config.ts                                         ← your name, links, topic names
+```
+
+## The top of a post
 
 ```yaml
 ---
-title: "My Post"            # required — shown everywhere
-description: "One-liner"    # optional — SEO / link previews only
-subsection: "blackjack"     # optional (notes/puzzles) — must exist in config.ts
-draft: true                 # optional — hides the post from all listings
+title: "IMO 2026"                    # the only required line
+description: "One line"              # shown in lists
+date: 2026-07-26                     # filled in for you; only used for ordering, never shown
+tags: [Math Olympiad, IMO]           # puzzles & projects; new tags just work
+draft: true                          # optional: only visible on your computer
 ---
 ```
 
-No dates needed anywhere.
+Projects can also have `cover: ./photo.jpg`, `repo: https://...` (source
+code), `link: https://...` (demo/video) and `status: "In progress"`.
 
-## Ordering articles
+## Writing
 
-Article order is controlled centrally in `POST_ORDER` at the bottom of
-`src/config.ts`, not in each post:
+Open the **Style Guide** post locally (http://localhost:4321/other/style-guide/)
+for every building block with code to copy. The short version:
 
-```ts
-'notes/blackjack': ['resources', 'different-rules', 'deriving-basic-strategy'],
-```
+| You want | Type |
+|---|---|
+| Maths | `$x^2$` inline, `$$ ... $$` on its own line |
+| Theorem, Lemma, Definition, Example, Remark | `<Theorem title="Name"> ... </Theorem>` |
+| Proof (ends with ∎) | `<Proof> ... </Proof>` |
+| Puzzle statement | `<Problem> ... </Problem>` (`numbered={false}` for a single one) |
+| Hidden solution / hint | `<Solution> ... </Solution>`, `<Hint> ... </Hint>` |
+| Notebook cell | ```` ```python in ```` then ```` ```text out ```` |
 
-List slugs in the order you want them displayed. Anything not listed appears
-after the listed ones. New sections are added to `SECTIONS` in the same file
-(order of the array = order on the site).
+In VS Code, type `thm`, `def`, `proof`, `prob`, `sol`, `hint`, `cell` or
+`$$` and press Tab.
 
-## Math
+## Small changes
 
-Inline math `$p(1 + b)$`, display math:
-
-```latex
-$$f^* = \frac{bp - q}{b}$$
-```
-
-## Boxes: theorem, definition, remark
-
-One import at the top of the post gives you all the boxes:
-
-```mdx
-import { Definition, Problem, Remark, Theorem } from '@components/boxes';
-```
-
-Then use them like quotes with a title:
-
-```mdx
-<Definition title="Setup">
-Consider a gamble with probability $p$ of winning.
-</Definition>
-
-<Theorem title="Kelly Fraction">
-The optimal fraction is $f^* = \frac{bp - q}{b}$.
-</Theorem>
-
-<Remark>
-This assumes an infinite bankroll.
-</Remark>
-```
-
-All three accept an optional `title`. `Problem` is for puzzle statements.
-
-## Puzzles
-
-Start a puzzle post with the statement inside the `Problem` box:
-
-```mdx
-import Problem from '../../../components/Problem.astro';
-
-<Problem title="Dropped Coin">
-A coin is dropped ...
-</Problem>
-```
-
-Then put your reasoning below under a `## Solution` heading. For a step-by-step
-reveal use HTML details:
-
-```mdx
-<details>
-<summary>Hint 1</summary>
-Think about parity.
-</details>
-```
-
-## Code / fake Jupyter notebook cells
-
-Fenced code blocks work out of the box. To make one look like a notebook cell,
-give it a cell-style title:
-
-````mdx
-```python title="In [1]"
-cards = [2, 3, 4, 5, 6, 7, 8, 9, 10] + [10, 10, 10]
-
-def p_bust(hard_total):
-    return sum(c > 21 - hard_total for c in cards) / len(cards)
-```
-````
-
-Show output in its own block:
-
-````mdx
-```text title="Out [1]"
-hard 16: p(bust) = 0.615
-```
-````
-
-See `src/content/notes/blackjack/deriving-basic-strategy.mdx` for a live example.
-
-## Project Euler
-
-Append one line per solved problem to `src/data/project-euler.txt`
-(or run `bash new-solved.sh`):
-
-```
-123: 2026-08-21 14:00:00,
-```
-
-## Workflow
-
-1. `npm run dev` → http://localhost:4321 (auto-reloads as you edit)
-2. Write, preview, repeat
-3. `git add -A && git commit -m "..." && git push` — push deploys
-
-## Site features (no work needed, good to know)
-
-- **Dark mode** — follows your OS light/dark setting automatically.
-- **Prev/next links** — appear automatically at the end of every article,
-  following your `POST_ORDER`.
-- **Table of contents** — appears beside long articles on wide screens.
-- **RSS** — available at `/rss.xml`.
+- **Order of notes in a topic:** `NOTE_ORDER` in `src/config.ts`.
+- **Topic names and descriptions:** `NOTE_TOPICS` in `src/config.ts`.
+- **Homepage text:** `src/pages/index.astro`.
+- **Colours and fonts:** the top of `src/styles/global.css`.
+- **Footer links (email etc.):** `LINKS` in `src/config.ts`.

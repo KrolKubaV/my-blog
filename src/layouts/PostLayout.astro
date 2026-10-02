@@ -1,0 +1,76 @@
+---
+// The page around every post: breadcrumbs, title, date/tags, the text,
+// a table of contents on wide screens and previous/next links.
+import { render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import PrevNext from '../components/PrevNext.astro';
+import Toc from '../components/Toc.astro';
+import { mdxComponents } from '../components/mdx';
+import { postUrl, slugify, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+  crumbs: { label: string; href: string }[];
+  prev?: Post;
+  next?: Post;
+  numbered?: boolean; // number the ## headings (used for notes)
+  tagBase?: string; // make tags links, e.g. "/puzzles/tag/"
+  status?: string; // small badge next to the date, e.g. "In progress"
+}
+
+const { post, crumbs, prev, next, numbered = false, tagBase, status } = Astro.props;
+const { title, description, tags, draft } = post.data;
+const { Content, headings } = await render(post);
+const link = (p?: Post) => p && { title: p.data.title, href: postUrl(p) };
+---
+<BaseLayout title={title} description={description}>
+  <article class="post">
+    <header>
+      <nav class="crumbs" aria-label="Breadcrumbs">
+        {crumbs.map((c, i) => (
+          <>
+            {i > 0 && <span aria-hidden="true">/</span>}
+            <a href={c.href}>{c.label}</a>
+          </>
+        ))}
+      </nav>
+      <h1 class="page-title">{title}</h1>
+      {description && <p class="page-intro">{description}</p>}
+      {(tags.length > 0 || draft || status) && (
+        <div class="meta">
+          {draft && <span class="badge draft">Draft (only visible locally)</span>}
+          {status && <span class="badge">{status}</span>}
+          {tags.length > 0 && (
+            <span class="tags">
+              {tags.map(t => tagBase ? <a class="tag" href={`${tagBase}${slugify(t)}/`}>{t}</a> : <span class="tag">{t}</span>)}
+            </span>
+          )}
+        </div>
+      )}
+      <slot name="header" />
+    </header>
+    <div class:list={['prose', { numbered }]}>
+      <Content components={mdxComponents} />
+    </div>
+    <Toc headings={headings} />
+  </article>
+  <PrevNext prev={link(prev)} next={link(next)} />
+</BaseLayout>
+
+<style>
+  .post {
+    position: relative;
+  }
+  header {
+    margin-bottom: 2.75rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--faint);
+  }
+</style>

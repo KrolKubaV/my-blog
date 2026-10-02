@@ -1,40 +1,32 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
-const notes = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/notes' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    pubDate: z.coerce.date().optional(),
-    updatedDate: z.coerce.date().optional(),
-    subsection: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
+// Every post has the same few fields. Only `title` is required.
+const common = {
+  title: z.string(),
+  description: z.string().optional(), // one line, shown in lists and link previews
+  date: z.coerce.date().optional(), // when it was added; `npm run new` fills it in
+  tags: z.array(z.string()).default([]),
+  draft: z.boolean().default(false), // visible locally, hidden on the live site
+};
+
+const posts = (folder: string) => glob({ pattern: '**/*.{md,mdx}', base: `./src/content/${folder}` });
+
+const projects = defineCollection({
+  loader: posts('projects'),
+  schema: ({ image }) =>
+    z.object({
+      ...common,
+      cover: image().optional(), // a picture next to the .mdx file, e.g. ./cover.png
+      repo: z.url().optional(), // source code link
+      link: z.url().optional(), // live demo / video / shop page
+      status: z.string().optional(), // e.g. "In progress"
+    }),
 });
 
-const puzzles = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/puzzles' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    pubDate: z.coerce.date().optional(),
-    updatedDate: z.coerce.date().optional(),
-    subsection: z.string().optional(),
-    subcategory: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
+const notes = defineCollection({ loader: posts('notes'), schema: z.object(common) });
+const puzzles = defineCollection({ loader: posts('puzzles'), schema: z.object(common) });
+const other = defineCollection({ loader: posts('other'), schema: z.object(common) });
 
-const misc = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/misc' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    pubDate: z.coerce.date().optional(),
-    updatedDate: z.coerce.date().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
-
-export const collections = { notes, puzzles, misc };
+export const collections = { projects, notes, puzzles, other };

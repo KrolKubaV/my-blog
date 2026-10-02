@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { getTopics, type Topic } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  const topics = await getTopics();
+  return topics.map(topic => ({ params: { topic: topic.slug }, props: { topic } }));
+}
+
+const { topic } = Astro.props as { topic: Topic };
+---
+<BaseLayout title={topic.label} description={topic.description}>
+  <nav class="crumbs" aria-label="Breadcrumbs"><a href="/notes/">Notes</a></nav>
+  <h1 class="page-title">{topic.label}</h1>
+  {topic.description && <p class="page-intro">{topic.description}</p>}
+
+  <div class="list">
+    <PostList posts={topic.notes} numbered />
+  </div>
+</BaseLayout>
+
+<style>
+  .list {
+    margin-top: 2rem;
+  }
+</style>

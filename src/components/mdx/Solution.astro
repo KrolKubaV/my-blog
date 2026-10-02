@@ -1,0 +1,22 @@
+---
+// A "Show solution" button that reveals its content. With nothing inside,
+// it shows a quiet "Solution coming soon" instead of an empty toggle.
+interface Props {
+  label?: string;
+}
+const { label = 'solution' } = Astro.props;
+const html = Astro.slots.has('default') ? (await Astro.slots.render('default')).trim() : '';
+const capitalised = label.charAt(0).toUpperCase() + label.slice(1);
+---
+{html ? (
+  <details class="reveal">
+    <summary>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+      <span class="when-closed">Show {label}</span>
+      <span class="when-open">Hide {label}</span>
+    </summary>
+    <div class="reveal-body"><Fragment set:html={html} /></div>
+  </details>
+) : (
+  <p class="reveal-empty">{capitalised} coming soon</p>
+)}

@@ -2,8 +2,28 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../config';
 ---
-<BaseLayout title={SITE.title} description={SITE.description}>
-  <p>
-    I'm Jakub Adamek. I write about mathematics, probability, casino games, puzzles, and other things that interest me.
-  </p>
+<BaseLayout description={SITE.description}>
+  <section class="hero">
+    <h1 class="page-title">Hi, I'm Jakub.</h1>
+    <p class="lead">
+      I write about mathematics, probability, casino games, puzzles, and other
+      things that interest me.
+    </p>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding: 1.5rem 0 0.5rem;
+  }
+  .hero .page-title {
+    font-size: clamp(2.25rem, 6vw, 3.1rem);
+  }
+  .lead {
+    margin-top: 1rem;
+    max-width: 36rem;
+    font-size: 1.25rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+</style>

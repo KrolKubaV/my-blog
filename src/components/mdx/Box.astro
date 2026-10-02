@@ -1,0 +1,17 @@
+---
+// The shared look of Theorem, Definition, Example, Remark and Problem.
+interface Props {
+  kind: string; // css class: colour and which counter to use
+  label: string; // "Theorem", "Lemma", ...
+  title?: string;
+  numbered?: boolean;
+}
+const { kind, label, title, numbered = true } = Astro.props;
+---
+<div class:list={['box', kind, { unnumbered: !numbered }]}>
+  <div class="box-head">
+    <span class="box-kind" data-numbered={numbered ? '' : undefined}>{label}</span>
+    {title && <span class="box-title">{title}</span>}
+  </div>
+  <div class="box-body"><slot /></div>
+</div>
