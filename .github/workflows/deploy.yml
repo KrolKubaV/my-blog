@@ -1,5 +1,10 @@
 name: Deploy to GitHub Pages
 
+# The site is OFFLINE for now: every push publishes only the small page in
+# offline/. To put the real site back online, change SITE_ONLINE to 'true'.
+env:
+  SITE_ONLINE: 'false'
+
 on:
   push:
     branches: [master]
@@ -21,14 +26,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node
+        if: env.SITE_ONLINE == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
+      - name: Build the site
+        if: env.SITE_ONLINE == 'true'
+        run: npm ci && npm run build
+      - name: Use the offline page instead
+        if: env.SITE_ONLINE != 'true'
+        run: mkdir -p dist && cp offline/* dist/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
