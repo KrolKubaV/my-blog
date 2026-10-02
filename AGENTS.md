@@ -6,12 +6,11 @@ deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to
 step-by-step guide is [TUTORIAL.md](TUTORIAL.md), written for a non-developer.
 Keep it in sync with any change to how content is added.
 
-> **The live site is OFFLINE (since 2026-10-02).** Pushes publish only
-> `offline/index.html` ("This site is offline for now"). Work happens locally
-> (`npm run dev`). To go live again, set `SITE_ONLINE: 'true'` in
-> `.github/workflows/deploy.yml`, but only when the owner asks. The GitHub repo
-> itself is still public. Making it private is a GitHub settings change only
-> the owner can make; on a free plan that also turns Pages off.
+> **The site is LIVE at jadamek.com (again since 2026-10-02):** every push to
+> `master` publishes it, so drafts (`draft: true`) are the way to keep
+> unfinished work off it. `SITE_ONLINE: 'false'` in
+> `.github/workflows/deploy.yml` takes it offline (publishes only
+> `offline/index.html`); flip it only when the owner asks.
 
 ## Owner decisions (follow these)
 
@@ -147,11 +146,11 @@ dev server shows stale styles or deleted posts, run `npx astro dev stop`,
   tokens; shared PE module, slugify and scroll-spy; puzzles heading lives in
   PuzzleBrowser. Fixed: `numbered={false}` theorems no longer skip a number;
   on phones a section jump no longer hides the heading under the Contents bar.
-  Checked by pixel-diffing 100 screenshots before/after. Not committed.
+  Checked by pixel-diffing 100 screenshots before/after. Pushed as 91f2187.
+- **2026-10-02, live:** owner asked to publish; `SITE_ONLINE: 'true'`.
 
 ## Next / open
 
 - Owner will rewrite the homepage (bio, maybe photo, links).
 - Real Arduboy project details and picture; real Resources notes.
 - Blackjack repo is private, so the project page has no source link (owner's call).
-- Going live again: flip `SITE_ONLINE`, push, check jadamek.com.

@@ -374,11 +374,13 @@ git push
 
 The text in quotes is a short note to yourself about what you changed.
 
-**The live website is switched off for now**, so pushing only saves your work
-on GitHub. When you want the site back online, open
-`.github/workflows/deploy.yml`, change `SITE_ONLINE: 'false'` to
-`SITE_ONLINE: 'true'`, and push. After a couple of minutes it's live at
-jadamek.com.
+**Pushing publishes.** A couple of minutes after `git push`, your changes are
+live at jadamek.com. Anything marked `draft: true` stays off the website (see
+section 8), so that's how to save unfinished work safely.
+
+To take the whole website offline (it then shows only "This site is offline
+for now"), open `.github/workflows/deploy.yml`, change `SITE_ONLINE: 'true'`
+to `SITE_ONLINE: 'false'`, and push. Change it back to bring the site back.
 
 ---
 

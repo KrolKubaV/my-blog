@@ -1,9 +1,10 @@
 name: Deploy to GitHub Pages
 
-# The site is OFFLINE for now: every push publishes only the small page in
-# offline/. To put the real site back online, change SITE_ONLINE to 'true'.
+# Every push to master builds the site and publishes it at jadamek.com.
+# To take it offline (publish only the small page in offline/), change
+# SITE_ONLINE to 'false'.
 env:
-  SITE_ONLINE: 'false'
+  SITE_ONLINE: 'true'
 
 on:
   push:
