@@ -2,11 +2,6 @@
 //
 //   ```python in        → "In [1]:"  (numbered automatically per page)
 //   ```text out         → "Out [1]:" (takes the number of the last In cell)
-//
-// The older `title="In [3]"` / `title="Out [3]"` form still works and keeps
-// its explicit number.
-
-const PROMPT = /^(in|out)\s*(?:\[\s*(\d*)\s*\])?\s*:?$/i;
 
 export function notebookCells() {
   const cells = new WeakMap(); // code block → { kind, label }
@@ -16,25 +11,13 @@ export function notebookCells() {
     name: 'notebook-cells',
     hooks: {
       preprocessMetadata({ codeBlock }) {
-        const match = PROMPT.exec((codeBlock.props.title ?? '').trim());
-        let kind = match?.[1].toLowerCase();
-        const explicit = match?.[2];
-        if (!kind) {
-          if (codeBlock.metaOptions.getBoolean('in')) kind = 'in';
-          else if (codeBlock.metaOptions.getBoolean('out')) kind = 'out';
-          else return;
-        }
+        const kind = ['in', 'out'].find(k => codeBlock.metaOptions.getBoolean(k));
+        if (!kind) return;
 
-        const page = codeBlock.parentDocument?.documentRoot ?? cells;
+        const page = codeBlock.parentDocument?.documentRoot ?? cells; // (no page: one shared count)
         let n = counters.get(page) ?? 0;
-        if (kind === 'in') {
-          n = explicit ? Number(explicit) : n + 1;
-          counters.set(page, n);
-        }
-        const number = explicit || (n > 0 ? String(n) : ' ');
-        cells.set(codeBlock, { kind, label: `${kind === 'in' ? 'In' : 'Out'} [${number}]:` });
-
-        codeBlock.props.title = '';
+        if (kind === 'in') counters.set(page, ++n);
+        cells.set(codeBlock, { kind, label: `${kind === 'in' ? 'In' : 'Out'} [${n || ' '}]:` });
         codeBlock.props.frame = 'none';
       },
 

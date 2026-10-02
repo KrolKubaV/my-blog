@@ -1,0 +1,93 @@
+---
+// The notes of a topic, numbered; the current one also lists its sections.
+// Shown twice by NoteNav: in the sidebar and in the phone "Contents" bar.
+import type { MarkdownHeading } from 'astro';
+import { postUrl, type Topic } from '../lib/posts';
+
+interface Props {
+  topic: Topic;
+  currentId: string;
+  headings: MarkdownHeading[];
+}
+
+const { topic, currentId, headings } = Astro.props;
+const sections = headings.filter(h => h.depth === 2);
+---
+<ol class="chapters">
+  {topic.notes.map((note, i) => {
+    const current = note.id === currentId;
+    return (
+      <li class:list={{ current }}>
+        <a href={postUrl(note)} aria-current={current ? 'page' : undefined}>
+          <span class="n">{i + 1}</span>{note.data.title}
+          {note.data.draft && <span class="badge draft">Draft</span>}
+        </a>
+        {current && sections.length > 0 && (
+          <ol class="sections">
+            {sections.map((h, j) => <li><a href={`#${h.slug}`}>{j + 1}. {h.text}</a></li>)}
+          </ol>
+        )}
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .chapters,
+  .sections {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .chapters > li + li {
+    margin-top: 0.15rem;
+  }
+  .chapters > li > a {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    padding: 0.35rem 0.6rem;
+    border-radius: 8px;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .chapters > li > a:hover {
+    color: var(--heading);
+    background: var(--surface);
+  }
+  .chapters > li.current > a {
+    color: var(--heading);
+    font-weight: 700;
+    background: var(--surface-2);
+  }
+  .n {
+    flex: none;
+    min-width: 1rem;
+    color: var(--faint);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+  .badge {
+    margin-left: auto;
+  }
+  .sections {
+    margin: 0.35rem 0 0.5rem 1.4rem;
+    border-left: 1px solid var(--border);
+  }
+  .sections a {
+    display: block;
+    margin-left: -1px;
+    padding: 0.25rem 0 0.25rem 0.8rem;
+    border-left: 1px solid transparent;
+    font-size: 0.92em;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .sections a:hover {
+    color: var(--heading);
+  }
+  .sections a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+</style>

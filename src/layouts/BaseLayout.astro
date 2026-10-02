@@ -8,9 +8,10 @@ import { SITE } from '../config';
 interface Props {
   title?: string;
   description?: string;
+  wide?: boolean; // wider content area (notes, with their sidebar)
 }
 
-const { title, description = SITE.description } = Astro.props;
+const { title, description = SITE.description, wide = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -27,25 +28,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <script is:inline>
-      // Light or dark: the reader's choice (theme button), else the OS setting.
-      (() => {
-        const os = matchMedia('(prefers-color-scheme: dark)');
-        const saved = () => { try { return localStorage.getItem('theme'); } catch { return null; } };
-        const apply = () => (document.documentElement.dataset.theme = saved() ?? (os.matches ? 'dark' : 'light'));
-        apply();
-        os.addEventListener('change', apply);
-      })();
+      // Light by default; dark only if the reader chose it with the theme button.
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+      } catch {
+        document.documentElement.dataset.theme = 'light';
+      }
     </script>
     <link rel="preload" href="/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
   <body>
-    <Header />
-    <main class="page">
+    <Header wide={wide} />
+    <main class:list={['page', { wide }]}>
       <slot />
     </main>
-    <Footer />
+    <Footer wide={wide} />
   </body>
 </html>

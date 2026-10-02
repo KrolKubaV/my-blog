@@ -1,25 +1,19 @@
 ---
 // Compact Project Euler progress, linking to the full page.
-import { getEulerStats } from '../lib/project-euler';
-import { formatDate } from '../lib/posts';
+import { getEulerStats } from '../lib/project-euler.mjs';
 
 const pe = await getEulerStats();
 const latest = pe.recent[0];
 ---
 <a href="/puzzles/project-euler/" class="card euler">
-  <div class="top">
-    <div>
-      <p class="kicker">Project Euler</p>
-      <p class="count"><strong>{pe.count}</strong> <span>/ {pe.total} solved</span></p>
-    </div>
-    <span class="level">Level {pe.level}</span>
-  </div>
+  <p class="kicker">Project Euler</p>
+  <p class="count"><strong>{pe.count}</strong> <span>/ {pe.total} solved</span></p>
   <div class="progress" role="progressbar" aria-valuenow={pe.count} aria-valuemin="0" aria-valuemax={pe.total}>
     <span style={`width: ${(pe.count / pe.total) * 100}%`}></span>
   </div>
   <p class="foot">
     <span>{pe.percent}% complete</span>
-    {latest && <span>Latest: #{latest.id} · {formatDate(latest.date, 'day')}</span>}
+    {latest && <span>Latest: #{latest}</span>}
   </p>
 </a>
 
@@ -27,19 +21,13 @@ const latest = pe.recent[0];
   .euler {
     padding: 1.15rem 1.25rem;
   }
-  .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.9rem;
-  }
   .kicker {
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--muted);
   }
   .count {
-    margin-top: 0.15rem;
+    margin: 0.15rem 0 0.9rem;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
   }
@@ -47,14 +35,6 @@ const latest = pe.recent[0];
     font-size: 1.9rem;
     font-weight: 700;
     color: var(--heading);
-  }
-  .level {
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--accent);
-    background: var(--accent-soft);
   }
   .foot {
     display: flex;

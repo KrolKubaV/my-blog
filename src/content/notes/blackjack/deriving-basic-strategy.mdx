@@ -18,7 +18,7 @@ hard total.
 
 The code below is written as it would appear in a Jupyter notebook cell:
 
-```python title="In [1]"
+```python in
 cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10] + [1]  # ace = 1
 
 def p_bust(hard_total):
@@ -30,7 +30,7 @@ for s in range(12, 21):
 
 Running it shows why hitting $16$ is so painful:
 
-```text title="Out [1]"
+```text out
 hard 12: p(bust) = 0.308
 ...
 hard 16: p(bust) = 0.615

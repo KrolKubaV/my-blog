@@ -6,7 +6,6 @@ export const SITE = {
   title: 'Jakub Adamek',
   description: 'Mathematics, probability, puzzles, and things I build.',
   author: 'Jakub Adamek',
-  url: 'https://jadamek.com',
 };
 
 // Links shown in the footer, e.g. { label: 'Email', href: 'mailto:...' }.
@@ -19,7 +18,16 @@ export const NAV = [
   { label: 'Other', href: '/other/' },
 ];
 
-// The line under each section's heading.
+// Short descriptions on the site. All hidden for now; set any to true to show
+// it again. The texts themselves stay: INTROS and NOTE_TOPICS below, and the
+// `description:` line of each post.
+export const SHOW = {
+  sectionIntros: false, // the line under "Projects", "Notes", "Puzzles", "Other"
+  topicDescriptions: false, // the line under each note topic, e.g. under "Blackjack"
+  postDescriptions: false, // a post's description, in lists and under its title
+};
+
+// The line under each section's heading (shown if SHOW.sectionIntros).
 export const INTROS = {
   projects: 'Things I have built.',
   notes: 'Notes on topics I am studying, written as I go.',

@@ -1,10 +1,15 @@
 ---
 import { NAV, SITE } from '../config';
 
+interface Props {
+  wide?: boolean; // match the wider notes layout
+}
+
+const { wide = false } = Astro.props;
 const path = Astro.url.pathname;
 ---
 <header>
-  <div class="page bar">
+  <div class:list={['page', 'bar', { wide }]}>
     <a href="/" class="brand">{SITE.title}</a>
     <div class="right">
       <nav aria-label="Main">

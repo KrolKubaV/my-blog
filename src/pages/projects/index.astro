@@ -1,14 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import { INTROS } from '../../config';
+import { INTROS, SHOW } from '../../config';
 import { getPosts } from '../../lib/posts';
 
 const projects = await getPosts('projects');
 ---
 <BaseLayout title="Projects" description={INTROS.projects}>
   <h1 class="page-title">Projects</h1>
-  <p class="page-intro">{INTROS.projects}</p>
+  {SHOW.sectionIntros && <p class="page-intro">{INTROS.projects}</p>}
 
   <ul class="post-list projects">
     {projects.map(project => <li><ProjectCard project={project} /></li>)}

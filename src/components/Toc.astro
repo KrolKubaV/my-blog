@@ -24,23 +24,9 @@ const items = Astro.props.headings.filter(h => h.depth === 2 || h.depth === 3);
 )}
 
 <script>
-  // Highlight the section currently being read: the last heading above the top fifth.
-  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
-  const targets = links.map(a => document.getElementById(decodeURIComponent(a.hash.slice(1))));
-  let queued = false;
-  const update = () => {
-    queued = false;
-    const line = window.innerHeight * 0.2;
-    let current = -1;
-    targets.forEach((t, i) => {
-      if (t && t.getBoundingClientRect().top < line) current = i;
-    });
-    links.forEach((a, i) => a.classList.toggle('active', i === current));
-  };
-  if (links.length) {
-    addEventListener('scroll', () => queued || (queued = true, requestAnimationFrame(update)), { passive: true });
-    update();
-  }
+  import { scrollSpy } from '../lib/scroll-spy';
+
+  scrollSpy([...document.querySelectorAll<HTMLAnchorElement>('.toc a')]);
 </script>
 
 <style>

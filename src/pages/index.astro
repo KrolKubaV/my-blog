@@ -1,11 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../config';
 ---
-<BaseLayout description={SITE.description}>
+<BaseLayout>
   <section class="hero">
-    <h1 class="page-title">Hi, I'm Jakub.</h1>
-    <p class="lead">
+    <h1>Hi, I'm Jakub.</h1>
+    <p>
       I write about mathematics, probability, casino games, puzzles, and other
       things that interest me.
     </p>
@@ -13,17 +12,13 @@ import { SITE } from '../config';
 </BaseLayout>
 
 <style>
+  /* Everything on the homepage is one size, like the article text. */
   .hero {
-    padding: 1.5rem 0 0.5rem;
+    font-size: 1.15rem;
+    line-height: 1.7;
   }
-  .hero .page-title {
-    font-size: clamp(2.25rem, 6vw, 3.1rem);
-  }
-  .lead {
-    margin-top: 1rem;
-    max-width: 36rem;
-    font-size: 1.25rem;
-    line-height: 1.55;
-    color: var(--muted);
+  .hero h1 {
+    font-size: inherit;
+    line-height: inherit;
   }
 </style>

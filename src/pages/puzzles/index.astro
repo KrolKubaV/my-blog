@@ -4,13 +4,5 @@ import PuzzleBrowser from '../../components/PuzzleBrowser.astro';
 import { INTROS } from '../../config';
 ---
 <BaseLayout title="Puzzles" description={INTROS.puzzles}>
-  <h1 class="page-title">Puzzles</h1>
-  <p class="page-intro">{INTROS.puzzles}</p>
-  <div class="body"><PuzzleBrowser /></div>
+  <PuzzleBrowser />
 </BaseLayout>
-
-<style>
-  .body {
-    margin-top: 2.5rem;
-  }
-</style>

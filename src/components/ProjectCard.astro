@@ -2,6 +2,7 @@
 // One project in the list: picture on the left, text on the right.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { SHOW } from '../config';
 import { postUrl } from '../lib/posts';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, description, cover, tags, status, draft } = project.data;
+const { title, description, cover, status, draft } = project.data;
 // Projects without a picture get a soft tile with their initials.
 const initials = title.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 ---
@@ -26,8 +27,7 @@ const initials = title.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperC
       <span class="title">{title}</span>
       {draft ? <span class="badge draft">Draft</span> : status && <span class="badge">{status}</span>}
     </div>
-    {description && <p>{description}</p>}
-    {tags.length > 0 && <div class="tags">{tags.map(t => <span class="tag">{t}</span>)}</div>}
+    {SHOW.postDescriptions && description && <p>{description}</p>}
   </div>
 </a>
 
@@ -93,9 +93,6 @@ const initials = title.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperC
   }
   p {
     color: var(--muted);
-  }
-  .tags {
-    margin-top: 0.3rem;
   }
   @media (max-width: 34rem) {
     .project {

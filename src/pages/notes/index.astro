@@ -1,23 +1,20 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { INTROS } from '../../config';
-import { getTopics } from '../../lib/posts';
+import { INTROS, SHOW } from '../../config';
+import { getTopics, postUrl } from '../../lib/posts';
 
 const topics = await getTopics();
 ---
 <BaseLayout title="Notes" description={INTROS.notes}>
   <h1 class="page-title">Notes</h1>
-  <p class="page-intro">{INTROS.notes}</p>
+  {SHOW.sectionIntros && <p class="page-intro">{INTROS.notes}</p>}
 
   <ul class="post-list topics">
     {topics.map(topic => (
       <li>
-        <a href={`/notes/${topic.slug}/`} class="post-link">
-          <span class="main">
-            <span class="title">{topic.label}</span>
-            {topic.description && <span class="desc">{topic.description}</span>}
-          </span>
-          <span class="count">{topic.notes.length} {topic.notes.length === 1 ? 'note' : 'notes'}</span>
+        <a href={postUrl(topic.notes[0])} class="post-link">
+          <span class="title">{topic.label}</span>
+          {SHOW.topicDescriptions && topic.description && <span class="desc">{topic.description}</span>}
         </a>
       </li>
     ))}
@@ -27,13 +24,5 @@ const topics = await getTopics();
 <style>
   .topics {
     margin-top: 2rem;
-  }
-  .count {
-    flex: none;
-    font-size: 0.9rem;
-    color: var(--faint);
-  }
-  .post-link:hover .count {
-    color: var(--accent);
   }
 </style>

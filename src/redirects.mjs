@@ -19,7 +19,7 @@ export const redirects = {
   '/puzzles/mathematical-competitions/imo': '/puzzles/tag/imo/',
   '/puzzles/mathematical-competitions/polish-olympiad': '/puzzles/',
   '/puzzles/jane-street': '/puzzles/',
-  '/puzzles/miscellaneous': '/puzzles/tag/logic/',
+  '/puzzles/miscellaneous': '/puzzles/',
   '/puzzles/read/mathematical-competitions/imo/imo-2026': '/puzzles/imo-2026/',
   '/puzzles/read/mathematical-competitions/imo/imo-2025': '/puzzles/',
   '/puzzles/read/mathematical-competitions/polish-olympiad/2026-third-round': '/puzzles/',

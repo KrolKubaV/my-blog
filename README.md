@@ -11,4 +11,4 @@ npm run new     # add a post
 npm run build
 ```
 
-How to write posts: [WRITING.md](WRITING.md).
+How to add posts and everything else: [TUTORIAL.md](TUTORIAL.md).

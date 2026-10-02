@@ -1,13 +1,20 @@
 ---
 import { LINKS, SITE } from '../config';
+
+interface Props {
+  wide?: boolean; // match the wider notes layout
+}
+
+const { wide = false } = Astro.props;
 ---
 <footer>
-  <div class="page bar">
+  <div class:list={['page', 'bar', { wide }]}>
     <span>© {new Date().getFullYear()} {SITE.author}</span>
-    <nav aria-label="Elsewhere">
-      {LINKS.map(link => <a href={link.href}>{link.label}</a>)}
-      <a href="/rss.xml">RSS</a>
-    </nav>
+    {LINKS.length > 0 && (
+      <nav aria-label="Elsewhere">
+        {LINKS.map(link => <a href={link.href}>{link.label}</a>)}
+      </nav>
+    )}
   </div>
 </footer>
 

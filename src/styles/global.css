@@ -17,13 +17,12 @@
 :root {
   color-scheme: light;
 
-  /* One font everywhere: the LaTeX look. */
-  --font-sans: 'CMU Serif', 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
-  --font-serif: var(--font-sans);
+  /* One font everywhere: the LaTeX look. Code uses the matching typewriter font. */
+  --font: 'CMU Serif', 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
   --font-mono: 'CMU Typewriter Text', 'Latin Modern Mono', ui-monospace, monospace;
-  --font-body: var(--font-serif);
 
-  --page: 46rem; /* width of the content column */
+  --page: 46rem; /* width of the text column */
+  --wide: 64rem; /* header, footer, and notes with their sidebar */
 
   --bg: #ffffff;
   --surface: #f7f8fa;
@@ -36,8 +35,7 @@
   --faint: #8c939e;
   --accent: #2b59c3;
   --accent-hover: #1e45a3;
-  --accent-soft: #edf2fd;
-  --chart: #2b59c3; /* chart marks; validated for contrast and lightness */
+  --chart: #2b59c3; /* solved Project Euler problems; checked for contrast */
   --on-chart: #ffffff;
 
   /* Box colours (theorem, definition, ...) */
@@ -51,8 +49,8 @@
   --shadow: 0 1px 2px rgb(15 17 22 / 0.04), 0 4px 16px -4px rgb(15 17 22 / 0.08);
 }
 
-/* Dark mode. The theme button in the header sets data-theme; without a
-   choice it follows the operating system (see BaseLayout.astro). */
+/* Dark mode, chosen with the theme button in the header (it sets data-theme
+   on <html>; see BaseLayout.astro). Light is the default. */
 :root[data-theme='dark'] {
   color-scheme: dark;
 
@@ -67,7 +65,6 @@
   --faint: #6d7583;
   --accent: #8eaeff;
   --accent-hover: #b3c9ff;
-  --accent-soft: #18223a;
   --chart: #6b8ff0;
   --on-chart: #0e1014;
 
@@ -99,7 +96,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-sans);
+  font-family: var(--font);
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text);
@@ -115,6 +112,7 @@ body {
   margin: 0 auto;
   padding: 0 1.5rem;
 }
+.page.wide { max-width: calc(var(--wide) + 3rem); }
 
 main.page {
   flex: 1;
@@ -137,7 +135,6 @@ a:hover { color: var(--accent-hover); }
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-sans);
   color: var(--heading);
   line-height: 1.25;
   margin: 0;
@@ -176,12 +173,6 @@ p, ul, ol, figure, blockquote, table, pre { margin: 0; }
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--faint);
-}
-.section-heading a {
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-transform: none;
-  letter-spacing: 0;
 }
 
 .crumbs {
@@ -277,11 +268,10 @@ a.card:hover {
    ========================================================================== */
 
 .prose {
-  font-family: var(--font-body);
   font-size: 1.15rem;
   line-height: 1.7;
   color: var(--text);
-  counter-reset: theorem definition example remark problem h2;
+  counter-reset: theorem definition example problem h2;
 }
 @media (max-width: 40rem) {
   .prose { font-size: 1.075rem; }
@@ -354,7 +344,6 @@ a.card:hover {
 .prose figcaption {
   margin-top: 0.6rem;
   text-align: center;
-  font-family: var(--font-sans);
   font-size: 0.85rem;
   color: var(--muted);
 }
@@ -373,7 +362,6 @@ a.card:hover {
 .prose table {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--font-sans);
   font-size: 0.92rem;
   font-variant-numeric: tabular-nums;
   display: block;
@@ -397,14 +385,12 @@ a.card:hover {
   overflow-x: auto;
   overflow-y: hidden;
 }
-.katex-display > .katex { font-size: 1em; }
 .prose .katex-display:last-child { margin-bottom: 0; }
 
 /* ---------- Theorem / Definition / Example / Remark / Problem boxes ---------- */
 
 .box {
   --hue: var(--blue);
-  position: relative;
   padding: 1.05rem 1.3rem 1.15rem;
   border: 1px solid color-mix(in srgb, var(--hue) 22%, var(--border));
   border-radius: var(--radius);
@@ -419,7 +405,6 @@ a.card:hover {
   align-items: baseline;
   column-gap: 0.6rem;
   margin-bottom: 0.45rem;
-  font-family: var(--font-sans);
   line-height: 1.4;
 }
 .box-kind {
@@ -435,17 +420,21 @@ a.card:hover {
   color: var(--heading);
 }
 
-.box.theorem { --hue: var(--blue); counter-increment: theorem; }
-.box.definition { --hue: var(--green); counter-increment: definition; }
-.box.example { --hue: var(--violet); counter-increment: example; }
+.box.theorem { --hue: var(--blue); }
+.box.definition { --hue: var(--green); }
+.box.example, .box.problem { --hue: var(--violet); }
 .box.remark { --hue: var(--amber); }
-.box.problem { --hue: var(--violet); counter-increment: problem; }
-.box.problem.unnumbered { counter-increment: none; }
 
-.box.theorem .box-kind[data-numbered]::after { content: ' ' counter(theorem); }
-.box.definition .box-kind[data-numbered]::after { content: ' ' counter(definition); }
-.box.example .box-kind[data-numbered]::after { content: ' ' counter(example); }
-.box.problem:not(.unnumbered) .box-kind[data-numbered]::after { content: ' ' counter(problem); }
+/* Numbers: Theorem 1, Lemma 2 (lemmas, propositions and corollaries count as
+   theorems), Definition 1, ... A box with numbered={false} skips its turn. */
+.box.numbered.theorem { counter-increment: theorem; }
+.box.numbered.definition { counter-increment: definition; }
+.box.numbered.example { counter-increment: example; }
+.box.numbered.problem { counter-increment: problem; }
+.box.numbered.theorem .box-kind::after { content: ' ' counter(theorem); }
+.box.numbered.definition .box-kind::after { content: ' ' counter(definition); }
+.box.numbered.example .box-kind::after { content: ' ' counter(example); }
+.box.numbered.problem .box-kind::after { content: ' ' counter(problem); }
 
 .box-body > :first-child { margin-top: 0; }
 
@@ -471,7 +460,6 @@ a.card:hover {
 .reveal {
   --hue: var(--accent);
   margin-top: 1.6em;
-  font-family: var(--font-body);
 }
 .prose .box + .reveal,
 .prose .box + .reveal-empty { margin-top: 0.75rem; }
@@ -484,7 +472,6 @@ a.card:hover {
   padding: 0 0.95rem 0 0.75rem;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
-  font-family: var(--font-sans);
   font-size: 0.875rem;
   font-weight: 550;
   color: var(--heading);
@@ -535,7 +522,6 @@ a.card:hover {
   padding: 0 0.95rem;
   border: 1px dashed var(--border-strong);
   border-radius: 999px;
-  font-family: var(--font-sans);
   font-size: 0.85rem;
   color: var(--faint);
 }
@@ -560,7 +546,7 @@ a.card:hover {
   background: transparent !important;
   border-style: dashed !important;
 }
-/* Wide screens: prompts hang in the margin, like a notebook. */
+/* Wide screens: prompts hang in the margin, like a notebook... */
 @media (min-width: 72rem) {
   .expressive-code .nb-prompt {
     position: absolute;
@@ -569,6 +555,11 @@ a.card:hover {
     margin: 0;
     white-space: pre;
   }
+}
+/* ...except on notes pages, where that margin holds the contents sidebar. */
+.has-sidebar .expressive-code .nb-prompt {
+  position: static;
+  margin-bottom: 0.4rem;
 }
 
 /* ==========================================================================
@@ -579,21 +570,11 @@ a.card:hover {
 .post-list > li + li { border-top: 1px solid var(--border); }
 
 .post-link {
-  display: flex;
-  align-items: baseline;
-  gap: 1.25rem;
+  display: block;
   padding: 1.05rem 0;
   color: inherit;
 }
 .post-link:hover { color: inherit; }
-.post-link .num {
-  flex: none;
-  width: 1.5rem;
-  font-size: 0.9rem;
-  color: var(--faint);
-  font-variant-numeric: tabular-nums;
-}
-.post-link .main { flex: 1; min-width: 0; }
 .post-link .title {
   font-size: 1.05rem;
   font-weight: 600;
@@ -608,10 +589,3 @@ a.card:hover {
   color: var(--muted);
 }
 .post-link .tags { margin-top: 0.5rem; }
-.post-link .meta {
-  flex: none;
-  font-size: 0.85rem;
-  color: var(--faint);
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}

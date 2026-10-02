@@ -1,20 +1,16 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { NOTE_ORDER, NOTE_TOPICS } from '../config';
+import { slugify } from './slugify.mjs';
+
+export { slugify };
 
 export type Section = 'projects' | 'notes' | 'puzzles' | 'other';
 export type Post = CollectionEntry<Section>;
 
-export const SECTION_LABELS: Record<Section, string> = {
-  projects: 'Projects',
-  notes: 'Notes',
-  puzzles: 'Puzzles',
-  other: 'Other',
-};
-
 // Drafts are visible while previewing locally, never on the live site.
 const showDrafts = import.meta.env.DEV;
 
-/** All published posts of a section, newest first. */
+/** All posts of a section, newest first (drafts only while previewing). */
 export async function getPosts<S extends Section>(section: S): Promise<CollectionEntry<S>[]> {
   const posts = await getCollection(section, p => showDrafts || !p.data.draft);
   return posts.sort(newestFirst);
@@ -22,16 +18,6 @@ export async function getPosts<S extends Section>(section: S): Promise<Collectio
 
 export function postUrl(post: Post): string {
   return `/${post.collection}/${post.id}/`;
-}
-
-const DATE_STYLES = {
-  long: { day: 'numeric', month: 'long', year: 'numeric' }, // 21 August 2026
-  short: { month: 'short', year: 'numeric' }, // Aug 2026
-  day: { day: 'numeric', month: 'short' }, // 21 Aug
-} as const;
-
-export function formatDate(date: Date, style: keyof typeof DATE_STYLES = 'long'): string {
-  return date.toLocaleDateString('en-GB', { ...DATE_STYLES[style], timeZone: 'UTC' });
 }
 
 function newestFirst(a: Post, b: Post): number {
@@ -54,9 +40,9 @@ export type Topic = {
   notes: CollectionEntry<'notes'>[];
 };
 
-export function topicOf(note: CollectionEntry<'notes'>): string {
-  return note.id.split('/')[0];
-}
+// A note's id is "<topic>/<file name>", e.g. "blackjack/card-counting".
+const topicOf = (note: CollectionEntry<'notes'>) => note.id.split('/')[0];
+export const noteSlug = (note: CollectionEntry<'notes'>) => note.id.slice(topicOf(note).length + 1);
 
 /** Topics in config order (unlisted folders last), each with its notes in reading order. */
 export async function getTopics(): Promise<Topic[]> {
@@ -78,7 +64,7 @@ export async function getTopics(): Promise<Topic[]> {
 function readingOrder(topic: string, notes: CollectionEntry<'notes'>[]) {
   const order = NOTE_ORDER[topic] ?? [];
   const rank = (n: CollectionEntry<'notes'>) => {
-    const i = order.indexOf(n.id.slice(topic.length + 1));
+    const i = order.indexOf(noteSlug(n));
     return i === -1 ? order.length : i;
   };
   return [...notes].sort(
@@ -89,20 +75,11 @@ function readingOrder(topic: string, notes: CollectionEntry<'notes'>[]) {
   );
 }
 
-// ---------- Tags ----------
-
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
 function titleCase(slug: string): string {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
+
+// ---------- Tags ----------
 
 export type Tag = { slug: string; label: string; count: number };
 

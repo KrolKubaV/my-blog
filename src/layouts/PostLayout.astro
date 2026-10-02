@@ -1,12 +1,15 @@
 ---
-// The page around every post: breadcrumbs, title, date/tags, the text,
-// a table of contents on wide screens and previous/next links.
+// The page around every post: breadcrumbs, title, tags, the text, a table
+// of contents and previous/next links. Notes get the topic's contents as a
+// sidebar (NoteNav) instead of the right-hand "On this page".
 import { render } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
+import NoteNav from '../components/NoteNav.astro';
 import PrevNext from '../components/PrevNext.astro';
 import Toc from '../components/Toc.astro';
 import { mdxComponents } from '../components/mdx';
-import { postUrl, slugify, type Post } from '../lib/posts';
+import { SHOW } from '../config';
+import { postUrl, slugify, type Post, type Topic } from '../lib/posts';
 
 interface Props {
   post: Post;
@@ -15,49 +18,69 @@ interface Props {
   next?: Post;
   numbered?: boolean; // number the ## headings (used for notes)
   tagBase?: string; // make tags links, e.g. "/puzzles/tag/"
-  status?: string; // small badge next to the date, e.g. "In progress"
+  status?: string; // small badge, e.g. "In progress"
+  topic?: Topic; // for notes: show the topic's contents as a sidebar
 }
 
-const { post, crumbs, prev, next, numbered = false, tagBase, status } = Astro.props;
+const { post, crumbs, prev, next, numbered = false, tagBase, status, topic } = Astro.props;
 const { title, description, tags, draft } = post.data;
 const { Content, headings } = await render(post);
 const link = (p?: Post) => p && { title: p.data.title, href: postUrl(p) };
 ---
-<BaseLayout title={title} description={description}>
-  <article class="post">
-    <header>
-      <nav class="crumbs" aria-label="Breadcrumbs">
-        {crumbs.map((c, i) => (
-          <>
-            {i > 0 && <span aria-hidden="true">/</span>}
-            <a href={c.href}>{c.label}</a>
-          </>
-        ))}
-      </nav>
-      <h1 class="page-title">{title}</h1>
-      {description && <p class="page-intro">{description}</p>}
-      {(tags.length > 0 || draft || status) && (
-        <div class="meta">
-          {draft && <span class="badge draft">Draft (only visible locally)</span>}
-          {status && <span class="badge">{status}</span>}
-          {tags.length > 0 && (
-            <span class="tags">
-              {tags.map(t => tagBase ? <a class="tag" href={`${tagBase}${slugify(t)}/`}>{t}</a> : <span class="tag">{t}</span>)}
-            </span>
+<BaseLayout title={title} description={description} wide={!!topic}>
+  <div class:list={{ 'has-sidebar': topic }}>
+    {topic && <div class="side"><NoteNav topic={topic} currentId={post.id} headings={headings} /></div>}
+    <div>
+      <article class="post">
+        <header>
+          <nav class="crumbs" aria-label="Breadcrumbs">
+            {crumbs.map((c, i) => (
+              <>
+                {i > 0 && <span aria-hidden="true">/</span>}
+                <a href={c.href}>{c.label}</a>
+              </>
+            ))}
+          </nav>
+          <h1 class="page-title">{title}</h1>
+          {SHOW.postDescriptions && description && <p class="page-intro">{description}</p>}
+          {(tags.length > 0 || draft || status) && (
+            <div class="meta">
+              {draft && <span class="badge draft">Draft (only visible locally)</span>}
+              {status && <span class="badge">{status}</span>}
+              {tags.length > 0 && (
+                <span class="tags">
+                  {tags.map(t => tagBase ? <a class="tag" href={`${tagBase}${slugify(t)}/`}>{t}</a> : <span class="tag">{t}</span>)}
+                </span>
+              )}
+            </div>
           )}
+          <slot name="header" />
+        </header>
+        <div class:list={['prose', { numbered }]}>
+          <Content components={mdxComponents} />
         </div>
-      )}
-      <slot name="header" />
-    </header>
-    <div class:list={['prose', { numbered }]}>
-      <Content components={mdxComponents} />
+        {!topic && <Toc headings={headings} />}
+      </article>
+      <PrevNext prev={link(prev)} next={link(next)} />
     </div>
-    <Toc headings={headings} />
-  </article>
-  <PrevNext prev={link(prev)} next={link(next)} />
+  </div>
 </BaseLayout>
 
 <style>
+  /* Notes: contents on the left, article on the right (wide screens). */
+  .has-sidebar .side {
+    display: contents; /* narrow screens: the sticky bar spans the whole note */
+  }
+  @media (min-width: 68rem) {
+    .has-sidebar {
+      display: grid;
+      grid-template-columns: 15rem minmax(0, var(--page));
+      gap: 3rem;
+    }
+    .has-sidebar .side {
+      display: block;
+    }
+  }
   .post {
     position: relative;
   }

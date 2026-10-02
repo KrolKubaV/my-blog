@@ -1,9 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import EulerChart from '../../components/EulerChart.astro';
 import { PROJECT_EULER_USER } from '../../config';
-import { formatDate } from '../../lib/posts';
-import { getEulerStats } from '../../lib/project-euler';
+import { getEulerStats } from '../../lib/project-euler.mjs';
 
 const pe = await getEulerStats();
 const latest = pe.recent[0];
@@ -28,9 +26,8 @@ const solvedIn = (block: number[]) => block.filter(id => pe.solved.has(id)).leng
     />
   </div>
   <p class="page-intro">
-    A collection of challenging problems that need both mathematical insight and
-    programming. I enjoy working through them, and my dream is to solve every
-    single one.
+    Project Euler is a collection of challenging problems that require both mathematical insight and programming skills. I work through them in my free time, with a loose goal of completing as many as possible.
+
   </p>
 
   <div class="stats">
@@ -43,30 +40,18 @@ const solvedIn = (block: number[]) => block.filter(id => pe.solved.has(id)).leng
       <span class="value">{pe.percent}%</span>
       <span class="sub">of {pe.total}</span>
     </div>
-    <div class="stat">
-      <span class="label">Level</span>
-      <span class="value">{pe.level}</span>
-      <span class="sub">{25 * (pe.level + 1) - pe.count} to level {pe.level + 1}</span>
-    </div>
     {latest && (
       <div class="stat">
         <span class="label">Last solved</span>
-        <span class="value">#{latest.id}</span>
-        <span class="sub">{formatDate(latest.date)}</span>
+        <span class="value">#{latest}</span>
       </div>
     )}
   </div>
 
-  <div class="card panel">
-    <EulerChart solves={pe.recent} />
-  </div>
-
   <h2 class="section-heading">Recently solved</h2>
   <div class="recent">
-    {pe.recent.slice(0, 10).map(s => (
-      <a class="tag" href={`https://projecteuler.net/problem=${s.id}`} title={formatDate(s.date)}>
-        #{s.id}<span class="count">{formatDate(s.date, 'day')}</span>
-      </a>
+    {pe.recent.slice(0, 10).map(id => (
+      <a class="tag" href={`https://projecteuler.net/problem=${id}`}>#{id}</a>
     ))}
   </div>
 
@@ -83,12 +68,12 @@ const solvedIn = (block: number[]) => block.filter(id => pe.solved.has(id)).leng
         </header>
         <div class="grid">
           {block.map(id => {
-            const date = pe.solved.get(id);
+            const solved = pe.solved.has(id);
             return (
               <a
                 href={`https://projecteuler.net/problem=${id}`}
-                class:list={['cell', { solved: date }]}
-                title={date ? `Problem ${id} · solved ${formatDate(date)}` : `Problem ${id}`}
+                class:list={['cell', { solved }]}
+                title={solved ? `Problem ${id} · solved` : `Problem ${id}`}
               >{id}</a>
             );
           })}
@@ -114,7 +99,7 @@ const solvedIn = (block: number[]) => block.filter(id => pe.solved.has(id)).leng
   }
   .stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     margin-top: 2.5rem;
     border: 1px solid var(--border);
@@ -142,15 +127,6 @@ const solvedIn = (block: number[]) => block.filter(id => pe.solved.has(id)).leng
   .sub {
     font-size: 0.78rem;
     color: var(--faint);
-  }
-  @media (max-width: 40rem) {
-    .stats {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  .panel {
-    margin-top: 1.25rem;
-    padding: 1.25rem 1.25rem 0.75rem;
   }
   .recent {
     display: flex;

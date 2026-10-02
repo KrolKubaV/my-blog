@@ -7,9 +7,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline/promises';
 import { spawn, spawnSync } from 'node:child_process';
+import { slugify } from '../src/lib/slugify.mjs';
+import { addSolved, checkIds, parseIds } from './solved.mjs';
 
 const CONTENT = 'src/content';
-const EULER_FILE = 'src/data/project-euler.txt';
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const lines = rl[Symbol.asyncIterator](); // queues answers, so pasted/piped input works too
@@ -37,14 +38,6 @@ async function choose(question, options) {
     console.log(`Type a number from 1 to ${options.length}.`);
   }
 }
-
-const slugify = text =>
-  text
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
 
 const today = () => {
   const d = new Date();
@@ -97,6 +90,7 @@ function write(file, text, url) {
   fs.writeFileSync(file, text);
   console.log(`\n${bold('Created')} ${file}`);
   console.log(`Preview: http://localhost:4321${url}  ${dim('(start the preview with: npm run dev)')}`);
+  console.log(dim('When you are happy with it: git add -A && git commit -m "..." && git push'));
   // Open in VS Code when available.
   if (spawnSync('code', ['--version'], { stdio: 'ignore' }).status === 0) {
     spawn('code', [file], { stdio: 'ignore', detached: true }).unref();
@@ -108,8 +102,7 @@ const HELP = '{/* Boxes, maths and code cells: see the Style Guide post (npm run
 async function newProject() {
   const title = await ask('Project name');
   const description = await ask('One line about it (optional)');
-  const tags = await askTags('projects');
-  const repo = await ask('Link to the code, e.g. GitHub (optional)');
+  const repo = await ask('Link to the code (optional)');
   const slug = slugify(title);
   const extra = [];
   if (repo) extra.push(`repo: ${repo}`);
@@ -120,7 +113,7 @@ async function newProject() {
 
 ${HELP}
 `;
-  write(path.join(CONTENT, 'projects', `${slug}.mdx`), frontmatter({ title, description, tags, extra }) + '\n' + body, `/projects/${slug}/`);
+  write(path.join(CONTENT, 'projects', `${slug}.mdx`), frontmatter({ title, description, extra }) + '\n' + body, `/projects/${slug}/`);
 }
 
 async function newNote() {
@@ -170,16 +163,12 @@ async function newOther() {
 }
 
 async function solvedEuler() {
-  const id = Number(await ask('Problem number'));
-  if (!Number.isInteger(id) || id < 1) return console.log('That is not a problem number.');
-  const now = new Date();
-  const stamp = `${today()} ${now.toTimeString().slice(0, 8)}`;
-  const when = await ask('Solved at', stamp);
-  const lines = fs.readFileSync(EULER_FILE, 'utf8').split('\n').filter(l => l.trim());
-  if (lines.some(l => l.split('##')[0].trim() === String(id))) return console.log(`Problem ${id} is already in the list.`);
-  // Newest first, like the rest of the file.
-  fs.writeFileSync(EULER_FILE, [`${id}##${when}`, ...lines].join('\n') + '\n');
-  console.log(`\n${bold('Added')} problem ${id}. Solved so far: ${lines.length + 1}.`);
+  const answer = await ask('Which problems did you solve? (numbers, e.g. 602 143)');
+  try {
+    addSolved(await checkIds(parseIds(answer)));
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 const actions = [
@@ -193,7 +182,6 @@ const actions = [
 try {
   const i = await choose('What do you want to add?', actions.map(a => a[0]));
   await actions[i][1]();
-  if (i < 4) console.log(dim('When you are happy with it: git add -A && git commit -m "..." && git push'));
 } finally {
   rl.close();
 }

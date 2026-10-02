@@ -20,39 +20,38 @@ const katexMacros = {
   '\\Var': '\\operatorname{Var}',
 };
 
-// Code block colours: [light, dark], switched by the theme button (data-theme on <html>).
-const light = (/** @type {any} */ { theme }) => theme.type === 'light';
-
 export default defineConfig({
   site: 'https://jadamek.com',
   redirects,
   integrations: [
     expressiveCode({
+      // Syntax colours [light, dark], switched by the theme button (data-theme on <html>).
       themes: ['github-light', 'github-dark-dimmed'],
       useDarkModeMediaQuery: false,
       themeCssSelector: theme => `[data-theme='${theme.type}']`,
       plugins: [notebookCells()],
+      // Frames and fonts use the site's tokens (src/styles/global.css), so they follow the theme too.
       styleOverrides: {
         borderRadius: '10px',
-        borderColor: ctx => (light(ctx) ? '#e4e6eb' : '#272b33'),
-        codeBackground: ctx => (light(ctx) ? '#f7f8fa' : '#161a20'),
-        codeFontFamily: "'CMU Typewriter Text', ui-monospace, monospace",
+        borderColor: 'var(--border)',
+        codeBackground: 'var(--surface)',
+        codeFontFamily: 'var(--font-mono)',
         codeFontSize: '0.95rem',
         codeLineHeight: '1.7',
         codePaddingBlock: '0.95rem',
         codePaddingInline: '1.15rem',
-        uiFontFamily: "'CMU Serif', Georgia, serif",
+        uiFontFamily: 'var(--font)',
         uiFontSize: '0.9rem',
         frames: {
           shadowColor: 'transparent',
           frameBoxShadowCssValue: 'none',
-          editorTabBarBackground: ctx => (light(ctx) ? '#eef0f3' : '#1b1f26'),
-          editorTabBarBorderBottomColor: ctx => (light(ctx) ? '#e4e6eb' : '#272b33'),
-          editorActiveTabBackground: ctx => (light(ctx) ? '#f7f8fa' : '#161a20'),
+          editorTabBarBackground: 'var(--surface-2)',
+          editorTabBarBorderBottomColor: 'var(--border)',
+          editorActiveTabBackground: 'var(--surface)',
           editorActiveTabIndicatorTopColor: 'transparent',
           editorActiveTabIndicatorBottomColor: 'transparent',
-          terminalTitlebarBackground: ctx => (light(ctx) ? '#eef0f3' : '#1b1f26'),
-          terminalBackground: ctx => (light(ctx) ? '#f7f8fa' : '#161a20'),
+          terminalTitlebarBackground: 'var(--surface-2)',
+          terminalBackground: 'var(--surface)',
         },
       },
     }),
